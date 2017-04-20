@@ -16,37 +16,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+Pluf::loadFunction('Pluf_Shortcuts_RenderToResponse');
+
 
 /**
+ * Find an engine.
  *
- * @author maso<mostafa.barmshory@dpq.co.ir>
- *
+ * @param string $type            
+ * @throws Bank_Exception_EngineNotFound
+ * @return unknown
  */
-class Seo_Engine_Prerender extends Seo_Engine {
-    
-    /*
-     *
-     */
-    public function getTitle() {
-        return 'Prerender.io';
+function Bank_Shortcuts_GetEngineOr404 ($type)
+{
+    $items = Seo_Service::engines();
+    foreach ($items as $item) {
+        if ($item->getType() === $type) {
+            return $item;
+        }
     }
-    
-    /*
-     *
-     */
-    public function getDescription() {
-        return 'Engine of Prerender.io like services.';
-    }
-    
-    /**
-     */
-    public function create($receipt) {
-        // XXX: maso, 1395: ایجاد یک پرداخت
-    }
-    
-    /**
-     */
-    public function update($receipt) {
-        // XXX: maso, 1395: ایجاد یک پرداخت
-    }
+    throw new Seo_Exception_EngineNotFound();
 }
+
+/**
+ * Find a backend 
+ * 
+ * @param string $id            
+ * @throws Pluf_HTTP_Error404
+ * @return Seo_Backend
+ */
+function Seo_Shortcuts_GetBackendOr404 ($id)
+{
+    $item = new Seo_Backend($id);
+    if ((int) $id > 0 && $item->id == $id) {
+        return $item;
+    }
+    throw new Pluf_HTTP_Error404("Backend not found (" . $id . ")");
+}
+

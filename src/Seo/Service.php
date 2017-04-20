@@ -18,35 +18,23 @@
  */
 
 /**
- *
+ * Global servise of SEO package.
+ * 
  * @author maso<mostafa.barmshory@dpq.co.ir>
  *
  */
-class Seo_Engine_Prerender extends Seo_Engine {
-    
-    /*
-     *
-     */
-    public function getTitle() {
-        return 'Prerender.io';
-    }
-    
-    /*
-     *
-     */
-    public function getDescription() {
-        return 'Engine of Prerender.io like services.';
-    }
-    
+class Seo_Service
+{
+
     /**
+     * List of render engines
+     *
+     * @return Seo_Engine[]
      */
-    public function create($receipt) {
-        // XXX: maso, 1395: ایجاد یک پرداخت
-    }
-    
-    /**
-     */
-    public function update($receipt) {
-        // XXX: maso, 1395: ایجاد یک پرداخت
+    public static function engines ()
+    {
+        return array(
+                new Seo_Engine_Prerender(),
+        );
     }
 }

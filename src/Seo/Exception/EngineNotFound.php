@@ -18,35 +18,27 @@
  */
 
 /**
- *
- * @author maso<mostafa.barmshory@dpq.co.ir>
+ * Engine not found exception
+ * 
+ * @author maso <mostafa.barmshory@dpq.co.ir>
  *
  */
-class Seo_Engine_Prerender extends Seo_Engine {
-    
-    /*
-     *
-     */
-    public function getTitle() {
-        return 'Prerender.io';
-    }
-    
-    /*
-     *
-     */
-    public function getDescription() {
-        return 'Engine of Prerender.io like services.';
-    }
-    
+class Seo_Exception_EngineNotFound extends Pluf_Exception
+{
+
     /**
+     * Creates new instance of this class
+     *
+     * @param string $message            
+     * @param Pluf_Exception $previous            
+     * @param string $link            
+     * @param string $developerMessage            
      */
-    public function create($receipt) {
-        // XXX: maso, 1395: ایجاد یک پرداخت
-    }
-    
-    /**
-     */
-    public function update($receipt) {
-        // XXX: maso, 1395: ایجاد یک پرداخت
+    public function __construct ($message = "Engine not found.", $previous = null, $link = null, 
+            $developerMessage = null)
+    {
+        // XXX: maso, 1395: تعیین کد خطا
+        parent::__construct($message, 4401, $previous, 404, $link, 
+                $developerMessage);
     }
 }

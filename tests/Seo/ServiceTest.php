@@ -16,37 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\IncompleteTestError;
+
+require_once 'Pluf.php';
 
 /**
- *
- * @author maso<mostafa.barmshory@dpq.co.ir>
- *
+ * @backupGlobals disabled
+ * @backupStaticAttributes disabled
  */
-class Seo_Engine_Prerender extends Seo_Engine {
+class ServiceTest extends TestCase
+{
     
-    /*
-     *
+    /**
+     * @before
      */
-    public function getTitle() {
-        return 'Prerender.io';
-    }
-    
-    /*
-     *
-     */
-    public function getDescription() {
-        return 'Engine of Prerender.io like services.';
+    public function setUp ()
+    {
+        Pluf::start(dirname(__FILE__) . '/../conf/seo.config.php');
     }
     
     /**
+     * Gets list of non-empty engines
+     *
+     * @test
      */
-    public function create($receipt) {
-        // XXX: maso, 1395: ایجاد یک پرداخت
+    public function testEnginesList ()
+    {
+        $engines = Seo_Service::engines();
+        $this->assertNotNull($engines);
+        $this->assertTrue(count($engines) > 0);
     }
     
-    /**
-     */
-    public function update($receipt) {
-        // XXX: maso, 1395: ایجاد یک پرداخت
-    }
 }
+
+?>
