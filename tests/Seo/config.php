@@ -46,7 +46,7 @@ $cfg['todo_urls'] = dirname(__FILE__).'/urls.php';
 $cfg['tmp_folder'] = dirname(__FILE__).'/../tmp';
 
 // The folder in which the templates of the application are located.
-$cfg['template_folders'] = array(dirname(__FILE__).'/../templates');
+$cfg['template_folders'] = array(dirname(__FILE__).'/../../src/Seo/templates');
 
 // Default mimetype of the document your application is sending.
 // It can be overwritten for a given response if needed.

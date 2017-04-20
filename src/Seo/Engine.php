@@ -190,10 +190,9 @@ class Seo_Engine implements JsonSerializable
     /**
      * Renders a request
      *
-     *
-     * @param unknown $receipt
+     * @param Seo_Request $request
      */
-    public function render ($receipt)
+    public function render ($request)
     {
         // XXX: maso, 1395: ایجاد یک پرداخت
     }

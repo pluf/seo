@@ -172,7 +172,7 @@ class Seo_Backend extends Pluf_Model
 
     /**
      *
-     * @return unknown
+     * @return Seo_Engine
      */
     public function get_engine ()
     {

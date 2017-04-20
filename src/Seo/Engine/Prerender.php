@@ -26,24 +26,27 @@
 class Seo_Engine_Prerender extends Seo_Engine
 {
 
-    /*
-     *
+    /**
+     * {@inheritDoc}
+     * @see Seo_Engine::getTitle()
      */
     public function getTitle ()
     {
         return 'Prerender.io';
     }
 
-    /*
-     *
+    /**
+     * {@inheritDoc}
+     * @see Seo_Engine::getDescription()
      */
     public function getDescription ()
     {
         return 'Engine of Prerender.io like services.';
     }
 
-    /*
-     * @see Seo_Engine#getExtraParam()
+    /**
+     * {@inheritDoc}
+     * @see Seo_Engine::getExtraParam()
      */
     public function getExtraParam ()
     {
@@ -84,9 +87,17 @@ class Seo_Engine_Prerender extends Seo_Engine
     }
 
     /**
+     * {@inheritDoc}
+     * @see Seo_Engine::render()
      */
-    public function render ($receipt)
+    public function render ($request)
     {
-        // XXX: maso, 1395: ایجاد یک پرداخت
+        $token = $request->get_meta('token', null);
+        $url = $request->get_meta('url', null);
+        // Check
+        Pluf_Assert::assertNotNull($token, 'Token is not defined');
+        Pluf_Assert::assertNotNull($url, 'URL is not defined');
+        
+        // XXX: maso, 2017: fetch data from server
     }
 }

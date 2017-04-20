@@ -32,6 +32,17 @@ class Seo_Middleware_Render
      */
     function prerenderResponse($request)
     {
+        $backend = new Seo_Backend();
+        $backends = $backend->getList(array(
+                'filter' => 'enable=1'
+        ));
+        foreach ($backends as $backend){
+            $engine = $backend->get_engine();
+            $response = $engine->render();
+            if($response){
+                return $response;
+            }
+        }
         $context = new Pluf_Template_Context(array(
                 'tenant' => $request->tenant
         ));

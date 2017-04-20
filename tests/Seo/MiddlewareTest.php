@@ -34,6 +34,29 @@ class MiddlewareTest extends TestCase
     public function setUp ()
     {
         Pluf::start(dirname(__FILE__) . '/config.php');
+        $m = require dirname(__FILE__) . '/../../src/Seo/relations.php';
+        $GLOBALS['_PX_models'] = array_merge($m, $GLOBALS['_PX_models']);
+        $GLOBALS['_PX_config']['pluf_use_rowpermission'] = false;
+        $db = Pluf::db();
+        $schema = Pluf::factory('Pluf_DB_Schema', $db);
+        $m1 = new Seo_Backend();
+        $schema->model = $m1;
+        $schema->dropTables();
+        $schema->createTables();
+    }
+    
+    /**
+     * Delete all tables
+     *
+     * @after
+     */
+    protected function tearDown ()
+    {
+        $db = Pluf::db();
+        $schema = Pluf::factory('Pluf_DB_Schema', $db);
+        $m1 = new Seo_Backend();
+        $schema->model = $m1;
+        $schema->dropTables();
     }
     
     /**
@@ -63,6 +86,7 @@ class MiddlewareTest extends TestCase
         
         $middleware = new Seo_Middleware_Render();
         $request = new Pluf_HTTP_Request($query);
+        $request->tenant = new Pluf_Tenant();
         
         // empty view
         $request->view = array(
@@ -71,6 +95,34 @@ class MiddlewareTest extends TestCase
         
         $response = $middleware->process_request($request);
         $this->assertFalse($response);
+    }
+    
+    /**
+     * Test empty backend
+     *
+     * @test
+     */
+    public function botRequest ()
+    {
+        $query = '/example/resource';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = 'http://localhost/example/resource';
+        $_SERVER['REMOTE_ADDR'] = 'not set';
+        $_SERVER['HTTP_HOST'] = 'localhost';
+        $GLOBALS['_PX_uniqid'] = 'example';
+        
+        $middleware = new Seo_Middleware_Render();
+        $request = new Pluf_HTTP_Request($query);
+        $request->tenant = new Pluf_Tenant();
+        $request->GET['_escaped_fragment_'] = '/home';
+        
+        // empty view
+        $request->view = array(
+                'ctrl' => array()
+        );
+        
+        $response = $middleware->process_request($request);
+        $this->assertNotNull($response);
     }
     
 }
