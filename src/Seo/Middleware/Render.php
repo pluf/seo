@@ -7,7 +7,7 @@
  * @author maso <mostafa.barmshory@dpq.co.ir>
  *        
  */
-class Seo_Middleware_Spa
+class Seo_Middleware_Render
 {
 
     
@@ -36,7 +36,6 @@ class Seo_Middleware_Spa
                 'tenant' => $request->tenant
         ));
         $tmpl = new Pluf_Template('seo.template');
-        $html = $tmpl->render($context);
         return new Pluf_HTTP_Response($tmpl->render($context));
     }
     
