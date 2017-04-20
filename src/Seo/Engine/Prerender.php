@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Pluf Framework, a simple PHP Application Framework.
  * Copyright (C) 2010-2020 Phoinex Scholars Co. (http://dpq.co.ir)
@@ -20,33 +21,72 @@
 /**
  *
  * @author maso<mostafa.barmshory@dpq.co.ir>
- *
+ *        
  */
-class Seo_Engine_Prerender extends Seo_Engine {
-    
+class Seo_Engine_Prerender extends Seo_Engine
+{
+
     /*
      *
      */
-    public function getTitle() {
+    public function getTitle ()
+    {
         return 'Prerender.io';
     }
-    
+
     /*
      *
      */
-    public function getDescription() {
+    public function getDescription ()
+    {
         return 'Engine of Prerender.io like services.';
     }
-    
-    /**
+
+    /*
+     * @see Seo_Engine#getExtraParam()
      */
-    public function create($receipt) {
-        // XXX: maso, 1395: ایجاد یک پرداخت
+    public function getExtraParam ()
+    {
+        return array(
+                array(
+                        'name' => 'token',
+                        'type' => 'String',
+                        'unit' => 'none',
+                        'title' => 'Token',
+                        'description' => 'Prerender.io token of a user.',
+                        'editable' => true,
+                        'visible' => true,
+                        'priority' => 5,
+                        'symbol' => 'key',
+                        'defaultValue' => 'xxx',
+                        'validators' => [
+                                'NotNull',
+                                'NotEmpty'
+                        ]
+                ),
+                array(
+                        'name' => 'url',
+                        'type' => 'String',
+                        'unit' => 'none',
+                        'title' => 'Service URL',
+                        'description' => 'URL of the Prerender.io link.',
+                        'editable' => true,
+                        'visible' => true,
+                        'priority' => 10,
+                        'symbol' => 'key',
+                        'defaultValue' => 'http://service.prerender.io',
+                        'validators' => [
+                                'NotNull',
+                                'NotEmpty'
+                        ]
+                )
+        );
     }
-    
+
     /**
      */
-    public function update($receipt) {
+    public function render ($receipt)
+    {
         // XXX: maso, 1395: ایجاد یک پرداخت
     }
 }

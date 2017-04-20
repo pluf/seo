@@ -62,12 +62,6 @@ class Seo_Backend extends Pluf_Model
                         'blank' => true,
                         'size' => 50
                 ),
-                'redirect' => array(
-                        'type' => 'Pluf_DB_Field_Varchar',
-                        'blank' => false,
-                        'size' => 50,
-                        'secure' => true
-                ),
                 'meta' => array(
                         'type' => 'Pluf_DB_Field_Varchar',
                         'blank' => false,
@@ -173,24 +167,6 @@ class Seo_Backend extends Pluf_Model
         } else {
             return $default;
         }
-    }
-
-    private function getGlobalSelect ()
-    {
-        if (isset($this->_cache['getGlobalSelect']))
-            return $this->_cache['getGlobalSelect'];
-        $select = array();
-        $table = $this->getSqlTable();
-        foreach ($this->_a['cols'] as $col => $val) {
-            if (($val['type'] == 'Pluf_DB_Field_Manytomany') ||
-                     (array_key_exists('secure', $val) && $val['secure'])) {
-                continue;
-            }
-            $select[] = $table . '.' . $this->_con->qn($col) . ' AS ' .
-                     $this->_con->qn($col);
-        }
-        $this->_cache['getSelect'] = implode(', ', $select);
-        return $this->_cache['getSelect'];
     }
 
     /**
