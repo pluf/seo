@@ -25,7 +25,7 @@ require_once 'Pluf.php';
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
-class PlufTest extends TestCase
+class EngineTest extends TestCase
 {
 
     /**
@@ -33,52 +33,17 @@ class PlufTest extends TestCase
      */
     public function setUp ()
     {
-        Pluf::start(dirname(__FILE__) . '/../conf/pluf.config.php');
+        Pluf::start(dirname(__FILE__) . '/../conf/seo.config.php');
     }
 
     /**
      * @test
      */
-    public function testF ()
+    public function testClass ()
     {
-        $this->assertEquals(Pluf::f('test'), false);
+        $this->assertEquals(Pluf::f('debug'), true);
     }
 
-    /**
-     * @test
-     */
-    public function testFactory ()
-    {
-        $pluf = Pluf::factory('Pluf');
-        $this->assertEquals(get_class($pluf), 'Pluf');
-    }
-
-    /**
-     * @test
-     */
-    public function testFileExists ()
-    {
-        $this->assertTrue(Pluf::fileExists('Pluf.php') !== false);
-    }
-
-    /**
-     * @test
-     */
-    public function testLoadClass ()
-    {
-        Pluf::loadClass('Pluf_Model');
-        $this->assertEquals(true, class_exists('Pluf_Model'));
-    }
-
-    /**
-     * @test
-     */
-    public function testLoadFunction ()
-    {
-        Pluf::loadFunction('Pluf_HTTP_handleMagicQuotes');
-        $this->assertEquals(true, 
-                function_exists('Pluf_HTTP_handleMagicQuotes'));
-    }
 }
 
 ?>
