@@ -4,6 +4,7 @@
         <testsuite name="Pluf">
             <directory>./Seo/</directory>
             <directory>./Prerender.io/</directory>
+            <directory>./Sitemap/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -33,7 +33,7 @@ class ServiceTest extends TestCase
      */
     public function setUp ()
     {
-        Pluf::start(dirname(__FILE__) . '/../conf/seo.config.php');
+        Pluf::start(dirname(__FILE__) . '/config.php');
     }
     
     /**

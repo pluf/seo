@@ -77,5 +77,17 @@ class Seo_SitemapLink extends Pluf_Model
                 )
         );
     }
+    
+    
+    /*
+     * @see Pluf_Model::preSave()
+     */
+    function preSave ($create = false)
+    {
+        if ($this->id == '') {
+            $this->creation_dtime = gmdate('Y-m-d H:i:s');
+        }
+        $this->modif_dtime = gmdate('Y-m-d H:i:s');
+    }
 }
 
