@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-Pluf::loadFunction('Pluf_Shortcuts_RenderToResponse');
 
 
 /**
@@ -26,7 +25,7 @@ Pluf::loadFunction('Pluf_Shortcuts_RenderToResponse');
  * @throws Bank_Exception_EngineNotFound
  * @return unknown
  */
-function Bank_Shortcuts_GetEngineOr404 ($type)
+function Seo_Shortcuts_GetEngineOr404 ($type)
 {
     $items = Seo_Service::engines();
     foreach ($items as $item) {

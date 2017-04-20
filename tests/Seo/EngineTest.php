@@ -41,7 +41,8 @@ class EngineTest extends TestCase
      */
     public function testClass ()
     {
-        $this->assertEquals(Pluf::f('debug'), true);
+        $backend = new Seo_Backend();
+        $this->assertNotNull($backend);
     }
 
 }

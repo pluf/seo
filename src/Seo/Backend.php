@@ -57,6 +57,11 @@ class Seo_Backend extends Pluf_Model
                         'blank' => false,
                         'size' => 50
                 ),
+                'enable' => array(
+                        'type' => 'Pluf_DB_Field_Boolean',
+                        'blank' => false,
+                        'size' => 50
+                ),
                 'home' => array(
                         'type' => 'Pluf_DB_Field_Varchar',
                         'blank' => true,
@@ -87,11 +92,7 @@ class Seo_Backend extends Pluf_Model
                         'verbose' => 'modification date'
                 )
         );
-        $this->_a['views'] = array(
-                'global' => array(
-                        'select' => $this->getGlobalSelect()
-                )
-        );
+        $this->_a['views'] = array();
     }
 
     /*
