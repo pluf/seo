@@ -1,0 +1,46 @@
+{
+	"name" : "pluf/seo",
+	"description" : "SEO package of pluf",
+	"type" : "library",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "Mostafa Barmshory",
+			"email" : "mostafa.barmshory@dpq.co.ir"
+		}, {
+			"name" : "Mohammad hadi Mansouri",
+			"email" : "mohammad.hadi.mansouri@dpq.co.ir"
+		}
+	],
+	"minimum-stability" : "stable",
+	"require-dev" : {
+		"phpunit/phpunit" : "5.7.14",
+		"phpunit/php-invoker" : "^1.1",
+		"phpunit/dbunit" : "^2.0",
+		"phpunit/phpunit-story" : "^1.0"
+	},
+	"require" : {
+		"pluf/core" : "^2.0.2"
+	},
+	"include-path" : [
+		"src/"
+	],
+	"autoload" : {
+		"psr-0" : {
+			"test" : ""
+		}
+	},
+	"support" : {
+		"wiki" : "https://github.com/pluf/seo/wiki",
+		"issues" : "https://github.com/pluf/seo/issues",
+		"email" : "info@pluf.ir",
+		"source" : "https://github.com/pluf/seo"
+	},
+	"homepage" : "https://github.com/pluf/seo",
+	"keywords" : [
+		"pluf",
+		"php",
+		"framework",
+		"restfull",
+		"pluf-module"
+	]
+}

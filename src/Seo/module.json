@@ -1,0 +1,10 @@
+{
+	"name": "Seo",
+	"version": "0.1.0",
+	"title": "Search engine optimizer",
+	"model": [
+		"Seo_Backend",
+		"Seo_SitemapLink"
+	],
+	"permisson": []
+}
