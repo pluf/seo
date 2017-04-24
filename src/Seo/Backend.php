@@ -35,7 +35,7 @@ class Seo_Backend extends Pluf_Model
      */
     function init ()
     {
-        $this->_a['table'] = 'bank_backend';
+        $this->_a['table'] = 'seo_backend';
         $this->_a['cols'] = array(
                 'id' => array(
                         'type' => 'Pluf_DB_Field_Sequence',
