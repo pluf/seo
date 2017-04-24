@@ -36,11 +36,15 @@ class Seo_Middleware_Render
         $backends = $backend->getList(array(
                 'filter' => 'enable=1'
         ));
+        $renderRequest = new Seo_Request($request);
         foreach ($backends as $backend){
-            $engine = $backend->get_engine();
-            $response = $engine->render();
-            if($response){
-                return $response;
+            try{
+                $response = $backend->render($renderRequest);
+                if($response){
+                    return $response;
+                }
+            } catch (Exception $error){
+                // TODO: maso, 2014: log the error
             }
         }
         $context = new Pluf_Template_Context(array(

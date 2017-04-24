@@ -112,7 +112,7 @@ class Seo_Backend extends Pluf_Model
      *
      * تمام داده‌هایی که با کلید payMeta ذخیره شده را بازیابی می‌کند.
      */
-    function restore ()
+    public function restore ()
     {
         $this->data = unserialize($this->meta);
     }
@@ -122,7 +122,7 @@ class Seo_Backend extends Pluf_Model
      *
      * تمام داده‌های ذخیره شده در نشست را پاک می‌کند.
      */
-    function clear ()
+    public function clear ()
     {
         $this->data = array();
         $this->touched = true;
@@ -141,7 +141,7 @@ class Seo_Backend extends Pluf_Model
      *            داده مورد نظر. در صورتی که مقدار آن تهی باشد به معنی
      *            حذف است.
      */
-    function setMeta ($key, $value = null)
+    public function setMeta ($key, $value = null)
     {
         if (is_null($value)) {
             unset($this->data[$key]);
@@ -150,7 +150,7 @@ class Seo_Backend extends Pluf_Model
         }
         $this->touched = true;
     }
-    
+
     /**
      * داده معادل با کلید تعیین شده را برمی‌گرداند
      *
@@ -158,7 +158,7 @@ class Seo_Backend extends Pluf_Model
      * این فراخوانی
      * برگردانده خواهد شد.
      */
-    function getMeta ($key = null, $default = '')
+    public function getMeta ($key = null, $default = '')
     {
         if (is_null($key)) {
             return parent::getData();
@@ -176,6 +176,21 @@ class Seo_Backend extends Pluf_Model
      */
     public function get_engine ()
     {
-        return Bank_Shortcuts_GetEngineOr404($this->engine);
+        if (! isset($this->engine)) {
+            $this->engine = Seo_Shortcuts_GetEngineOr404($this->engine);
+        }
+        return $this->engine;
+    }
+
+    /**
+     * 
+     * @param unknown $request
+     * @return unknown
+     */
+    public function render ($request)
+    {
+        $engine = $this->get_engine();
+        $request->backend = $this;
+        return $engine->render($request);
     }
 }

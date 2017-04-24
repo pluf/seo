@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Pluf Framework, a simple PHP Application Framework.
  * Copyright (C) 2010-2020 Phoinex Scholars Co. (http://dpq.co.ir)
@@ -21,21 +22,75 @@
  * Render engine to render pages
  *
  * @author maso<mostafa.barmshory@dpq.co.ir>
- *
+ *        
  */
-class Seo_Request 
+class Seo_Request
 {
-    
-    public function get_meta($key, $default){
-        return $default;
+
+    /**
+     * Render backend
+     *
+     * @var Seo_Backend
+     */
+    var $backend;
+
+    /**
+     * Base request
+     *
+     * @var Pluf_HTTP_Request
+     */
+    var $request;
+
+    /**
+     * Get meta datea
+     *
+     * @param string $key
+     *            of the meta data
+     * @param string $default
+     *            value of the meta data
+     * @return string current value
+     */
+    public function get_meta ($key, $default)
+    {
+        return $this->backend->getMeta($key, $default);
     }
 
-    public function get_base(){
-        return null;
+    /**
+     * Gets base URL
+     *
+     * @return string
+     */
+    public function get_base ()
+    {
+        return ($this->request->https ? "https" : "http") . "://" .
+                 $this->request->http_host . $this->request->uri;
+    }
+
+    /**
+     * Gets fragment
+     *
+     * @return string
+     */
+    public function get_fragment ()
+    {
+        return $this->request->REQUEST['_escaped_fragment_'];
+    }
+
+    /**
+     * 
+     * @return array
+     */
+    public function get_headers ()
+    {
+        return $this->request->HEADERS;
     }
     
-    public function get_fragment(){
-        return null;
+    /**
+     * List of request parameters
+     * 
+     * @return array|unknown
+     */
+    public function get_parameters(){
+        return $this->request->REQUEST;
     }
-    
 }

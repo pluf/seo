@@ -134,5 +134,30 @@ class BackendTest extends TestCase
         $this->assertNotNull($newBackend);
         $this->assertEquals($backend->getMeta('example'), $newBackend->getMeta('example'));
     }
+    
+    /**
+     * Get engine test
+     *
+     * @test
+     */
+    public function getEngineTest ()
+    {
+        $backend = new Seo_Backend();
+        // fill
+        $backend->title = 'title';
+        $backend->description = 'description';
+        $backend->symbol= 'symbol';
+        $backend->enable= true;
+        $backend->home= 'home';
+        $backend->engine= 'prerender';
+        
+        // Set meta
+        $backend->setMeta('example', 'example');
+        $this->assertTrue($backend->create());
+        $this->assertNotNull($backend);
+        
+        $engine = $backend->get_engine();
+        $this->assertNotNull($engine);
+    }
 }
 

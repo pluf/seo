@@ -19,7 +19,8 @@
 		"phpunit/phpunit-story" : "^1.0"
 	},
 	"require" : {
-		"pluf/core" : "^2.0.2"
+		"pluf/core" : "^2.0.2",
+		"guzzlehttp/guzzle": "^6.2"
 	},
 	"include-path" : [
 		"src/"

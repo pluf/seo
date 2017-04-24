@@ -27,7 +27,9 @@ class Seo_Engine_Prerender extends Seo_Engine
 {
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
+     *
      * @see Seo_Engine::getTitle()
      */
     public function getTitle ()
@@ -36,7 +38,9 @@ class Seo_Engine_Prerender extends Seo_Engine
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
+     *
      * @see Seo_Engine::getDescription()
      */
     public function getDescription ()
@@ -45,7 +49,9 @@ class Seo_Engine_Prerender extends Seo_Engine
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
+     *
      * @see Seo_Engine::getExtraParam()
      */
     public function getExtraParam ()
@@ -87,17 +93,37 @@ class Seo_Engine_Prerender extends Seo_Engine
     }
 
     /**
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
+     *
      * @see Seo_Engine::render()
      */
     public function render ($request)
     {
         $token = $request->get_meta('token', null);
         $url = $request->get_meta('url', null);
+        $requestPage = $request->get_base();
         // Check
         Pluf_Assert::assertNotNull($token, 'Token is not defined');
         Pluf_Assert::assertNotNull($url, 'URL is not defined');
-        
-        // XXX: maso, 2017: fetch data from server
+        // maso, 2017: fetch data from server
+        $client = new \GuzzleHttp\Client(
+                array(
+                        'base_uri' => $url
+                ));
+        $res = $client->request('GET', '/' . $requestPage, 
+                array(
+                        'stream' => false,
+                        'debug' => false,
+                        'headers' => array_merge($request->get_headers(), 
+                                array(
+                                        'X-Prerender-Token' => $token
+                                )),
+                        'query' => $request->get_parameters()
+                ));
+        if ($res->getStatusCode() != 200) {
+            return false;
+        }
+        return $res->getBody();
     }
 }
