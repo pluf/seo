@@ -1,0 +1,13 @@
+.project
+.buildpath
+.settings
+
+
+# Examples
+/site/tenant
+
+# Composer
+/vendor/
+composer.lock
+composer-setup.php
+composer.phar
