@@ -19,7 +19,6 @@
 Pluf::loadFunction('Bank_Shortcuts_GetEngineOr404');
 
 /**
- * Management view of engines
  *
  * @author maso <mostafa.barmsohry@dpq.co.ir>
  *        
@@ -28,7 +27,6 @@ class Seo_Views_Engine
 {
 
     /**
-     * List all engines
      *
      * @param unknown $request            
      * @param unknown $match            
@@ -48,20 +46,20 @@ class Seo_Views_Engine
     }
 
     /**
-     * Gets engine definition
      *
-     * Here is list of required parameters in URL.
-     * 
+     * پارامترهایی که در این نمایش به عنوان ورودی در نظر گرفته می‌شوند عبارتند
+     * از:
+     *
      * <ul>
-     * <li>type: engine type</li>
+     * <li>type: نوع متور جستجو را تعیین می‌کند</li>
      * </ul>
      *
-     * @param Pluf_HTTP_Request $request            
-     * @param array $match            
+     * @param unknown $request            
+     * @param unknown $match            
      */
     public function get ($request, $match)
     {
         return new Pluf_HTTP_Response_Json(
-                Seo_Shortcuts_GetEngineOr404($match['type']));
+                Bank_Shortcuts_GetEngineOr404($match['type']));
     }
 }
