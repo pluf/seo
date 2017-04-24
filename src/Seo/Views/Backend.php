@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-Pluf::loadFunction('Bank_Shortcuts_GetEngineOr404');
+Pluf::loadFunction('Seo_Shortcuts_GetEngineOr404');
 
 /**
  *
@@ -46,8 +46,6 @@ class Seo_Views_Backend
                         'creation_dtime'
                 ));
         $pag->action = array();
-        $pag->items_per_page = 20;
-        $pag->model_view = 'global';
         $pag->sort_order = array(
                 'creation_dtime',
                 'DESC'
@@ -83,7 +81,7 @@ class Seo_Views_Backend
         if (array_key_exists('type', $request->REQUEST)) {
             $type = $request->REQUEST['type'];
         }
-        $engine = Bank_Shortcuts_GetEngineOr404($type);
+        $engine = Seo_Shortcuts_GetEngineOr404($type);
         $params = array(
                 'engine' => $engine
         );
@@ -99,7 +97,7 @@ class Seo_Views_Backend
      */
     public function get ($request, $match)
     {
-        $backend = Bank_Shortcuts_GetBankOr404($match['id']);
+        $backend = Seo_Shortcuts_GetBackendOr404($match['id']);
         return new Pluf_HTTP_Response_Json($backend);
     }
 
@@ -110,7 +108,7 @@ class Seo_Views_Backend
      */
     public function delete ($request, $match)
     {
-        $backend = Bank_Shortcuts_GetBankOr404($match['id']);
+        $backend = Seo_Shortcuts_GetBackendOr404($match['id']);
         $backend->delete();
         return new Pluf_HTTP_Response_Json($backend);
     }
@@ -122,7 +120,7 @@ class Seo_Views_Backend
      */
     public function update ($request, $match)
     {
-        $backend = Bank_Shortcuts_GetBankOr404($match['id']);
+        $backend = Seo_Shortcuts_GetBackendOr404($match['id']);
         $params = array(
                 'backend' => $backend
         );
