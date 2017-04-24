@@ -42,12 +42,38 @@ return array(
                         'GET'
                 )
         ),
-        array(
-                'regex' => '#^/backend/find$#',
-                'model' => 'Seo_Views_Backend',
-                'method' => 'find',
-                'http-method' => array(
-                        'GET'
+        
+        
+        /**
+         * ********************************************************************
+         * SitemapLink
+         * ********************************************************************
+         */
+        array( // Find
+                'regex' => '#^/find$#',
+                'model' => 'Pluf_Views',
+                'method' => 'findObject',
+                'http-method' => 'GET',
+                'precond' => array(
+                        'Pluf_Precondition::ownerRequired'
+                ),
+                'params' => array(
+                        'model' => 'Seo_Backend',
+                        'listFilters' => array(
+                                'id',
+                                'name',
+                                'title'
+                        ),
+                        'searchFields' => array(
+                                'name',
+                                'title',
+                                'description'
+                        ),
+                        'sortFields' => array(
+                                'id',
+                                'name',
+                                'title'
+                        )
                 )
         ),
         array(
@@ -82,15 +108,106 @@ return array(
                         'POST'
                 )
         ),
-        array(
-                'regex' => '#^/backend/(?P<id>\d+)$#',
-                'model' => 'Seo_Views_Backend',
-                'method' => 'delete',
-                'http-method' => array(
-                        'DELETE'
+        array( // Delete
+                'regex' => '#^/backend/(?P<modelId>\d+)$#',
+                'model' => 'Pluf_Views',
+                'method' => 'deleteObject',
+                'http-method' => 'DELETE',
+                'precond' => array(
+                        'Pluf_Precondition::ownerRequired'
+                ),
+                'params' => array(
+                        'model' => 'Seo_Backend',
+                        'permanently' => true
                 )
         ),
-        //Site map
+        
+        /**
+         * ********************************************************************
+         * SitemapLink
+         * ********************************************************************
+         */
+        array( // Find
+                'regex' => '#^/link/find$#',
+                'model' => 'Pluf_Views',
+                'method' => 'findObject',
+                'http-method' => 'GET',
+                'precond' => array(
+                        'Pluf_Precondition::ownerRequired'
+                ),
+                'params' => array(
+                        'model' => 'Seo_SitemapLink',
+                        'listFilters' => array(
+                                'id',
+                                'name',
+                                'title'
+                        ),
+                        'searchFields' => array(
+                                'name',
+                                'title',
+                                'description'
+                        ),
+                        'sortFields' => array(
+                                'id',
+                                'name',
+                                'title'
+                        )
+                )
+        ),
+        array( // Create
+                'regex' => '#^/link/new$#',
+                'model' => 'Pluf_Views',
+                'method' => 'createObject',
+                'http-method' => 'POST',
+                'precond' => array(
+                        'Pluf_Precondition::ownerRequired'
+                ),
+                'params' => array(
+                        'model' => 'Seo_SitemapLink'
+                )
+        ),
+        array( // Get info
+                'regex' => '#^/link/(?P<modelId>\d+)$#',
+                'model' => 'Pluf_Views',
+                'method' => 'getObject',
+                'http-method' => 'GET',
+                'precond' => array(
+                        'Pluf_Precondition::ownerRequired'
+                ),
+                'params' => array(
+                        'model' => 'Seo_SitemapLink'
+                )
+        ),
+        array( // Delete
+                'regex' => '#^/link/(?P<modelId>\d+)$#',
+                'model' => 'Pluf_Views',
+                'method' => 'deleteObject',
+                'http-method' => 'DELETE',
+                'precond' => array(
+                        'Pluf_Precondition::ownerRequired'
+                ),
+                'params' => array(
+                        'model' => 'Seo_SitemapLink',
+                        'permanently' => true
+                )
+        ),
+        array( // Update
+                'regex' => '#^/link/(?P<modelId>\d+)$#',
+                'model' => 'Pluf_Views',
+                'method' => 'updateObject',
+                'http-method' => 'POST',
+                'precond' => array(
+                        'Pluf_Precondition::ownerRequired'
+                ),
+                'params' => array(
+                        'model' => 'Seo_SitemapLink'
+                )
+        ),
+        /**
+         * ********************************************************************
+         * Sitemap
+         * ********************************************************************
+         */
         array(
                 'regex' => '#^/sitemap/sitemap.xml$#',
                 'model' => 'Seo_Views_Sitemap',
