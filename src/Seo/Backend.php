@@ -45,51 +45,67 @@ class Seo_Backend extends Pluf_Model
                 'title' => array(
                         'type' => 'Pluf_DB_Field_Varchar',
                         'blank' => false,
-                        'size' => 50
+                        'size' => 50,
+                        'editable' => true,
+                        'readable' => true
                 ),
                 'description' => array(
                         'type' => 'Pluf_DB_Field_Varchar',
                         'blank' => true,
-                        'size' => 200
+                        'size' => 200,
+                        'editable' => true,
+                        'readable' => true
                 ),
                 'symbol' => array(
                         'type' => 'Pluf_DB_Field_Varchar',
                         'blank' => false,
-                        'size' => 50
+                        'size' => 50,
+                        'editable' => true,
+                        'readable' => true
                 ),
                 'enable' => array(
                         'type' => 'Pluf_DB_Field_Boolean',
                         'blank' => false,
-                        'size' => 50
+                        'default' => true,
+                        'editable' => true,
+                        'readable' => true
                 ),
                 'home' => array(
                         'type' => 'Pluf_DB_Field_Varchar',
                         'blank' => true,
-                        'size' => 50
+                        'size' => 100,
+                        'editable' => true,
+                        'readable' => true
                 ),
                 'meta' => array(
                         'type' => 'Pluf_DB_Field_Varchar',
                         'blank' => false,
                         'secure' => true,
-                        'size' => 3000,
+                        'size' => 10240,
                         'editable' => false,
                         'readable' => false
                 ),
                 'engine' => array(
                         'type' => 'Pluf_DB_Field_Varchar',
                         'blank' => false,
-                        'size' => 50
+                        'size' => 50,
+                        'editable' => false,
+                        'readable' => false
                 ),
                 
                 'creation_dtime' => array(
                         'type' => 'Pluf_DB_Field_Datetime',
                         'blank' => true,
-                        'verbose' => 'creation date'
+                        'verbose' => 'creation date',
+                        'editable' => false,
+                        'readable' => true
                 ),
                 'modif_dtime' => array(
                         'type' => 'Pluf_DB_Field_Datetime',
                         'blank' => true,
-                        'verbose' => 'modification date'
+                        'verbose' => 'modification date',
+                        'editable' => false,
+                        'readable' => true
                 )
         );
         $this->_a['views'] = array();
@@ -176,15 +192,12 @@ class Seo_Backend extends Pluf_Model
      */
     public function get_engine ()
     {
-        if (! isset($this->engine)) {
-            $this->engine = Seo_Shortcuts_GetEngineOr404($this->engine);
-        }
-        return $this->engine;
+        return Seo_Shortcuts_GetEngineOr404($this->engine);
     }
 
     /**
-     * 
-     * @param unknown $request
+     *
+     * @param unknown $request            
      * @return unknown
      */
     public function render ($request)

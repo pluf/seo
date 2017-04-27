@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-Pluf::loadFunction('Bank_Shortcuts_GetEngineOr404');
+Pluf::loadFunction('Seo_Shortcuts_GetEngineOr404');
 
 /**
  *
@@ -25,36 +25,6 @@ Pluf::loadFunction('Bank_Shortcuts_GetEngineOr404');
  */
 class Seo_Views_Backend
 {
-    // XXX: maso, 1395: add security
-    /**
-     * فهرست تمام پشتوانه‌ها رو تعیین می‌کنه.
-     *
-     * @param unknown $request            
-     * @param unknown $match            
-     */
-    public function find ($request, $match)
-    {
-        $pag = new Pluf_Paginator(new Seo_Backend());
-        $pag->configure(array(), 
-                array( // search
-                        'title',
-                        'description'
-                ), 
-                array( // sort
-                        'id',
-                        'title',
-                        'creation_dtime'
-                ));
-        $pag->action = array();
-        $pag->items_per_page = 20;
-        $pag->model_view = 'global';
-        $pag->sort_order = array(
-                'creation_dtime',
-                'DESC'
-        );
-        $pag->setFromRequest($request);
-        return new Pluf_HTTP_Response_Json($pag->render_object());
-    }
 
     /**
      *
@@ -67,7 +37,7 @@ class Seo_Views_Backend
         if (array_key_exists('type', $request->REQUEST)) {
             $type = $request->REQUEST['type'];
         }
-        $engine = Bank_Shortcuts_GetEngineOr404($type);
+        $engine = Seo_Shortcuts_GetEngineOr404($type);
         return new Pluf_HTTP_Response_Json($engine->getParameters());
     }
 
@@ -83,10 +53,11 @@ class Seo_Views_Backend
         if (array_key_exists('type', $request->REQUEST)) {
             $type = $request->REQUEST['type'];
         }
-        $engine = Bank_Shortcuts_GetEngineOr404($type);
+        $engine = Seo_Shortcuts_GetEngineOr404($type);
         $params = array(
                 'engine' => $engine
         );
+        // Save meta
         $form = new Seo_Form_BackendNew($request->REQUEST, $params);
         $backend = $form->save();
         return new Pluf_HTTP_Response_Json($backend);
@@ -99,7 +70,7 @@ class Seo_Views_Backend
      */
     public function get ($request, $match)
     {
-        $backend = Bank_Shortcuts_GetBankOr404($match['id']);
+        $backend = Seo_Shortcuts_GetBackendOr404($match['id']);
         return new Pluf_HTTP_Response_Json($backend);
     }
 
@@ -110,7 +81,7 @@ class Seo_Views_Backend
      */
     public function delete ($request, $match)
     {
-        $backend = Bank_Shortcuts_GetBankOr404($match['id']);
+        $backend = Seo_Shortcuts_GetBackendOr404($match['id']);
         $backend->delete();
         return new Pluf_HTTP_Response_Json($backend);
     }
@@ -122,7 +93,7 @@ class Seo_Views_Backend
      */
     public function update ($request, $match)
     {
-        $backend = Bank_Shortcuts_GetBankOr404($match['id']);
+        $backend = Seo_Shortcuts_GetBackendOr404($match['id']);
         $params = array(
                 'backend' => $backend
         );

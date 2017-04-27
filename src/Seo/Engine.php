@@ -172,6 +172,19 @@ class Seo_Engine implements JsonSerializable
                 'defaultValue' => '',
                 'validators' => []
         );
+        $params[] = array(
+                'name' => 'enable',
+                'type' => 'Integer',
+                'unit' => 'none',
+                'title' => 'Symbol',
+                'description' => 'beackend symbol',
+                'editable' => true,
+                'visible' => true,
+                'priority' => 5,
+                'symbol' => 'icon',
+                'defaultValue' => '',
+                'validators' => []
+        );
         return $params;
     }
     

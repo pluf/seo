@@ -81,14 +81,11 @@ class Seo_Form_BackendNew extends Pluf_Form
         $backend->engine = $this->engine->getType();
         $params = $this->engine->getParameters();
         foreach ($params['children'] as $param) {
-            if ($param['name'] === 'title' || $param['name'] === 'description' ||
-                     $param['name'] === 'symbol' || $param['name'] === 'title')
+            if (array_key_exists($param['name'], $backend->_a['cols']))
                 continue;
             $backend->setMeta($param['name'], 
                     $this->cleaned_data[$param['name']]);
         }
-        // TODO: maso, 1395: تنها پارامترهایی اضافه باید به صورت کد شده در
-        // موجودیت قرار گیرد.
         if ($commit) {
             if (! $backend->create()) {
                 throw new Pluf_Exception(__('Fail to create the backend.'));
