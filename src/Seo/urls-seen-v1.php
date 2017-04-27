@@ -50,7 +50,7 @@ return array(
          * ********************************************************************
          */
         array( // Find
-                'regex' => '#^/find$#',
+                'regex' => '#^/backend/find$#',
                 'model' => 'Pluf_Views',
                 'method' => 'findObject',
                 'http-method' => 'GET',
