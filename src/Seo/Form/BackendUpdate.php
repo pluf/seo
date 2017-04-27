@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Pluf Framework, a simple PHP Application Framework.
  * Copyright (C) 2010-2020 Phoinex Scholars Co. (http://dpq.co.ir)
@@ -25,21 +26,20 @@
 class Seo_Form_BackendUpdate extends Pluf_Form
 {
 
-    
     /**
-     * 
-     * @var unknown
+     *
+     * @var Seo_Backend
      */
     var $backend;
 
     /*
-     * 
+     *
      */
     public function initFields ($extra = array())
     {
         $this->backend = $extra['backend'];
         
-        $engin =  $this->backend->get_engine();
+        $engin = $this->backend->get_engine();
         $params = $engin->getParameters();
         foreach ($params['children'] as $param) {
             $options = array(
@@ -74,8 +74,16 @@ class Seo_Form_BackendUpdate extends Pluf_Form
         }
         // Set attributes
         $this->backend->setFromFormData($this->cleaned_data);
-        // TODO: maso, 1395: تنها پارامترهایی اضافه باید به صورت کد شده در
-        // موجودیت قرار گیرد.
+        $params = $this->backend->get_engine()->getParameters();
+        foreach ($params['children'] as $param) {
+            if (array_key_exists($param['name'], $this->backend->_a['cols'])) {
+                continue;
+            }
+            if (array_key_exists($param['name'], $this->cleaned_data)) {
+                $this->backend->setMeta($param['name'], 
+                        $this->cleaned_data[$param['name']]);
+            }
+        }
         if ($commit) {
             if (! $this->backend->update()) {
                 throw new Pluf_Exception(__('Fail to create the backend.'));

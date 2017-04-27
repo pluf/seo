@@ -33,7 +33,7 @@ function Seo_Shortcuts_GetEngineOr404 ($type)
             return $item;
         }
     }
-    throw new Seo_Exception_EngineNotFound();
+    throw new Seo_Exception_EngineNotFound("Engine not found:".$type);
 }
 
 /**

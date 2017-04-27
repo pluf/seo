@@ -192,15 +192,12 @@ class Seo_Backend extends Pluf_Model
      */
     public function get_engine ()
     {
-        if (! isset($this->engine)) {
-            $this->engine = Seo_Shortcuts_GetEngineOr404($this->engine);
-        }
-        return $this->engine;
+        return Seo_Shortcuts_GetEngineOr404($this->engine);
     }
 
     /**
-     * 
-     * @param unknown $request
+     *
+     * @param unknown $request            
      * @return unknown
      */
     public function render ($request)

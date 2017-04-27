@@ -25,34 +25,6 @@ Pluf::loadFunction('Seo_Shortcuts_GetEngineOr404');
  */
 class Seo_Views_Backend
 {
-    // XXX: maso, 1395: add security
-    /**
-     * فهرست تمام پشتوانه‌ها رو تعیین می‌کنه.
-     *
-     * @param unknown $request            
-     * @param unknown $match            
-     */
-    public function find ($request, $match)
-    {
-        $pag = new Pluf_Paginator(new Seo_Backend());
-        $pag->configure(array(), 
-                array( // search
-                        'title',
-                        'description'
-                ), 
-                array( // sort
-                        'id',
-                        'title',
-                        'creation_dtime'
-                ));
-        $pag->action = array();
-        $pag->sort_order = array(
-                'creation_dtime',
-                'DESC'
-        );
-        $pag->setFromRequest($request);
-        return new Pluf_HTTP_Response_Json($pag->render_object());
-    }
 
     /**
      *
@@ -65,7 +37,7 @@ class Seo_Views_Backend
         if (array_key_exists('type', $request->REQUEST)) {
             $type = $request->REQUEST['type'];
         }
-        $engine = Bank_Shortcuts_GetEngineOr404($type);
+        $engine = Seo_Shortcuts_GetEngineOr404($type);
         return new Pluf_HTTP_Response_Json($engine->getParameters());
     }
 
@@ -85,6 +57,7 @@ class Seo_Views_Backend
         $params = array(
                 'engine' => $engine
         );
+        // Save meta
         $form = new Seo_Form_BackendNew($request->REQUEST, $params);
         $backend = $form->save();
         return new Pluf_HTTP_Response_Json($backend);
