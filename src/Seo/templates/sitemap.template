@@ -37,4 +37,10 @@
 		<changefreq>weekly</changefreq>
 		<priority>0.5</priority>
 	</url>{/foreach}
+	{foreach $links as $link}<url>
+		<loc>{$link->loc}</loc>
+		<lastmod>{$link->lastmod}</lastmod>
+		<changefreq>{$link->changefreq}</changefreq>
+		<priority>{$link->priority}</priority>
+	</url>{/foreach}
 </urlset>
