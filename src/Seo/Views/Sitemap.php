@@ -10,7 +10,7 @@ class Seo_Views_Sitemap
 {
 
     /**
-     * سایت مپ رو تولید می‌کنه
+     * Generate sitemap
      *
      * @param Pluf_HTTP_Request $request            
      * @param array $match            
@@ -18,16 +18,21 @@ class Seo_Views_Sitemap
      */
     public static function get ($request, $match)
     {
-        $sp = new SPA();
+        // Spas
+        $sp = new Spa_SPA();
         $spaList = $sp->getList();
         
-        // TODO: روشی برای اضافه کردن لینک های خارجی هم باید ایجاد بشه
+        // Links
+        $link = new Seo_SitemapLink();
+        $links = $link->getList();
+        
         // Add link to SPAs of tenant
         $tmpl = new Pluf_Template('/sitemap.template');
         $context = new Pluf_Template_Context(
                 array(
                         'tenant' => $request->tenant,
-                        'spaList' => $spaList
+                        'spaList' => $spaList,
+                        'links' => $links
                 ));
         $mimetype = Pluf::f('mimetype', 'text/xml') . '; charset=utf-8';
         return new Pluf_HTTP_Response($tmpl->render($context), $mimetype);

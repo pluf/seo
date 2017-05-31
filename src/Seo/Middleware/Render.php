@@ -41,7 +41,7 @@ class Seo_Middleware_Render
             try{
                 $response = $backend->render($renderRequest);
                 if($response){
-                    return $response;
+                    return new Pluf_HTTP_Response($response);
                 }
             } catch (Exception $error){
                 // TODO: maso, 2014: log the error

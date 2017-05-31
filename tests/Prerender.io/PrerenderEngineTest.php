@@ -105,7 +105,7 @@ class PrerenderEngineTest extends TestCase
                 'ctrl' => array()
         );
         
-        $seoRequest = new Seo_Request();
+        $seoRequest = new Seo_Request($request);
         $seoRequest->request = $request;
         $page = $backend->render($seoRequest);
         $this->assertNotNull($page);

@@ -42,6 +42,16 @@ class Seo_Request
     var $request;
 
     /**
+     * Creates new instance of this class
+     *
+     * @param Pluf_HTTP_Request $request            
+     */
+    function __construct ($request)
+    {
+        $this->request = $request;
+    }
+
+    /**
      * Get meta datea
      *
      * @param string $key
@@ -77,20 +87,21 @@ class Seo_Request
     }
 
     /**
-     * 
+     *
      * @return array
      */
     public function get_headers ()
     {
         return $this->request->HEADERS;
     }
-    
+
     /**
      * List of request parameters
-     * 
+     *
      * @return array|unknown
      */
-    public function get_parameters(){
+    public function get_parameters ()
+    {
         return $this->request->REQUEST;
     }
 }
