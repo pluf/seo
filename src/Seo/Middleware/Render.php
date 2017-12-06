@@ -1,5 +1,5 @@
 <?php
-
+use Jaybizzle\CrawlerDetect\CrawlerDetect;
 /**
  * SEO middleware
  * 
@@ -18,8 +18,12 @@ class Seo_Middleware_Render
      */
     function process_request (&$request)
     {
+        $CrawlerDetect = new CrawlerDetect();
+        // TODO: maso, 2017: replace condtion
+        // $CrawlerDetect->isCrawler($request->agent)
         // در صورتی که درخواست مربوط به seo باشد
-        if (array_key_exists('_escaped_fragment_', $request->GET)) {
+        if (array_key_exists('_escaped_fragment_', $request->GET) || 
+            $CrawlerDetect->isCrawler()) {
             return $this->prerenderResponse($request);
         }
         return false;
