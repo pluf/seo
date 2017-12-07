@@ -27,11 +27,11 @@ require_once 'Pluf.php';
  */
 class MiddlewareTest extends TestCase
 {
-    
+
     /**
      * @before
      */
-    public function setUp ()
+    public function setUp()
     {
         Pluf::start(dirname(__FILE__) . '/config.php');
         $m = require dirname(__FILE__) . '/../../src/Seo/relations.php';
@@ -44,13 +44,13 @@ class MiddlewareTest extends TestCase
         $schema->dropTables();
         $schema->createTables();
     }
-    
+
     /**
      * Delete all tables
      *
      * @after
      */
-    protected function tearDown ()
+    protected function tearDown()
     {
         $db = Pluf::db();
         $schema = Pluf::factory('Pluf_DB_Schema', $db);
@@ -58,24 +58,24 @@ class MiddlewareTest extends TestCase
         $schema->model = $m1;
         $schema->dropTables();
     }
-    
+
     /**
      * Test middleware class exist
-     * 
+     *
      * @test
      */
-    public function testClass ()
+    public function testClass()
     {
         $middleware = new Seo_Middleware_Render();
         $this->assertNotNull($middleware);
     }
-    
+
     /**
      * Test non-bot requests
      *
      * @test
      */
-    public function nonBotRequest ()
+    public function nonBotRequest()
     {
         $query = '/example/resource';
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -90,19 +90,19 @@ class MiddlewareTest extends TestCase
         
         // empty view
         $request->view = array(
-                'ctrl' => array()
+            'ctrl' => array()
         );
         
         $response = $middleware->process_request($request);
         $this->assertFalse($response);
     }
-    
+
     /**
      * Test empty backend
      *
      * @test
      */
-    public function botRequest ()
+    public function botRequest()
     {
         $query = '/example/resource';
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -118,12 +118,39 @@ class MiddlewareTest extends TestCase
         
         // empty view
         $request->view = array(
-                'ctrl' => array()
+            'ctrl' => array()
         );
         
         $response = $middleware->process_request($request);
         $this->assertNotNull($response);
     }
-    
+
+    /**
+     * Test empty backend
+     *
+     * @test
+     */
+    public function botRequest2()
+    {
+        $query = '/example/resource';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = 'http://localhost/example/resource';
+        $_SERVER['REMOTE_ADDR'] = 'not set';
+        $_SERVER['HTTP_HOST'] = 'localhost';
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (compatible; Sosospider/2.0; +http://help.soso.com/webspider.htm)';
+        $GLOBALS['_PX_uniqid'] = 'example';
+        
+        $middleware = new Seo_Middleware_Render();
+        $request = new Pluf_HTTP_Request($query);
+        $request->tenant = new Pluf_Tenant();
+        
+        // empty view
+        $request->view = array(
+            'ctrl' => array()
+        );
+        
+        $response = $middleware->process_request($request);
+        $this->assertNotNull($response);
+    }
 }
 
