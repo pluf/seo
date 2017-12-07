@@ -22,8 +22,9 @@ class Seo_Middleware_Render
         // TODO: maso, 2017: replace condtion
         // $CrawlerDetect->isCrawler($request->agent)
         // در صورتی که درخواست مربوط به seo باشد
-        if (array_key_exists('_escaped_fragment_', $request->GET) || 
-            $CrawlerDetect->isCrawler()) {
+        if(preg_match('/^/api/',$request->query)
+        if (!preg_match('/Prerender/', $request->agent) && 
+            (array_key_exists('_escaped_fragment_', $request->GET) || $CrawlerDetect->isCrawler())) {
             return $this->prerenderResponse($request);
         }
         return false;
