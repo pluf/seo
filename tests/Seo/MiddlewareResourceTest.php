@@ -153,9 +153,53 @@ class Seo_MiddlewareResourceTest extends TestCase
             foreach ($queries as $query) {
                 $request = new Pluf_HTTP_Request($query);
                 $request->tenant = new Pluf_Tenant();
+                $request->agent = $agent;
+                $request->method = 'GET';
                 $request->view = array(
                     'ctrl' => array()
                 );
+                $response = $middleware->process_request($request);
+                Test_Assert::assertFalse($response, 'Resource is renderd');
+            }
+        }
+    }
+
+    /**
+     * Test empty backend
+     *
+     * @test
+     */
+    public function shouldIgnoreCommonResources()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = 'http://localhost/example/resource';
+        $_SERVER['REMOTE_ADDR'] = 'not set';
+        $_SERVER['HTTP_HOST'] = 'localhost';
+        $GLOBALS['_PX_uniqid'] = 'example';
+        
+        $middleware = new Seo_Middleware_Render();
+        
+        $agents = [
+            'Mozilla/5.0 (compatible; Sosospider/2.0; +http://help.soso.com/webspider.htm)', // Sosospider
+            'Mozilla/5.0 (seoanalyzer; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' // Bing
+        ];
+        foreach ($agents as $agent) {
+            $_SERVER['HTTP_USER_AGENT'] = $agent;
+            $queries = [
+                '/scripts/vendor.js',
+                '/scripts/scripts.js',
+                '/style/vendor.css',
+                '/style/main.css',
+                '/manifest.appcache'
+            ];
+            foreach ($queries as $query) {
+                $request = new Pluf_HTTP_Request($query);
+                $request->tenant = new Pluf_Tenant();
+                $request->view = array(
+                    'ctrl' => array()
+                );
+                $request->agent = $agent;
+                $request->method = 'GET';
                 $response = $middleware->process_request($request);
                 Test_Assert::assertFalse($response, 'Resource is renderd');
             }
