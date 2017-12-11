@@ -84,10 +84,6 @@ class Seo_Middleware_Render
                 // TODO: maso, 2014: log the error
             }
         }
-        $context = new Pluf_Template_Context(array(
-            'tenant' => $request->tenant
-        ));
-        $tmpl = new Pluf_Template('seo.template');
-        return new Pluf_HTTP_Response($tmpl->render($context));
+        return false;
     }
 }

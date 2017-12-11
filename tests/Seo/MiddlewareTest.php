@@ -43,6 +43,13 @@ class MiddlewareTest extends TestCase
         $schema->model = $m1;
         $schema->dropTables();
         $schema->createTables();
+        
+        $m1->title = 'Title';
+        $m1->description = 'description';
+        $m1->symbol = 'symbol';
+        $m1->enable = 1;
+        $m1->engine = 'fake';
+        $m1->create();
     }
 
     /**
@@ -87,6 +94,7 @@ class MiddlewareTest extends TestCase
         $middleware = new Seo_Middleware_Render();
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
+        $request->REQUEST = array();
         
         // empty view
         $request->view = array(
