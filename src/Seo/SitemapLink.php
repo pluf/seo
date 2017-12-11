@@ -17,12 +17,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 /**
  * # Properties
- * 
+ *
  * Main properites of a link is fully described here. The others are used
  * in view and other part of the system.
- * 
+ *
  * ## loc
  *
  * URL of the page. This URL must begin with the protocol (such as http)
@@ -61,6 +62,8 @@
  * which pages you deem most important for the crawlers.
  * The default priority of a page is 0.5.
  *
+ * @see https://www.sitemaps.org/protocol.html
+ *
  * @author Mostafa Barmshori<mostafa.barmshory@dpq.co.ir>
  *        
  */
@@ -96,7 +99,7 @@ class Seo_SitemapLink extends Pluf_Model
             ),
             'loc' => array(
                 'type' => 'Pluf_DB_Field_Varchar',
-                'blank' => true,
+                'blank' => false,
                 'size' => 50,
                 'editable' => true,
                 'readable' => true
@@ -110,7 +113,7 @@ class Seo_SitemapLink extends Pluf_Model
             ),
             'changefreq' => array(
                 'type' => 'Pluf_DB_Field_Varchar',
-                'blank' => false,
+                'blank' => true,
                 'size' => 16,
                 'editable' => true,
                 'readable' => true
