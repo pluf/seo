@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit colors="true">
+    <testsuites>
+        <testsuite name="Pluf">
+            <directory>./tests/Prerender.io/</directory>
+            <directory>./tests/Seo/</directory>
+            <directory>./tests/Seo_Sitemap/</directory>
+            <directory>./tests/Seo_Sitemap_REST/</directory>
+        </testsuite>
+    </testsuites>
+    
+	<!-- Code coverage -->
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">./src</directory>
+		</whitelist>
+	</filter>
+	<logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+	</logging>
+</phpunit>
