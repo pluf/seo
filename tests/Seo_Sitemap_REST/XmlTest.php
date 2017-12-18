@@ -67,10 +67,6 @@ class Seo_SiteMap_REST_XmlTest extends TestCase
             'secret_key' => '5a8d7e0f2aad8bdab8f6eef725412850',
             'user_signup_active' => true,
             'user_avatra_max_size' => 2097152,
-            'auth_backends' => array(
-                'Pluf_Auth_ModelBackend'
-            ),
-            'pluf_use_rowpermission' => true,
             'db_engine' => 'MySQL',
             'db_version' => '5.5.33',
             'db_login' => 'root',
@@ -89,7 +85,7 @@ class Seo_SiteMap_REST_XmlTest extends TestCase
         ));
         $m->install();
         // Test user
-        self::$user = new Pluf_User();
+        self::$user = new User();
         self::$user->login = 'test';
         self::$user->first_name = 'test';
         self::$user->last_name = 'test';
