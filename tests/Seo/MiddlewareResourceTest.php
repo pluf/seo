@@ -25,7 +25,7 @@ require_once 'Pluf.php';
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
-class MiddlewareTest extends TestCase
+class Seo_MiddlewareResourceTest extends TestCase
 {
 
     /**
@@ -43,13 +43,6 @@ class MiddlewareTest extends TestCase
         $schema->model = $m1;
         $schema->dropTables();
         $schema->createTables();
-        
-        $m1->title = 'Title';
-        $m1->description = 'description';
-        $m1->symbol = 'symbol';
-        $m1->enable = 1;
-        $m1->engine = 'fake';
-        $m1->create();
     }
 
     /**
@@ -67,42 +60,34 @@ class MiddlewareTest extends TestCase
     }
 
     /**
-     * Test middleware class exist
-     *
-     * @test
-     */
-    public function testClass()
-    {
-        $middleware = new Seo_Middleware_Render();
-        $this->assertNotNull($middleware);
-    }
-
-    /**
      * Test non-bot requests
      *
      * @test
      */
-    public function nonBotRequest()
+    public function shouldNotRenderCssFroCommonAgent()
     {
-        $query = '/example/resource';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = 'http://localhost/example/resource';
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36';        
+        
         $middleware = new Seo_Middleware_Render();
-        $request = new Pluf_HTTP_Request($query);
-        $request->tenant = new Pluf_Tenant();
-        $request->REQUEST = array();
-        
-        // empty view
-        $request->view = array(
-            'ctrl' => array()
-        );
-        
-        $response = $middleware->process_request($request);
-        Test_Assert::assertFalse($response, 'Test result must be false for non bot');
+        $queries = [
+            '/example/resource.css',
+            '/example/resource.png',
+            '/resource.gif',
+            '/fonts/fonts.ttf'
+        ];
+        foreach ($queries as $query) {
+            $request = new Pluf_HTTP_Request($query);
+            $request->tenant = new Pluf_Tenant();
+            $request->view = array(
+                'ctrl' => array()
+            );
+            $response = $middleware->process_request($request);
+            Test_Assert::assertFalse($response, 'Resource is renderd');
+        }
     }
 
     /**
@@ -110,30 +95,32 @@ class MiddlewareTest extends TestCase
      *
      * @test
      */
-    public function botRequest()
+    public function shouldNotRenderResourceFroAjaxProtocol()
     {
-        $query = '/example/resource';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = 'http://localhost/example/resource';
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36';
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
-        $_GET['_escaped_fragment_'] = '/home';
-        $_REQUEST['_escaped_fragment_'] = '/home';
         
         $middleware = new Seo_Middleware_Render();
-        $request = new Pluf_HTTP_Request($query);
-        $request->tenant = new Pluf_Tenant();
         
-        // empty view
-        $request->view = array(
-            'ctrl' => array()
-        );
-        
-        $response = $middleware->process_request($request);
-        Test_Assert::assertNotNull($response);
-        Test_Assert::assertNotEquals(false, $response, 'Response must not be false for bot');
+        $queries = [
+            '/example/resource.css',
+            '/example/resource.png',
+            '/resource.gif',
+            '/fonts/fonts.ttf'
+        ];
+        foreach ($queries as $query) {
+            $request = new Pluf_HTTP_Request($query);
+            $request->tenant = new Pluf_Tenant();
+            $request->view = array(
+                'ctrl' => array()
+            );
+            $request->GET['_escaped_fragment_'] = '/home';
+            $response = $middleware->process_request($request);
+            Test_Assert::assertFalse($response, 'Resource is renderd');
+        }
     }
 
     /**
@@ -143,7 +130,6 @@ class MiddlewareTest extends TestCase
      */
     public function shouldSupportCommonBots()
     {
-        $query = '/example/resource';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = 'http://localhost/example/resource';
         $_SERVER['REMOTE_ADDR'] = 'not set';
@@ -151,13 +137,6 @@ class MiddlewareTest extends TestCase
         $GLOBALS['_PX_uniqid'] = 'example';
         
         $middleware = new Seo_Middleware_Render();
-        $request = new Pluf_HTTP_Request($query);
-        $request->tenant = new Pluf_Tenant();
-        
-        // empty view
-        $request->view = array(
-            'ctrl' => array()
-        );
         
         $agents = [
             'Mozilla/5.0 (compatible; Sosospider/2.0; +http://help.soso.com/webspider.htm)', // Sosospider
@@ -165,21 +144,34 @@ class MiddlewareTest extends TestCase
         ];
         foreach ($agents as $agent) {
             $_SERVER['HTTP_USER_AGENT'] = $agent;
-            $response = $middleware->process_request($request);
-            Test_Assert::assertNotNull($response, 'Response is null');
-            Test_Assert::assertNotEquals(false, $response, 'Response must not be false for bot');
+            $queries = [
+                '/example/resource.css',
+                '/example/resource.png',
+                '/resource.gif',
+                '/fonts/fonts.ttf'
+            ];
+            foreach ($queries as $query) {
+                $request = new Pluf_HTTP_Request($query);
+                $request->tenant = new Pluf_Tenant();
+                $request->agent = $agent;
+                $request->method = 'GET';
+                $request->view = array(
+                    'ctrl' => array()
+                );
+                $response = $middleware->process_request($request);
+                Test_Assert::assertFalse($response, 'Resource is renderd');
+            }
         }
     }
-    
-    
+
     /**
      * Test empty backend
      *
      * @test
      */
-    public function shouldNotRenderOtherMethod()
+    public function shouldIgnoreCommonResources()
     {
-        $query = '/example/resource';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = 'http://localhost/example/resource';
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['HTTP_HOST'] = 'localhost';
@@ -191,18 +183,25 @@ class MiddlewareTest extends TestCase
             'Mozilla/5.0 (compatible; Sosospider/2.0; +http://help.soso.com/webspider.htm)', // Sosospider
             'Mozilla/5.0 (seoanalyzer; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' // Bing
         ];
-        $methods = ['POST', 'DELETE', 'HEAD'];
-        foreach ($methods as $method){
-            foreach ($agents as $agent) {
+        foreach ($agents as $agent) {
+            $_SERVER['HTTP_USER_AGENT'] = $agent;
+            $queries = [
+                '/scripts/vendor.js',
+                '/scripts/scripts.js',
+                '/style/vendor.css',
+                '/style/main.css',
+                '/manifest.appcache'
+            ];
+            foreach ($queries as $query) {
                 $request = new Pluf_HTTP_Request($query);
                 $request->tenant = new Pluf_Tenant();
-                $request->agent = $agent;
-                $request->method = $method;
                 $request->view = array(
                     'ctrl' => array()
                 );
+                $request->agent = $agent;
+                $request->method = 'GET';
                 $response = $middleware->process_request($request);
-                Test_Assert::assertFalse($response, 'Response is not null for methd: '.$method);
+                Test_Assert::assertFalse($response, 'Resource is renderd');
             }
         }
     }

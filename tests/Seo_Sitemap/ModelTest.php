@@ -25,7 +25,7 @@ require_once 'Pluf.php';
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
-class ModelTest extends TestCase
+class Seo_SiteMap_ModelTest extends TestCase
 {
 
     /**

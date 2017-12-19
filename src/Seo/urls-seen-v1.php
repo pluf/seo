@@ -55,7 +55,7 @@ return array(
                 'method' => 'findObject',
                 'http-method' => 'GET',
                 'precond' => array(
-                        'Pluf_Precondition::ownerRequired'
+                        'User_Precondition::ownerRequired'
                 ),
                 'params' => array(
                         'model' => 'Seo_Backend',
@@ -114,7 +114,7 @@ return array(
                 'method' => 'deleteObject',
                 'http-method' => 'DELETE',
                 'precond' => array(
-                        'Pluf_Precondition::ownerRequired'
+                        'User_Precondition::ownerRequired'
                 ),
                 'params' => array(
                         'model' => 'Seo_Backend',
@@ -133,7 +133,7 @@ return array(
                 'method' => 'findObject',
                 'http-method' => 'GET',
                 'precond' => array(
-                        'Pluf_Precondition::ownerRequired'
+                        'User_Precondition::ownerRequired'
                 ),
                 'params' => array(
                         'model' => 'Seo_SitemapLink',
@@ -160,7 +160,7 @@ return array(
                 'method' => 'createObject',
                 'http-method' => 'POST',
                 'precond' => array(
-                        'Pluf_Precondition::ownerRequired'
+                        'User_Precondition::ownerRequired'
                 ),
                 'params' => array(
                         'model' => 'Seo_SitemapLink'
@@ -172,7 +172,7 @@ return array(
                 'method' => 'getObject',
                 'http-method' => 'GET',
                 'precond' => array(
-                        'Pluf_Precondition::ownerRequired'
+                        'User_Precondition::ownerRequired'
                 ),
                 'params' => array(
                         'model' => 'Seo_SitemapLink'
@@ -184,7 +184,7 @@ return array(
                 'method' => 'deleteObject',
                 'http-method' => 'DELETE',
                 'precond' => array(
-                        'Pluf_Precondition::ownerRequired'
+                        'User_Precondition::ownerRequired'
                 ),
                 'params' => array(
                         'model' => 'Seo_SitemapLink',
@@ -197,7 +197,7 @@ return array(
                 'method' => 'updateObject',
                 'http-method' => 'POST',
                 'precond' => array(
-                        'Pluf_Precondition::ownerRequired'
+                        'User_Precondition::ownerRequired'
                 ),
                 'params' => array(
                         'model' => 'Seo_SitemapLink'

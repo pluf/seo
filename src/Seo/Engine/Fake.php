@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Pluf Framework, a simple PHP Application Framework.
  * Copyright (C) 2010-2020 Phoinex Scholars Co. (http://dpq.co.ir)
@@ -18,24 +19,44 @@
  */
 
 /**
- * Global servise of SEO package.
- * 
- * @author maso<mostafa.barmshory@dpq.co.ir>
  *
+ * @author maso<mostafa.barmshory@dpq.co.ir>
+ *        
  */
-class Seo_Service
+class Seo_Engine_Fake extends Seo_Engine
 {
 
     /**
-     * List of render engines
      *
-     * @return Seo_Engine[]
+     * {@inheritdoc}
+     *
+     * @see Seo_Engine::getTitle()
      */
-    public static function engines ()
+    public function getTitle ()
     {
-        return array(
-                new Seo_Engine_Prerender(),
-                new Seo_Engine_Fake()
-        );
+        return 'Fake render';
+    }
+
+    /**
+     *
+     * {@inheritdoc}
+     *
+     * @see Seo_Engine::getDescription()
+     */
+    public function getDescription ()
+    {
+        return 'Engine to generate empty page.';
+    }
+
+
+    /**
+     *
+     * {@inheritdoc}
+     *
+     * @see Seo_Engine::render()
+     */
+    public function render ($request)
+    {
+        return "<h1>Bot are not allowd</h1>";
     }
 }
