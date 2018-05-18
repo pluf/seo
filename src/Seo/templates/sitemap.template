@@ -9,7 +9,7 @@
 	{cfg 'general_protocol', 'http', false, 'cfg_'}
 	{foreach $links as $link}<url>
 		<loc>{$link->loc}</loc>
-		{if $link->lastmod}<lastmod>{$link->lastmod}</lastmod>{/if}
+		{if $link->lastmod!=='0000-00-00 00:00:00'}<lastmod>{$link->lastmod}</lastmod>{/if}
 		{if $link->changefreq}<changefreq>{$link->changefreq}</changefreq>{/if}
 		{if $link->priority}<priority>{$link->priority}</priority>{/if}
 	</url>{/foreach}
