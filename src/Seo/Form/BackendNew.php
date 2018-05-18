@@ -53,6 +53,9 @@ class Seo_Form_BackendNew extends Pluf_Form
                 case 'String':
                     $field = new Pluf_Form_Field_Varchar($options);
                     break;
+                case 'Boolean':
+                    $field = new Pluf_Form_Field_Boolean($options);
+                    break;
             }
             $this->fields[$param['name']] = $field;
         }
