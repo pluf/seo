@@ -124,32 +124,32 @@ class Seo_SitemapLink extends Pluf_Model
                 'editable' => true,
                 'readable' => true
             ),
-            'creation_dtime' => array(
-                'type' => 'Pluf_DB_Field_Datetime',
-                'blank' => true,
-                'verbose' => 'creation date',
-                'editable' => false,
-                'readable' => true
-            ),
-            'modif_dtime' => array(
-                'type' => 'Pluf_DB_Field_Datetime',
-                'blank' => true,
-                'verbose' => 'modification date',
-                'editable' => false,
-                'readable' => true
-            )
+//             'creation_dtime' => array(
+//                 'type' => 'Pluf_DB_Field_Datetime',
+//                 'blank' => true,
+//                 'verbose' => 'creation date',
+//                 'editable' => false,
+//                 'readable' => true
+//             ),
+//             'modif_dtime' => array(
+//                 'type' => 'Pluf_DB_Field_Datetime',
+//                 'blank' => true,
+//                 'verbose' => 'modification date',
+//                 'editable' => false,
+//                 'readable' => true
+//             )
         );
     }
 
-    /*
-     * @see Pluf_Model::preSave()
-     */
-    function preSave($create = false)
-    {
-        if ($this->id == '') {
-            $this->creation_dtime = gmdate('Y-m-d H:i:s');
-        }
-        $this->modif_dtime = gmdate('Y-m-d H:i:s');
-    }
+//     /*
+//      * @see Pluf_Model::preSave()
+//      */
+//     function preSave($create = false)
+//     {
+//         if ($this->id == '') {
+//             $this->creation_dtime = gmdate('Y-m-d H:i:s');
+//         }
+//         $this->modif_dtime = gmdate('Y-m-d H:i:s');
+//     }
 }
 

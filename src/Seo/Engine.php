@@ -174,7 +174,7 @@ class Seo_Engine implements JsonSerializable
         );
         $params[] = array(
                 'name' => 'enable',
-                'type' => 'Integer',
+                'type' => 'Boolean',
                 'unit' => 'none',
                 'title' => 'Enable',
                 'description' => 'enable beackend',
