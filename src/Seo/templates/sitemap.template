@@ -5,8 +5,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
 		http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-	{cfg 'general_domain', '', false, 'cfg_'}
-	{cfg 'general_protocol', 'http', false, 'cfg_'}
 	{foreach $links as $link}<url>
 		<loc>{$link->loc}</loc>
 		{if $link->lastmod!=='0000-00-00 00:00:00'}<lastmod>{$link->lastmod}</lastmod>{/if}
