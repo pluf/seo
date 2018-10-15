@@ -61,7 +61,7 @@ return array(
         )
     ),
     array(
-        'regex' => '#^/backends/properties$#',
+        'regex' => '#^/backends/(?P<type>[^/]+)/properties$#',
         'model' => 'Seo_Views_Backend',
         'method' => 'createParameter',
         'http-method' => array(
