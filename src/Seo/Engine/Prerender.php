@@ -32,7 +32,7 @@ class Seo_Engine_Prerender extends Seo_Engine
      *
      * @see Seo_Engine::getTitle()
      */
-    public function getTitle ()
+    public function getTitle()
     {
         return 'Prerender.io';
     }
@@ -43,7 +43,7 @@ class Seo_Engine_Prerender extends Seo_Engine
      *
      * @see Seo_Engine::getDescription()
      */
-    public function getDescription ()
+    public function getDescription()
     {
         return 'Engine of Prerender.io like services.';
     }
@@ -54,41 +54,41 @@ class Seo_Engine_Prerender extends Seo_Engine
      *
      * @see Seo_Engine::getExtraParam()
      */
-    public function getExtraParam ()
+    public function getExtraParam()
     {
         return array(
-                array(
-                        'name' => 'token',
-                        'type' => 'String',
-                        'unit' => 'none',
-                        'title' => 'Token',
-                        'description' => 'Prerender.io token of a user.',
-                        'editable' => true,
-                        'visible' => true,
-                        'priority' => 5,
-                        'symbol' => 'key',
-                        'defaultValue' => 'xxx',
-                        'validators' => [
-                                'NotNull',
-                                'NotEmpty'
-                        ]
-                ),
-                array(
-                        'name' => 'url',
-                        'type' => 'String',
-                        'unit' => 'none',
-                        'title' => 'Service URL',
-                        'description' => 'URL of the Prerender.io link.',
-                        'editable' => true,
-                        'visible' => true,
-                        'priority' => 10,
-                        'symbol' => 'key',
-                        'defaultValue' => 'http://service.prerender.io',
-                        'validators' => [
-                                'NotNull',
-                                'NotEmpty'
-                        ]
-                )
+            array(
+                'name' => 'token',
+                'type' => 'String',
+                'unit' => 'none',
+                'title' => 'Token',
+                'description' => 'Prerender.io token of a user.',
+                'editable' => true,
+                'visible' => true,
+                'priority' => 5,
+                'symbol' => 'key',
+                'defaultValue' => 'xxx',
+                'validators' => [
+                    'NotNull',
+                    'NotEmpty'
+                ]
+            ),
+            array(
+                'name' => 'url',
+                'type' => 'String',
+                'unit' => 'none',
+                'title' => 'Service URL',
+                'description' => 'URL of the Prerender.io link.',
+                'editable' => true,
+                'visible' => true,
+                'priority' => 10,
+                'symbol' => 'key',
+                'defaultValue' => 'http://service.prerender.io',
+                'validators' => [
+                    'NotNull',
+                    'NotEmpty'
+                ]
+            )
         );
     }
 
@@ -98,7 +98,7 @@ class Seo_Engine_Prerender extends Seo_Engine
      *
      * @see Seo_Engine::render()
      */
-    public function render ($request)
+    public function render($request)
     {
         $token = $request->get_meta('token', null);
         $url = $request->get_meta('url', null);
@@ -107,20 +107,17 @@ class Seo_Engine_Prerender extends Seo_Engine
         Pluf_Assert::assertNotNull($token, 'Token is not defined');
         Pluf_Assert::assertNotNull($url, 'URL is not defined');
         // maso, 2017: fetch data from server
-        $client = new \GuzzleHttp\Client(
-                array(
-                        'base_uri' => $url
-                ));
-        $res = $client->request('GET', '/' . $requestPage, 
-                array(
-                        'stream' => false,
-                        'debug' => false,
-                        'headers' => array_merge($request->get_headers(), 
-                                array(
-                                        'X-Prerender-Token' => $token
-                                )),
-                        'query' => $request->get_parameters()
-                ));
+        $client = new \GuzzleHttp\Client(array(
+            'base_uri' => $url
+        ));
+        $res = $client->request('GET', '/' . $requestPage, array(
+            'stream' => false,
+            'debug' => false,
+            'headers' => array_merge($request->get_headers(), array(
+                'X-Prerender-Token' => $token
+            )),
+            'query' => $request->get_parameters()
+        ));
         if ($res->getStatusCode() != 200) {
             return false;
         }
