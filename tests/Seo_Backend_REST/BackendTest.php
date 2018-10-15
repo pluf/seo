@@ -16,70 +16,78 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\IncompleteTestError;
 require_once 'Pluf.php';
 
+set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/../Base/');
+
 /**
+ *
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
-class Seo_Backend_REST_BackendTest extends TestCase
+class Seo_Backend_REST_BackendTest extends AbstractBasicTest
 {
 
     private static $client = null;
 
-    private static $user = null;
+    private static $ownerClient = null;
 
     /**
+     *
      * @beforeClass
      */
-    public static function createDataBase()
+    public static function installApps()
     {
-        Pluf::start(__DIR__ . '/../conf/config.php');
-        $m = new Pluf_Migration(Pluf::f('installed_apps'));
-        $m->install();
-        $m->init();
-        
-        // TODO: update user api to get user by login directly
-        $user = new User();
-        $user = $user->getUser('admin');
-        $role = Role::getFromString('Pluf.owner');
-        
-        // Set owner
-        $user->setAssoc($role);
-        
+        parent::installApps();
+
+        // Anonymouse client
         self::$client = new Test_Client(array(
             array(
                 'app' => 'Seo',
-                'regex' => '#^/api/seo#',
+                'regex' => '#^/api/v2/seo#',
                 'base' => '',
-                'sub' => include 'Seo/urls-seen-v1.php'
+                'sub' => include 'Seo/urls.php'
             ),
             array(
                 'app' => 'User',
-                'regex' => '#^/api/user#',
+                'regex' => '#^/api/v2/user#',
                 'base' => '',
-                'sub' => include 'User/urls.php'
+                'sub' => include 'User/urls-v2.php'
             )
         ));
+        // Owner client
+        self::$ownerClient = new Test_Client(array(
+            array(
+                'app' => 'Seo',
+                'regex' => '#^/api/v2/seo#',
+                'base' => '',
+                'sub' => include 'Seo/urls.php'
+            ),
+            array(
+                'app' => 'User',
+                'regex' => '#^/api/v2/user#',
+                'base' => '',
+                'sub' => include 'User/urls-v2.php'
+            )
+        ));
+        // Login
+        $response = self::$ownerClient->post('/api/v2/user/login', array(
+            'login' => 'test',
+            'password' => 'test'
+        ));
+        Test_Assert::assertNotNull($response);
+        Test_Assert::assertEquals($response->status_code, 200);
     }
 
     /**
-     * @afterClass
-     */
-    public static function removeDatabses()
-    {
-        $m = new Pluf_Migration(Pluf::f('installed_apps'));
-        $m->unInstall();
-    }
-
-    /**
+     * Getting list of Seo-Backends
+     *
      * @test
      */
     public function listSeoBackendsRestTest()
     {
-        // Add a link
+        // Add a seo backend manually
         $backend = new Seo_Backend();
         $backend->title = 'title';
         $backend->description = 'description';
@@ -88,22 +96,15 @@ class Seo_Backend_REST_BackendTest extends TestCase
         $backend->enable = true;
         $backend->engine = 'weekly';
         $backend->setMeta('test', 'test');
-        $backend->create();
-        
-        // login
-        $response = self::$client->post('/api/user/login', array(
-            'login' => 'admin',
-            'password' => 'admin'
-        ));
-        Test_Assert::assertResponseStatusCode($response, 200, 'Fail to login');
-        
-        // get list
-        $response = self::$client->get('/api/seo/backend/find');
+        $backend->create(); // get list (owner access)
+        $response = self::$ownerClient->get('/api/v2/seo/backends');
         Test_Assert::assertResponseNotNull($response, 'Find result is empty');
         Test_Assert::assertResponseStatusCode($response, 200, 'Find status code is not 200');
+        Test_Assert::assertResponsePaginateList($response, 'Find result is not JSON paginated list');
     }
 
     /**
+     *
      * @test
      */
     public function createSeoBackendsRestTest()
@@ -117,17 +118,8 @@ class Seo_Backend_REST_BackendTest extends TestCase
         $backend->enable = true;
         $backend->engine = 'fake';
         $backend->setMeta('test', 'test');
-        $backend->create();
-        
-        // login
-        $response = self::$client->post('/api/user/login', array(
-            'login' => 'admin',
-            'password' => 'admin'
-        ));
-        Test_Assert::assertResponseStatusCode($response, 200, 'Fail to login');
-        
-        // get list
-        $response = self::$client->post('/api/seo/backend/new', array(
+        $backend->create(); // Create
+        $response = self::$ownerClient->post('/api/v2/seo/backends', array(
             'title' => 'title',
             'description' => 'description',
             'symbol' => 'http://www.example.com',
@@ -139,7 +131,9 @@ class Seo_Backend_REST_BackendTest extends TestCase
         Test_Assert::assertResponseNotNull($response, 'Find result is empty');
         Test_Assert::assertResponseStatusCode($response, 200, 'Find status code is not 200');
     }
+
     /**
+     *
      * @test
      */
     public function createSeoBackendsRestTest2bool()
@@ -154,16 +148,9 @@ class Seo_Backend_REST_BackendTest extends TestCase
         $backend->engine = 'fake';
         $backend->setMeta('test', 'test');
         $backend->create();
-        
-        // login
-        $response = self::$client->post('/api/user/login', array(
-            'login' => 'admin',
-            'password' => 'admin'
-        ));
-        Test_Assert::assertResponseStatusCode($response, 200, 'Fail to login');
-        
-        // get list
-        $response = self::$client->post('/api/seo/backend/new', array(
+
+        // Create Link
+        $response = self::$ownerClient->post('/api/v2/seo/backends', array(
             'title' => 'title',
             'description' => 'description',
             'symbol' => 'http://www.example.com',

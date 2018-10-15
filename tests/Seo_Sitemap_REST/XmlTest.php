@@ -85,30 +85,34 @@ class Seo_SiteMap_REST_XmlTest extends TestCase
         ));
         $m->install();
         // Test user
-        self::$user = new User();
-        self::$user->login = 'test';
-        self::$user->first_name = 'test';
-        self::$user->last_name = 'test';
-        self::$user->email = 'toto@example.com';
-        self::$user->setPassword('test');
-        self::$user->active = true;
-        self::$user->administrator = true;
-        if (true !== self::$user->create()) {
+        $user = new User_Account();
+        $user->login = 'test';
+        $user->is_active = true;
+        if (true !== $user->create()) {
+            throw new Exception();
+        }
+        // Credential of user
+        $credit = new User_Credential();
+        $credit->setFromFormData(array(
+            'account_id' => $user->id
+        ));
+        $credit->setPassword('test');
+        if (true !== $credit->create()) {
             throw new Exception();
         }
         
         self::$client = new Test_Client(array(
             array(
                 'app' => 'Seo',
-                'regex' => '#^/api/seo#',
+                'regex' => '#^/api/v2/seo#',
                 'base' => '',
                 'sub' => include 'Seo/urls.php'
             ),
             array(
                 'app' => 'User',
-                'regex' => '#^/api/user#',
+                'regex' => '#^/api/v2/user#',
                 'base' => '',
-                'sub' => include 'User/urls.php'
+                'sub' => include 'User/urls-v2.php'
             )
         ));
     }
