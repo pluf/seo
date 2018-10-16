@@ -1,6 +1,6 @@
 {
 	"name": "Seo",
-	"version": "0.1.0",
+	"version": "4.0.0",
 	"title": "Search engine optimizer",
 	"model": [
 		"Seo_Backend",

@@ -27,8 +27,8 @@ class Bank_Views_Main {
 	
 	/**
 	 *
-	 * @param unknown $request        	
-	 * @param unknown $match        	
+	 * @param Pluf_HTTP_Request $request        	
+	 * @param array $match        	
 	 */
 	public function module($request, $match) {
 // 		$params = array ();
