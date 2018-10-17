@@ -28,8 +28,8 @@ class Seo_Views_Engine
 
     /**
      *
-     * @param unknown $request            
-     * @param unknown $match            
+     * @param Pluf_HTTP_Request $request            
+     * @param array $match            
      */
     public function find ($request, $match)
     {
@@ -54,8 +54,8 @@ class Seo_Views_Engine
      * <li>type: نوع متور جستجو را تعیین می‌کند</li>
      * </ul>
      *
-     * @param unknown $request            
-     * @param unknown $match            
+     * @param Pluf_HTTP_Request $request            
+     * @param array $match            
      */
     public function get ($request, $match)
     {
