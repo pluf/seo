@@ -51,7 +51,7 @@ class Seo_Content extends Pluf_Model
                 'blank' => false,
                 'is_null' => false,
                 'size' => 2000,
-                'unique' => true,
+//                 'unique' => true,
                 'verbose' => 'URL of cached content',
                 'help_text' => 'URL which cached content will be shown from that',
                 'editable' => true
@@ -144,9 +144,9 @@ class Seo_Content extends Pluf_Model
         );
 
 //         $this->_a['idx'] = array(
-//             'content_mime_filter_idx' => array(
-//                 'col' => 'mime_type',
-//                 'type' => 'normal', // normal, unique, fulltext, spatial
+//             'content_url_filter_idx' => array(
+//                 'col' => 'url(1000)',
+//                 'type' => 'unique', // normal, unique, fulltext, spatial
 //                 'index_type' => '', // hash, btree
 //                 'index_option' => '',
 //                 'algorithm_option' => '',
