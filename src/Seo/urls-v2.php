@@ -17,7 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 return array(
-    // اطلاعات بسته
+    // Module information
     array(
         'regex' => '#^/$#',
         'model' => 'Seo_Views_Main',
@@ -26,6 +26,11 @@ return array(
             'GET'
         )
     ),
+    /**
+     * ********************************************************************
+     * Engine
+     * ********************************************************************
+     */
     array(
         'regex' => '#^/engines$#',
         'model' => 'Seo_Views_Engine',
@@ -35,9 +40,17 @@ return array(
         )
     ),
     array(
-        'regex' => '#^/engines/(?P<type>.+)$#',
+        'regex' => '#^/engines/(?P<type>[^/]+)$#',
         'model' => 'Seo_Views_Engine',
         'method' => 'get',
+        'http-method' => array(
+            'GET'
+        )
+    ),
+    array(
+        'regex' => '#^/engines/(?P<type>[^/]+)/properties$#',
+        'model' => 'Seo_Views_Engine',
+        'method' => 'createParameter',
         'http-method' => array(
             'GET'
         )
@@ -45,10 +58,10 @@ return array(
 
     /**
      * ********************************************************************
-     * SitemapLink
+     * Backend
      * ********************************************************************
      */
-    array( // Find
+    array( // List
         'regex' => '#^/backends$#',
         'model' => 'Pluf_Views',
         'method' => 'findObject',
@@ -60,15 +73,7 @@ return array(
             'model' => 'Seo_Backend'
         )
     ),
-    array(
-        'regex' => '#^/backends/(?P<type>[^/]+)/properties$#',
-        'model' => 'Seo_Views_Backend',
-        'method' => 'createParameter',
-        'http-method' => array(
-            'GET'
-        )
-    ),
-    array(
+    array( // Create
         'regex' => '#^/backends$#',
         'model' => 'Seo_Views_Backend',
         'method' => 'create',
@@ -77,7 +82,7 @@ return array(
             'POST'
         )
     ),
-    array(
+    array( // Read
         'regex' => '#^/backends/(?P<id>\d+)$#',
         'model' => 'Seo_Views_Backend',
         'method' => 'get',
@@ -85,7 +90,7 @@ return array(
             'GET'
         )
     ),
-    array(
+    array( // Update
         'regex' => '#^/backends/(?P<id>\d+)$#',
         'model' => 'Seo_Views_Backend',
         'method' => 'update',
@@ -173,6 +178,90 @@ return array(
             'model' => 'Seo_SitemapLink'
         )
     ),
+
+    /**
+     * ********************************************************************
+     * Seo Content
+     * ********************************************************************
+     */
+    array( // Create
+        'regex' => '#^/contents$#',
+        'model' => 'Seo_Views_Content',
+        'method' => 'create',
+        'http-method' => 'POST',
+        'precond' => array(
+            'User_Precondition::ownerRequired'
+        )
+    ),
+    array( // Read (list)
+        'regex' => '#^/contents$#',
+        'model' => 'Seo_Views_Content',
+        'method' => 'find',
+        'http-method' => 'GET'
+    ),
+    array( // Read
+        'regex' => '#^/contents/(?P<modelId>\d+)$#',
+        'model' => 'Pluf_Views',
+        'method' => 'getObject',
+        'http-method' => 'GET',
+        'params' => array(
+            'model' => 'Seo_Content'
+        )
+    ),
+    array( // Update
+        'regex' => '#^/contents/(?P<modelId>\d+)$#',
+        'model' => 'Pluf_Views',
+        'method' => 'updateObject',
+        'http-method' => 'POST',
+        'precond' => array(
+            'User_Precondition::ownerRequired'
+        ),
+        'params' => array(
+            'model' => 'Seo_Content'
+        )
+    ),
+    array( // Delete
+        'regex' => '#^/contents/(?P<modelId>\d+)$#',
+        'model' => 'Pluf_Views',
+        'method' => 'deleteObject',
+        'http-method' => 'DELETE',
+        'precond' => array(
+            'User_Precondition::ownerRequired'
+        ),
+        'params' => array(
+            'model' => 'Seo_Content'
+        )
+    ),
+    // Binary content of Seo_Content
+    array( // Read
+        'regex' => '#^/contents/(?P<modelId>\d+)/content$#',
+        'model' => 'Seo_Views_Content',
+        'method' => 'download',
+        'http-method' => 'GET',
+        // Cache param
+        'cacheable' => true,
+        'revalidate' => true,
+        'intermediate_cache' => true,
+        'max_age' => 25000
+    ),
+    array( // Update
+        'regex' => '#^/contents/(?P<modelId>\d+)/content$#',
+        'model' => 'Seo_Views_Content',
+        'method' => 'updateFile',
+        'http-method' => 'POST',
+        'precond' => array(
+            'User_Precondition::loginRequired'
+        )
+    ),
+
+    // Note: Should be the last url in the contents
+    array( // Read (by url)
+        'regex' => '#^/contents/(?P<url>.+)$#',
+        'model' => 'Seo_Views_Content',
+        'method' => 'get',
+        'http-method' => 'GET'
+    ),
+    
     /**
      * ********************************************************************
      * Sitemap

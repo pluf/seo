@@ -47,7 +47,7 @@ class Seo_Backend_REST_BackendTest extends AbstractBasicTest
                 'app' => 'Seo',
                 'regex' => '#^/api/v2/seo#',
                 'base' => '',
-                'sub' => include 'Seo/urls.php'
+                'sub' => include 'Seo/urls-v2.php'
             ),
             array(
                 'app' => 'User',
@@ -62,7 +62,7 @@ class Seo_Backend_REST_BackendTest extends AbstractBasicTest
                 'app' => 'Seo',
                 'regex' => '#^/api/v2/seo#',
                 'base' => '',
-                'sub' => include 'Seo/urls.php'
+                'sub' => include 'Seo/urls-v2.php'
             ),
             array(
                 'app' => 'User',

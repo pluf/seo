@@ -4,7 +4,8 @@
 	"title": "Search engine optimizer",
 	"model": [
 		"Seo_Backend",
-		"Seo_SitemapLink"
+		"Seo_SitemapLink",
+		"Seo_Content"		
 	],
 	"permisson": []
 }

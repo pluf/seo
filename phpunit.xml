@@ -4,6 +4,8 @@
         <testsuite name="Pluf">
             <directory>./tests/Prerender.io/</directory>
             <directory>./tests/Seo/</directory>
+            <directory>./tests/Seo_Content/</directory>
+            <directory>./tests/Seo_Content_REST/</directory>
             <directory>./tests/Seo_Sitemap/</directory>
             <directory>./tests/Seo_Sitemap_REST/</directory>
             <directory>./tests/Seo_Backend_REST/</directory>

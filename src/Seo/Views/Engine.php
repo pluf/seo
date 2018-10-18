@@ -28,19 +28,19 @@ class Seo_Views_Engine
 
     /**
      *
-     * @param Pluf_HTTP_Request $request            
-     * @param array $match            
+     * @param Pluf_HTTP_Request $request
+     * @param array $match
      */
-    public function find ($request, $match)
+    public function find($request, $match)
     {
         // XXX: maso, 1395:
         $items = Seo_Service::engines();
         $page = array(
-                'items' => $items,
-                'counts' => count($items),
-                'current_page' => 0,
-                'items_per_page' => count($items),
-                'page_number' => 1
+            'items' => $items,
+            'counts' => count($items),
+            'current_page' => 0,
+            'items_per_page' => count($items),
+            'page_number' => 1
         );
         return new Pluf_HTTP_Response_Json($page);
     }
@@ -54,12 +54,36 @@ class Seo_Views_Engine
      * <li>type: نوع متور جستجو را تعیین می‌کند</li>
      * </ul>
      *
-     * @param Pluf_HTTP_Request $request            
-     * @param array $match            
+     * @param Pluf_HTTP_Request $request
+     * @param array $match
      */
-    public function get ($request, $match)
+    public function get($request, $match)
     {
-        return new Pluf_HTTP_Response_Json(
-                Seo_Shortcuts_GetEngineOr404($match['type']));
+        return new Pluf_HTTP_Response_Json(Seo_Shortcuts_GetEngineOr404($match['type']));
+    }
+    
+    /**
+     *
+     * @param Pluf_HTTP_Request $request
+     * @param array $match
+     */
+    public function createParameter ($request, $match)
+    {
+        $type = 'not set';
+        if (array_key_exists('type', $request->REQUEST)) {
+            $type = $request->REQUEST['type'];
+        }else if(array_key_exists('type', $match)){
+            $type = $match['type'];
+        }
+        $engine = Seo_Shortcuts_GetEngineOr404($type);
+        $items = $engine->getParameters();
+        $page = array(
+            'items' => $items,
+            'counts' => count($items),
+            'current_page' => 1,
+            'items_per_page' => count($items),
+            'page_number' => 1
+        );
+        return new Pluf_HTTP_Response_Json($page);
     }
 }
