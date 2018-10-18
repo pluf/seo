@@ -28,23 +28,23 @@ class Seo_Form_BackendNew extends Pluf_Form
 
     /**
      *
-     * @var unknown
+     * @var string
      */
     var $engine;
 
     /*
      *
      */
-    public function initFields ($extra = array())
+    public function initFields($extra = array())
     {
         $this->engine = $extra['engine'];
-        
+
         $params = $this->engine->getParameters();
+        $options = array(
+            // 'required' => $param['required']
+            'required' => false
+        );
         foreach ($params['children'] as $param) {
-            $options = array(
-                    // 'required' => $param['required']
-                    'required' => false
-            );
             $field = null;
             switch ($param['type']) {
                 case 'Integer':
@@ -59,6 +59,8 @@ class Seo_Form_BackendNew extends Pluf_Form
             }
             $this->fields[$param['name']] = $field;
         }
+        // Priority field
+        $this->fields['priority'] = new Pluf_Form_Field_Integer($options);
     }
 
     /**
@@ -67,16 +69,15 @@ class Seo_Form_BackendNew extends Pluf_Form
      * بر اساس داده‌هایی که توسط کاربر تعیین شده است یک متور جدید پرداخت ایجاد
      * می‌کند و آن را به متورهای پرداخت ملک اضافه می‌کند.
      *
-     * @param string $commit            
+     * @param string $commit
      * @throws Pluf_Exception
-     * @return Bank_Backend
+     * @return Seo_Backend
      */
-    function save ($commit = true)
+    function save($commit = true)
     {
         if (! $this->isValid()) {
             // TODO: maso, 1395: باید از خطای مدل فرم استفاده شود.
-            throw new Pluf_Exception(
-                    __('Cannot save the backend from an invalid form.'));
+            throw new Pluf_Exception(__('Cannot save the backend from an invalid form.'));
         }
         // Set attributes
         $backend = new Seo_Backend();
@@ -86,8 +87,7 @@ class Seo_Form_BackendNew extends Pluf_Form
         foreach ($params['children'] as $param) {
             if (array_key_exists($param['name'], $backend->_a['cols']))
                 continue;
-            $backend->setMeta($param['name'], 
-                    $this->cleaned_data[$param['name']]);
+            $backend->setMeta($param['name'], $this->cleaned_data[$param['name']]);
         }
         if ($commit) {
             if (! $backend->create()) {
