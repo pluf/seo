@@ -91,7 +91,7 @@ class Seo_Backend extends Pluf_Model
                 'blank' => false,
                 'size' => 50,
                 'editable' => false,
-                'readable' => false
+                'readable' => true
             ),
             'priority' => array(
                 'type' => 'Pluf_DB_Field_Integer',
