@@ -43,6 +43,11 @@ class Seo_Views_Content
             'model' => new Seo_Content()
         );
 
+        $exist = Seo_Content::isRegistered($request->REQUEST['url']);
+        if ($exist) {
+            throw new Pluf_Exception('URL is registered already.', 400);
+        }
+        
         // Create content and get its ID
         $form = new Seo_Form_ContentCreate($request->REQUEST, $extra);
 

@@ -56,6 +56,16 @@ class Seo_Content extends Pluf_Model
                 'help_text' => 'URL which cached content will be shown from that',
                 'editable' => true
             ),
+            'url_id' => array(
+                'type' => 'Pluf_DB_Field_Varchar',
+                'blank' => false,
+                'is_null' => false,
+                'unique' => true,
+                'size' => 150,
+                'help_text' => __('Unique identifier for URL, Format: [algo]:[hash]'),
+                'editable' => false,
+                'readable' => false
+            ),
             'title' => array(
                 'type' => 'Pluf_DB_Field_Varchar',
                 'blank' => true,
@@ -168,6 +178,7 @@ class Seo_Content extends Pluf_Model
             $this->creation_dtime = gmdate('Y-m-d H:i:s');
         }
         $this->modif_dtime = gmdate('Y-m-d H:i:s');
+        $this->url_id = sha1($this->url);
         // File path
         $path = $this->getAbsloutPath();
         // file size
@@ -184,6 +195,22 @@ class Seo_Content extends Pluf_Model
         }
     }
 
+    /**
+     * Checks if given URL is registered already.
+     * @param string $url
+     * @return boolean
+     */
+    public static function isRegistered($url)
+    {
+        $q = new Pluf_SQL('url_id=%s', array(
+            sha1($url)
+        ));
+        $contents = Pluf::factory('Seo_Content')->getList(array(
+            'filter' => $q->gen()
+        ));
+        return $contents !== false and count($contents) > 0;
+    }
+    
     /**
      * حالت کار ایجاد شده را به روز می‌کند
      *
