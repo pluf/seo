@@ -182,7 +182,20 @@ class Seo_Engine implements JsonSerializable
                 'visible' => true,
                 'priority' => 5,
                 'symbol' => 'icon',
-                'defaultValue' => '',
+                'defaultValue' => true,
+                'validators' => []
+        );
+        $params[] = array(
+                'name' => 'priority',
+                'type' => 'Integer',
+                'unit' => 'none',
+                'title' => 'Priority',
+                'description' => 'backend priority',
+                'editable' => true,
+                'visible' => true,
+                'priority' => 5,
+                'symbol' => 'icon',
+                'defaultValue' => 10,
                 'validators' => []
         );
         return $params;

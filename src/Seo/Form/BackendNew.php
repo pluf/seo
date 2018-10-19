@@ -59,8 +59,6 @@ class Seo_Form_BackendNew extends Pluf_Form
             }
             $this->fields[$param['name']] = $field;
         }
-        // Priority field
-        $this->fields['priority'] = new Pluf_Form_Field_Integer($options);
     }
 
     /**
