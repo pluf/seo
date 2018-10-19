@@ -71,13 +71,17 @@ class Seo_Middleware_Render
     {
         $backend = new Seo_Backend();
         $backends = $backend->getList(array(
-            'filter' => 'enable=1'
+            'filter' => 'enable=1',
+            'order' => 'priority ASC'
         ));
         $renderRequest = new Seo_Request($request);
         foreach ($backends as $backend) {
             try {
                 $response = $backend->render($renderRequest);
                 if ($response) {
+                    if($response instanceof Pluf_HTTP_Response){
+                        return $response;
+                    }
                     return new Pluf_HTTP_Response($response);
                 }
             } catch (Exception $error) {
