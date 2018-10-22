@@ -187,7 +187,7 @@ return array(
     array( // Create
         'regex' => '#^/contents$#',
         'model' => 'Seo_Views_Content',
-        'method' => 'create',
+        'method' => 'createOrUpdate',
         'http-method' => 'POST',
         'precond' => array(
             'User_Precondition::ownerRequired'

@@ -38,13 +38,13 @@ class Seo_Form_ContentCreate extends Pluf_Form_Model
         parent::initFields($extra);
     }
 
-    public function clean_url()
-    {
-        $url = $this->cleaned_data['url'];
-        if (empty($url))
-            return null;
-        return Seo_Shortcuts_CleanUrl($url);
-    }
+//     public function clean_url()
+//     {
+//         $url = $this->cleaned_data['url'];
+//         if (empty($url))
+//             return null;
+//         return Seo_Shortcuts_CleanUrl($url);
+//     }
 
     function save($commit = true)
     {

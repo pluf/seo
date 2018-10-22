@@ -51,7 +51,7 @@ class Seo_Content extends Pluf_Model
                 'blank' => false,
                 'is_null' => false,
                 'size' => 2000,
-//                 'unique' => true,
+                // 'unique' => true,
                 'verbose' => 'URL of cached content',
                 'help_text' => 'URL which cached content will be shown from that',
                 'editable' => true
@@ -153,16 +153,16 @@ class Seo_Content extends Pluf_Model
             )
         );
 
-//         $this->_a['idx'] = array(
-//             'content_url_filter_idx' => array(
-//                 'col' => 'url(1000)',
-//                 'type' => 'unique', // normal, unique, fulltext, spatial
-//                 'index_type' => '', // hash, btree
-//                 'index_option' => '',
-//                 'algorithm_option' => '',
-//                 'lock_option' => ''
-//             )
-//         );
+        // $this->_a['idx'] = array(
+        // 'content_url_filter_idx' => array(
+        // 'col' => 'url(1000)',
+        // 'type' => 'unique', // normal, unique, fulltext, spatial
+        // 'index_type' => '', // hash, btree
+        // 'index_option' => '',
+        // 'algorithm_option' => '',
+        // 'lock_option' => ''
+        // )
+        // );
     }
 
     /**
@@ -197,10 +197,23 @@ class Seo_Content extends Pluf_Model
 
     /**
      * Checks if given URL is registered already.
+     *
      * @param string $url
      * @return boolean
      */
     public static function isRegistered($url)
+    {
+        $content = Seo_Content::getContent($url);
+        return $content !== null;
+    }
+
+    /**
+     * Returns the seo-content with given URL if such content is exist, else returns null.
+     *
+     * @param string $url
+     * @return Seo_Content|NULL
+     */
+    public static function getContent($url)
     {
         $q = new Pluf_SQL('url_id=%s', array(
             sha1($url)
@@ -208,9 +221,12 @@ class Seo_Content extends Pluf_Model
         $contents = Pluf::factory('Seo_Content')->getList(array(
             'filter' => $q->gen()
         ));
-        return $contents !== false and count($contents) > 0;
+        if($contents === false or count($contents) === 0){
+            return null;
+        }
+        return $contents[0];
     }
-    
+
     /**
      * حالت کار ایجاد شده را به روز می‌کند
      *

@@ -63,8 +63,8 @@ function Seo_Shortcuts_GetBackendOr404($id)
  */
 function Seo_Shortcuts_CleanUrl($url)
 {
-    $q = new Pluf_SQL('url=%s', array(
-        $url
+    $q = new Pluf_SQL('url_id=%s', array(
+        sha1($url)
     ));
     $items = Pluf::factory('Seo_Content')->getList(array(
         'filter' => $q->gen()
@@ -72,7 +72,7 @@ function Seo_Shortcuts_CleanUrl($url)
     if (! isset($items) || $items->count() == 0) {
         return $url;
     }
-    throw new Pluf_Exception(sprintf(__('An seo-content with the same URL exist (URL: %s'), $url));
+    throw new Pluf_Exception(sprintf(__('An seo-content with the same URL exist (URL: %s)'), $url));
 }
 
 /**
@@ -84,8 +84,8 @@ function Seo_Shortcuts_CleanUrl($url)
  */
 function Seo_Shortcuts_GetSeoContentByUrlOr404($url)
 {
-    $q = new Pluf_SQL('url=%s', array(
-        $url
+    $q = new Pluf_SQL('url_id=%s', array(
+        sha1($url)
     ));
     $item = new Seo_Content();
     $item = $item->getList(array(
