@@ -1,3 +1,7 @@
+# KDE files
+.directory
+
+# Eclipse
 .project
 .buildpath
 .settings
@@ -12,3 +16,4 @@ composer.lock
 composer-setup.php
 composer.phar
 /build/
+src/Seo/Engine/.directory
