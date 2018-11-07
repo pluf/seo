@@ -62,7 +62,7 @@ class Seo_Content extends Pluf_Model
                 'is_null' => false,
                 'unique' => true,
                 'size' => 150,
-                'help_text' => __('Unique identifier for URL, Format: [algo]:[hash]'),
+                'help_text' => 'Unique identifier for URL, Format: [algo]:[hash]',
                 'editable' => false,
                 'readable' => false
             ),
@@ -150,19 +150,15 @@ class Seo_Content extends Pluf_Model
                 'verbose' => 'modification',
                 'help_text' => 'content modification time',
                 'editable' => false
+            ),
+            'expire_dtime' => array(
+                'type' => 'Pluf_DB_Field_Datetime',
+                'blank' => true,
+                'verbose' => 'expired',
+                'help_text' => 'content expiration time',
+                'editable' => false
             )
         );
-
-        // $this->_a['idx'] = array(
-        // 'content_url_filter_idx' => array(
-        // 'col' => 'url(1000)',
-        // 'type' => 'unique', // normal, unique, fulltext, spatial
-        // 'index_type' => '', // hash, btree
-        // 'index_option' => '',
-        // 'algorithm_option' => '',
-        // 'lock_option' => ''
-        // )
-        // );
     }
 
     /**
@@ -221,7 +217,7 @@ class Seo_Content extends Pluf_Model
         $contents = Pluf::factory('Seo_Content')->getList(array(
             'filter' => $q->gen()
         ));
-        if($contents === false or count($contents) === 0){
+        if ($contents === false or count($contents) === 0) {
             return null;
         }
         return $contents[0];
@@ -260,5 +256,19 @@ class Seo_Content extends Pluf_Model
     public function getAbsloutPath()
     {
         return $this->file_path . '/' . $this->id;
+    }
+
+    /**
+     * Checks if the content is expired
+     *
+     * If there is a date in expire_dtime and it is passed then the content
+     * is expired.
+     *
+     * @return boolean
+     */
+    public function isExpired()
+    {
+        $exp = $this->expire_dtime;
+        return $exp == null || date("Y-m-d H:i:s") > $exp;
     }
 }

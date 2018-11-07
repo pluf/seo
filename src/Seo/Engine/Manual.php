@@ -68,30 +68,36 @@ class Seo_Engine_Manual extends Seo_Engine
     public function render($request)
     {
         $url = $request->get_base();
-        // Check
         Pluf_Assert::assertNotNull($url, 'URL is not defined');
-        $q = new Pluf_SQL('url=%s', array(
-            $url
-        ));
-        try {
-            $content = Pluf::factory('Seo_Content')->getOne(array(
-                'filter' => $q->gen()
-            ));
-            if ($content == null) {
-                return false;
-            }
-        } catch (Exception $error) {
+        $content = Seo_Content::getContent($url);
+        if ($content == null || $content->isExpired()) {
+            $this->checkRegister($request);
             return false;
         }
-        return $this::_fetch_content_binary($content);
+        return $this->_fetch_content_binary($content);
     }
 
-    private static function _fetch_content_binary($content)
+    /*
+     * Fetch binary model and add the counter
+     */
+    private function _fetch_content_binary($content)
     {
         $content->downloads += 1;
         $content->update();
         $response = new Pluf_HTTP_Response_File($content->getAbsloutPath(), $content->mime_type);
         $response->headers['Content-Disposition'] = sprintf('attachment; filename="%s"', $content->file_name);
         return $response;
+    }
+    
+    /*
+     * Check and register the url if required
+     */
+    private function checkRegister($request) {
+        // TODO: maso, 2018: add registration as an option
+        $content = new Seo_Content();
+        $content->url = $request->get_base();
+        $content->downloads = 0;
+        $content->expire_dtime = gmdate('Y-m-d H:i:s');
+        $content->create();
     }
 }

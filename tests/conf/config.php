@@ -20,6 +20,7 @@ $cfg['installed_apps'] = array(
  */
 $cfg['middleware_classes'] = array(
     // Sessions
+    'Seo_Middleware_Render',
     'Pluf_Middleware_Session',
     'User_Middleware_Session'
 );

@@ -23,7 +23,7 @@
  * @author maso <mostafa.barmsohry@dpq.co.ir>
  *
  */
-class Bank_Views_Main {
+class Seo_Views_Main {
 	
 	/**
 	 *
@@ -31,7 +31,8 @@ class Bank_Views_Main {
 	 * @param array $match        	
 	 */
 	public function module($request, $match) {
-// 		$params = array ();
-// 		return Pluf_Shortcuts_RenderToResponse ( 'index.html', $params, $request );
+        return array(
+            'version' => '0.0.0'
+        );
 	}
 }

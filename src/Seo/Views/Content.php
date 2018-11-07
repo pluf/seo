@@ -17,7 +17,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 Pluf::loadFunction('Pluf_Shortcuts_GetObjectOr404');
-Pluf::loadFunction('Seo_Shortcuts_GetSeoContentByUrlOr404');
 
 /**
  * Content model
@@ -94,6 +93,7 @@ class Seo_Views_Content
         if (array_key_exists('id', $match)) {
             $content = Pluf_Shortcuts_GetObjectOr404('Seo_Content', $match['id']);
         } else {
+            Pluf::loadFunction('Seo_Shortcuts_GetSeoContentByUrlOr404');
             $content = Seo_Shortcuts_GetSeoContentByUrlOr404($match['url']);
         }
         // اجرای درخواست

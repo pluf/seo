@@ -21,6 +21,7 @@ use PHPUnit\Framework\IncompleteTestError;
 require_once 'Pluf.php';
 
 /**
+ *
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
@@ -28,14 +29,15 @@ class Seo_Content_REST_BasicsTest extends TestCase
 {
 
     /**
+     *
      * @beforeClass
      */
     public static function createDataBase()
     {
-        Pluf::start(__DIR__.'/../conf/config.php');
+        Pluf::start(__DIR__ . '/../conf/config.php');
         $m = new Pluf_Migration(Pluf::f('installed_apps'));
         $m->install();
-        
+
         // Test user
         $user = new User_Account();
         $user->login = 'test';
@@ -52,12 +54,13 @@ class Seo_Content_REST_BasicsTest extends TestCase
         if (true !== $credit->create()) {
             throw new Exception();
         }
-        
+
         $per = User_Role::getFromString('tenant.owner');
         $user->setAssoc($per);
     }
 
     /**
+     *
      * @afterClass
      */
     public static function removeDatabses()
@@ -67,6 +70,7 @@ class Seo_Content_REST_BasicsTest extends TestCase
     }
 
     /**
+     *
      * @test
      */
     public function listUsersRestTest()
@@ -85,6 +89,7 @@ class Seo_Content_REST_BasicsTest extends TestCase
     }
 
     /**
+     *
      * @test
      */
     public function loginRestTest()
@@ -103,7 +108,7 @@ class Seo_Content_REST_BasicsTest extends TestCase
                 'sub' => include 'User/urls-v2.php'
             )
         ));
-        
+
         // login
         $response = $client->post('/api/v2/user/login', array(
             'login' => 'test',
@@ -111,7 +116,7 @@ class Seo_Content_REST_BasicsTest extends TestCase
         ));
         $this->assertNotNull($response);
         $this->assertEquals($response->status_code, 200);
-        
+
         // create
         $form = array(
             'url' => 'www.test.com/test/url-' . rand(),
@@ -122,28 +127,78 @@ class Seo_Content_REST_BasicsTest extends TestCase
         $response = $client->post('/api/v2/seo/contents', $form);
         $this->assertNotNull($response);
         $this->assertEquals($response->status_code, 200);
-        
+
         // Get by id
         $content = new Seo_Content();
         $content->name = 'test content' . rand();
         $content->mime_type = 'text/html';
         $content->create();
-        
+
         $response = $client->get('/api/v2/seo/contents/' . $content->id);
         $this->assertNotNull($response);
         $this->assertEquals($response->status_code, 200);
-        
+
         // Update by id
         $response = $client->post('/api/v2/seo/contents/' . $content->id, array(
             'title' => 'new title'
         ));
         $this->assertNotNull($response);
         $this->assertEquals($response->status_code, 200);
-        
+
         // delete by id
         $response = $client->delete('/api/v2/seo/contents/' . $content->id);
         $this->assertNotNull($response);
         $this->assertEquals($response->status_code, 200);
+    }
+
+    /**
+     * Test if the link is added automatically
+     * 
+     * @test
+     */
+    public function registerUnknownContent()
+    {
+        // Add a backend
+        $backend = new Seo_Backend();
+        $backend->title = 'title';
+        $backend->description = 'description';
+        $backend->symbol = 'http://www.example.com';
+        $backend->home = 'http://www.example.com';
+        $backend->enable = true;
+        $backend->engine = 'manual';
+        $backend->setMeta('autoRegister', 'true');
+        $backend->create();
+
+        // call to get a link with crawler
+        $pageAddress = '/random/page/test' . rand();
+        $client = new Test_Client(array(
+            array(
+                'app' => 'Seo',
+                'regex' => '#^/api/v2/seo#',
+                'base' => '',
+                'sub' => include 'Seo/urls-v2.php'
+            ),
+            array(
+                'regex' => '#^' . $pageAddress . '$#',
+                'model' => 'Seo_Views_Main',
+                'method' => 'module',
+                'http-method' => array(
+                    'GET'
+                )
+            )
+        ));
+        $client->get($pageAddress);
+        
+        // Check if link is registered
+        $url = "http://localhost" . $pageAddress;
+        Test_Assert::assertTrue(Seo_Content::isRegistered($url), 'Page is not registred');
+
+        $content = Seo_Content::getContent($url);
+        Test_Assert::assertNotNull($content, 'Page not found');
+        Test_Assert::assertTrue($content->isExpired(), 'Page is not expired');
+        
+        $backend->delete();
+        $content->delete();
     }
 }
 
