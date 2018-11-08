@@ -26,6 +26,7 @@ class Seo_Backend extends Pluf_Model
     public $touched = false;
 
     /**
+     *
      * @brief مدل داده‌ای را بارگذاری می‌کند.
      *
      * تمام فیلدهای مورد نیاز برای این مدل داده‌ای در این متد تعیین شده و به
@@ -33,80 +34,88 @@ class Seo_Backend extends Pluf_Model
      *
      * @see Pluf_Model::init()
      */
-    function init ()
+    function init()
     {
         $this->_a['table'] = 'seo_backend';
         $this->_a['cols'] = array(
-                'id' => array(
-                        'type' => 'Pluf_DB_Field_Sequence',
-                        'blank' => true,
-                        'verbose' => 'unique and no repreducable id fro reception'
-                ),
-                'title' => array(
-                        'type' => 'Pluf_DB_Field_Varchar',
-                        'blank' => false,
-                        'size' => 50,
-                        'editable' => true,
-                        'readable' => true
-                ),
-                'description' => array(
-                        'type' => 'Pluf_DB_Field_Varchar',
-                        'blank' => true,
-                        'size' => 200,
-                        'editable' => true,
-                        'readable' => true
-                ),
-                'symbol' => array(
-                        'type' => 'Pluf_DB_Field_Varchar',
-                        'blank' => false,
-                        'size' => 50,
-                        'editable' => true,
-                        'readable' => true
-                ),
-                'enable' => array(
-                        'type' => 'Pluf_DB_Field_Boolean',
-                        'blank' => false,
-                        'default' => true,
-                        'editable' => true,
-                        'readable' => true
-                ),
-                'home' => array(
-                        'type' => 'Pluf_DB_Field_Varchar',
-                        'blank' => true,
-                        'size' => 100,
-                        'editable' => true,
-                        'readable' => true
-                ),
-                'meta' => array(
-                        'type' => 'Pluf_DB_Field_Varchar',
-                        'blank' => false,
-                        'secure' => true,
-                        'size' => 10240,
-                        'editable' => false,
-                        'readable' => false
-                ),
-                'engine' => array(
-                        'type' => 'Pluf_DB_Field_Varchar',
-                        'blank' => false,
-                        'size' => 50,
-                        'editable' => false,
-                        'readable' => false
-                ),
-                
-                'creation_dtime' => array(
-                        'type' => 'Pluf_DB_Field_Datetime',
-                        'blank' => true,
-                        'verbose' => 'creation date',
-                        'editable' => false,
-                        'readable' => true
-                ),
-                'modif_dtime' => array(
-                        'type' => 'Pluf_DB_Field_Datetime',
-                        'blank' => true,
-                        'verbose' => 'modification date',
-                        'editable' => false,
-                        'readable' => true
-                )
+            'id' => array(
+                'type' => 'Pluf_DB_Field_Sequence',
+                'blank' => true,
+                'verbose' => 'unique and no repreducable id fro reception'
+            ),
+            'title' => array(
+                'type' => 'Pluf_DB_Field_Varchar',
+                'blank' => false,
+                'size' => 50,
+                'editable' => true,
+                'readable' => true
+            ),
+            'description' => array(
+                'type' => 'Pluf_DB_Field_Varchar',
+                'blank' => true,
+                'size' => 200,
+                'editable' => true,
+                'readable' => true
+            ),
+            'symbol' => array(
+                'type' => 'Pluf_DB_Field_Varchar',
+                'blank' => false,
+                'size' => 50,
+                'editable' => true,
+                'readable' => true
+            ),
+            'enable' => array(
+                'type' => 'Pluf_DB_Field_Boolean',
+                'blank' => false,
+                'default' => true,
+                'editable' => true,
+                'readable' => true
+            ),
+            'home' => array(
+                'type' => 'Pluf_DB_Field_Varchar',
+                'blank' => true,
+                'size' => 100,
+                'editable' => true,
+                'readable' => true
+            ),
+            'meta' => array(
+                'type' => 'Pluf_DB_Field_Varchar',
+                'blank' => false,
+                'secure' => true,
+                'size' => 10240,
+                'editable' => false,
+                'readable' => false
+            ),
+            'engine' => array(
+                'type' => 'Pluf_DB_Field_Varchar',
+                'blank' => false,
+                'size' => 50,
+                'editable' => false,
+                'readable' => true
+            ),
+            'priority' => array(
+                'type' => 'Pluf_DB_Field_Integer',
+                'blank' => false,
+                'is_null' => false,
+                'default' => 10,
+                'editable' => true,
+                'readable' => true
+            ),
+
+            'creation_dtime' => array(
+                'type' => 'Pluf_DB_Field_Datetime',
+                'blank' => true,
+                'verbose' => 'creation date',
+                'editable' => false,
+                'readable' => true
+            ),
+            'modif_dtime' => array(
+                'type' => 'Pluf_DB_Field_Datetime',
+                'blank' => true,
+                'verbose' => 'modification date',
+                'editable' => false,
+                'readable' => true
+            )
         );
         $this->_a['views'] = array();
     }
@@ -114,7 +123,7 @@ class Seo_Backend extends Pluf_Model
     /*
      * @see Pluf_Model::preSave()
      */
-    function preSave ($create = false)
+    function preSave($create = false)
     {
         $this->meta = serialize($this->data);
         if ($this->id == '') {
@@ -128,7 +137,7 @@ class Seo_Backend extends Pluf_Model
      *
      * تمام داده‌هایی که با کلید payMeta ذخیره شده را بازیابی می‌کند.
      */
-    public function restore ()
+    public function restore()
     {
         $this->data = unserialize($this->meta);
     }
@@ -138,7 +147,7 @@ class Seo_Backend extends Pluf_Model
      *
      * تمام داده‌های ذخیره شده در نشست را پاک می‌کند.
      */
-    public function clear ()
+    public function clear()
     {
         $this->data = array();
         $this->touched = true;
@@ -157,7 +166,7 @@ class Seo_Backend extends Pluf_Model
      *            داده مورد نظر. در صورتی که مقدار آن تهی باشد به معنی
      *            حذف است.
      */
-    public function setMeta ($key, $value = null)
+    public function setMeta($key, $value = null)
     {
         if (is_null($value)) {
             unset($this->data[$key]);
@@ -174,7 +183,7 @@ class Seo_Backend extends Pluf_Model
      * این فراخوانی
      * برگردانده خواهد شد.
      */
-    public function getMeta ($key = null, $default = '')
+    public function getMeta($key = null, $default = '')
     {
         if (is_null($key)) {
             return parent::getData();
@@ -190,17 +199,17 @@ class Seo_Backend extends Pluf_Model
      *
      * @return Seo_Engine
      */
-    public function get_engine ()
+    public function get_engine()
     {
         return Seo_Shortcuts_GetEngineOr404($this->engine);
     }
 
     /**
      *
-     * @param unknown $request            
+     * @param unknown $request
      * @return unknown
      */
-    public function render ($request)
+    public function render($request)
     {
         $engine = $this->get_engine();
         $request->backend = $this;

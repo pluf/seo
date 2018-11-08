@@ -88,13 +88,13 @@ class Seo_Engine implements JsonSerializable
     }
     
     /**
-     * فهرستی از پارامترهای موتور پرداخت را تعیین می‌کند
+     * فهرستی از پارامترهای موتور seo را تعیین می‌کند
      *
-     * هر موتور پرداخت به دسته‌ای از پارامترها نیازمند است که باید توسط کاربر
+     * هر موتور seo به دسته‌ای از پارامترها نیازمند است که باید توسط کاربر
      * تعیین شود. این فراخوانی پارامترهایی را تعیین می‌کند که برای استفاده از
-     * این متور پرداخت باید تعیین کرد.
+     * این موتور seo باید تعیین کرد.
      *
-     * خروجی این فراخوانی یک فهرست است توصیف خصوصیت‌ها است.
+     * خروجی این فراخوانی یک فهرست از توصیف خصوصیت‌ها است.
      */
     public function getParameters ()
     {
@@ -182,7 +182,20 @@ class Seo_Engine implements JsonSerializable
                 'visible' => true,
                 'priority' => 5,
                 'symbol' => 'icon',
-                'defaultValue' => '',
+                'defaultValue' => true,
+                'validators' => []
+        );
+        $params[] = array(
+                'name' => 'priority',
+                'type' => 'Integer',
+                'unit' => 'none',
+                'title' => 'Priority',
+                'description' => 'backend priority',
+                'editable' => true,
+                'visible' => true,
+                'priority' => 5,
+                'symbol' => 'icon',
+                'defaultValue' => 10,
                 'validators' => []
         );
         return $params;

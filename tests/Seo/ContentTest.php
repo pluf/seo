@@ -16,23 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\IncompleteTestError;
+
+require_once 'Pluf.php';
 
 /**
- * 
- * 
- * @author maso <mostafa.barmsohry@dpq.co.ir>
- *
+ * @backupGlobals disabled
+ * @backupStaticAttributes disabled
  */
-class Seo_Views_Main {
-	
-	/**
-	 *
-	 * @param Pluf_HTTP_Request $request        	
-	 * @param array $match        	
-	 */
-	public function module($request, $match) {
-        return array(
-            'version' => '0.0.0'
-        );
-	}
+class ContentTest extends TestCase
+{
+
+    /**
+     * @before
+     */
+    public function setUp ()
+    {
+        Pluf::start(__DIR__. '/../conf/config.php');
+    }
+
+    /**
+     * @test
+     */
+    public function testClassInstance ()
+    {
+        $c = new Seo_Content();
+        $this->assertTrue(isset($c));
+    }
 }
+

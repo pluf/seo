@@ -27,23 +27,6 @@ class Seo_Views_Backend
 {
 
     /**
-     *
-     * @param Pluf_HTTP_Request $request            
-     * @param array $match            
-     */
-    public function createParameter ($request, $match)
-    {
-        $type = 'not set';
-        if (array_key_exists('type', $request->REQUEST)) {
-            $type = $request->REQUEST['type'];
-        }else if(array_key_exists('type', $match)){
-            $type = $match['type'];            
-        }
-        $engine = Seo_Shortcuts_GetEngineOr404($type);
-        return new Pluf_HTTP_Response_Json($engine->getParameters());
-    }
-
-    /**
      * یک نمونه جدید از متور پرداخت ایجاد می‌کند.
      *
      * @param Pluf_HTTP_Request $request            

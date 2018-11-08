@@ -35,17 +35,16 @@ class Seo_Form_BackendUpdate extends Pluf_Form
     /*
      *
      */
-    public function initFields ($extra = array())
+    public function initFields($extra = array())
     {
         $this->backend = $extra['backend'];
-        
+
         $engin = $this->backend->get_engine();
         $params = $engin->getParameters();
+        $options = array(
+            'required' => false
+        );
         foreach ($params['children'] as $param) {
-            $options = array(
-                    // 'required' => $param['required']
-                    'required' => false
-            );
             $field = null;
             switch ($param['type']) {
                 case 'Integer':
@@ -64,16 +63,15 @@ class Seo_Form_BackendUpdate extends Pluf_Form
 
     /**
      *
-     * @param string $commit            
+     * @param string $commit
      * @throws Pluf_Exception
      * @return Bank_Backend
      */
-    function update ($commit = true)
+    function update($commit = true)
     {
         if (! $this->isValid()) {
             // TODO: maso, 1395: باید از خطای مدل فرم استفاده شود.
-            throw new Pluf_Exception(
-                    __('Cannot save the backend from an invalid form.'));
+            throw new Pluf_Exception(__('Cannot save the backend from an invalid form.'));
         }
         // Set attributes
         $this->backend->setFromFormData($this->cleaned_data);
@@ -83,8 +81,7 @@ class Seo_Form_BackendUpdate extends Pluf_Form
                 continue;
             }
             if (array_key_exists($param['name'], $this->cleaned_data)) {
-                $this->backend->setMeta($param['name'], 
-                        $this->cleaned_data[$param['name']]);
+                $this->backend->setMeta($param['name'], $this->cleaned_data[$param['name']]);
             }
         }
         if ($commit) {

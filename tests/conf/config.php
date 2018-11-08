@@ -2,9 +2,6 @@
 // $cfg = include 'mysql.config.php';
 $cfg = include 'sqlite.config.php';
 
-
-
-
 $cfg['test'] = false;
 $cfg['timezone'] = 'Europe/Berlin';
 
@@ -14,6 +11,7 @@ $cfg['debug'] = true;
 $cfg['installed_apps'] = array(
     'Pluf',
     'User',
+    'Role',
     'Seo'
 );
 
@@ -22,6 +20,7 @@ $cfg['installed_apps'] = array(
  */
 $cfg['middleware_classes'] = array(
     // Sessions
+    'Seo_Middleware_Render',
     'Pluf_Middleware_Session',
     'User_Middleware_Session'
 );
@@ -33,6 +32,7 @@ $cfg['secret_key'] = '5a8d7e0f2aad8bdab8f6eef725412850';
 // It must be writeable by your webserver instance.
 // It is mandatory if you are using the template system.
 $cfg['tmp_folder'] = __DIR__ . '/../tmp';
+$cfg['upload_path'] = __DIR__ . '/../storage/tenant';
 
 // The folder in which the templates of the application are located.
 $cfg['templates_folder'] = array(

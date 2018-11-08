@@ -100,7 +100,7 @@ class Seo_SitemapLink extends Pluf_Model
             'loc' => array(
                 'type' => 'Pluf_DB_Field_Varchar',
                 'blank' => false,
-                'size' => 50,
+                'size' => 2048,
                 'editable' => true,
                 'readable' => true
             ),

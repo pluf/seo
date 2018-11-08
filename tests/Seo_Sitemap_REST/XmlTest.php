@@ -106,7 +106,7 @@ class Seo_SiteMap_REST_XmlTest extends TestCase
                 'app' => 'Seo',
                 'regex' => '#^/api/v2/seo#',
                 'base' => '',
-                'sub' => include 'Seo/urls.php'
+                'sub' => include 'Seo/urls-v2.php'
             ),
             array(
                 'app' => 'User',
@@ -146,7 +146,7 @@ class Seo_SiteMap_REST_XmlTest extends TestCase
         $link->create();
         
         // get list
-        $response = self::$client->get('/api/seo/sitemap/sitemap.xml');
+        $response = self::$client->get('/api/v2/seo/sitemap/sitemap.xml');
         Test_Assert::assertResponseNotNull($response, 'Find result is empty');
         Test_Assert::assertResponseStatusCode($response, 200, 'Find status code is not 200');
         Test_Assert::assertTrue(preg_match('/http:\/\/www\.example\.com/', $response->content) === 1, 'Link must exist in the generated site map');

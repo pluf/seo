@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Pluf Framework, a simple PHP Application Framework.
  * Copyright (C) 2010-2020 Phoinex Scholars Co. (http://dpq.co.ir)
@@ -19,9 +20,9 @@
 
 /**
  * Global servise of SEO package.
- * 
- * @author maso<mostafa.barmshory@dpq.co.ir>
  *
+ * @author maso<mostafa.barmshory@dpq.co.ir>
+ *        
  */
 class Seo_Service
 {
@@ -31,11 +32,12 @@ class Seo_Service
      *
      * @return Seo_Engine[]
      */
-    public static function engines ()
+    public static function engines()
     {
         return array(
-                new Seo_Engine_Prerender(),
-                new Seo_Engine_Fake()
+            new Seo_Engine_Prerender(),
+            new Seo_Engine_Fake(),
+            new Seo_Engine_Manual()
         );
     }
 }
