@@ -70,8 +70,10 @@ class Seo_Engine_Manual extends Seo_Engine
         $url = $request->get_base();
         Pluf_Assert::assertNotNull($url, 'URL is not defined');
         $content = Seo_Content::getContent($url);
-        if ($content == null || $content->isExpired()) {
+        if ($content == null) {
             $this->checkRegister($request);
+            return false;
+        }else if($content->isExpired()){
             return false;
         }
         return $this->_fetch_content_binary($content);

@@ -179,7 +179,7 @@ class Seo_Content extends Pluf_Model
         // File path
         $path = $this->getAbsloutPath();
         // file size
-        if (file_exists($path)) {
+        if (!empty($this->file_path) && file_exists($path)) {
             $this->file_size = filesize($path);
         } else {
             $this->file_size = 0;
