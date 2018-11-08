@@ -153,11 +153,12 @@ class Seo_Content extends Pluf_Model
             ),
             'expire_dtime' => array(
                 'type' => 'Pluf_DB_Field_Datetime',
+                'default' => null,
                 'blank' => true,
                 'is_null' => true,
                 'verbose' => 'expired',
                 'help_text' => 'content expiration time',
-                'editable' => false
+                'editable' => true
             )
         );
     }
