@@ -174,13 +174,14 @@ class Seo_Content extends Pluf_Model
     {
         if ($this->id == '') {
             $this->creation_dtime = gmdate('Y-m-d H:i:s');
+            $this->file_path = Pluf::f('upload_path') . '/' . Pluf_Tenant::current()->id . '/seo';
         }
         $this->modif_dtime = gmdate('Y-m-d H:i:s');
         $this->url_id = sha1($this->url);
         // File path
         $path = $this->getAbsloutPath();
         // file size
-        if (!empty($this->file_path) && file_exists($path)) {
+        if (file_exists($path)) {
             $this->file_size = filesize($path);
         } else {
             $this->file_size = 0;
