@@ -79,6 +79,7 @@ class Seo_Engine implements JsonSerializable
     public function jsonSerialize ()
     {
         $coded = array(
+                'id' => $this->getType(),
                 'type' => $this->getType(),
                 'title' => $this->getTitle(),
                 'description' => $this->getDescription(),
