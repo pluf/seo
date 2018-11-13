@@ -99,26 +99,15 @@ class Seo_Engine implements JsonSerializable
      */
     public function getParameters ()
     {
-        $param = array(
-                'id' => $this->getType(),
-                'name' => $this->getType(),
-                'type' => 'struct',
-                'title' => $this->getTitle(),
-                'description' => $this->getDescription(),
-                'editable' => true,
-                'visible' => true,
-                'priority' => 5,
-                'symbol' => $this->getSymbol(),
-                'children' => []
-        );
+        $param = array( );
         $general = $this->getGeneralParam();
         foreach ($general as $gp) {
-            $param['children'][] = $gp;
+            $param[] = $gp;
         }
         
         $extra = $this->getExtraParam();
         foreach ($extra as $ep) {
-            $param['children'][] = $ep;
+            $param[] = $ep;
         }
         return $param;
     }
