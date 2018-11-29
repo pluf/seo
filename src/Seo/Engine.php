@@ -79,6 +79,7 @@ class Seo_Engine implements JsonSerializable
     public function jsonSerialize ()
     {
         $coded = array(
+                'id' => $this->getType(),
                 'type' => $this->getType(),
                 'title' => $this->getTitle(),
                 'description' => $this->getDescription(),
@@ -98,26 +99,15 @@ class Seo_Engine implements JsonSerializable
      */
     public function getParameters ()
     {
-        $param = array(
-                'id' => $this->getType(),
-                'name' => $this->getType(),
-                'type' => 'struct',
-                'title' => $this->getTitle(),
-                'description' => $this->getDescription(),
-                'editable' => true,
-                'visible' => true,
-                'priority' => 5,
-                'symbol' => $this->getSymbol(),
-                'children' => []
-        );
+        $param = array( );
         $general = $this->getGeneralParam();
         foreach ($general as $gp) {
-            $param['children'][] = $gp;
+            $param[] = $gp;
         }
         
         $extra = $this->getExtraParam();
         foreach ($extra as $ep) {
-            $param['children'][] = $ep;
+            $param[] = $ep;
         }
         return $param;
     }
@@ -134,7 +124,7 @@ class Seo_Engine implements JsonSerializable
                 'name' => 'title',
                 'type' => 'String',
                 'unit' => 'none',
-                'title' => 'title',
+                'title' => 'Title',
                 'description' => 'beackend title',
                 'editable' => true,
                 'visible' => true,
@@ -150,7 +140,7 @@ class Seo_Engine implements JsonSerializable
                 'name' => 'description',
                 'type' => 'String',
                 'unit' => 'none',
-                'title' => 'description',
+                'title' => 'Description',
                 'description' => 'beackend description',
                 'editable' => true,
                 'visible' => true,

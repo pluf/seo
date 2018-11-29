@@ -153,10 +153,12 @@ class Seo_Content extends Pluf_Model
             ),
             'expire_dtime' => array(
                 'type' => 'Pluf_DB_Field_Datetime',
+                'default' => null,
                 'blank' => true,
+                'is_null' => true,
                 'verbose' => 'expired',
                 'help_text' => 'content expiration time',
-                'editable' => false
+                'editable' => true
             )
         );
     }
@@ -172,6 +174,7 @@ class Seo_Content extends Pluf_Model
     {
         if ($this->id == '') {
             $this->creation_dtime = gmdate('Y-m-d H:i:s');
+            $this->file_path = Pluf::f('upload_path') . '/' . Pluf_Tenant::current()->id . '/seo';
         }
         $this->modif_dtime = gmdate('Y-m-d H:i:s');
         $this->url_id = sha1($this->url);

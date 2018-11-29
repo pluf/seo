@@ -166,17 +166,25 @@ class Seo_Views_Content
         // GET data
         $content = Pluf_Shortcuts_GetObjectOr404('Seo_Content', $match['modelId']);
         if (array_key_exists('file', $request->FILES)) {
-            return $this->update($request, $match);
+            Pluf::loadFunction('Pluf_Form_Field_File_moveToUploadFolder');
+            Pluf_Form_Field_File_moveToUploadFolder($request->FILES['file'], array(
+                'upload_path' => $content->file_path,
+                'file_name' => $content->id,
+                'upload_path_create' => true,
+                'upload_overwrite' => true
+            ));
+            $fileInfo = Pluf_FileUtil::getMimeType($request->FILES['file']['name']);
+            $content->file_name = $request->FILES['file']['name'];
+            $content->mime_type = $fileInfo[0];
         } else {
             // Do
             $myfile = fopen($content->getAbsloutPath(), "w") or die("Unable to open file!");
             $entityBody = file_get_contents('php://input', 'r');
             fwrite($myfile, $entityBody);
             fclose($myfile);
-            // $content->file_size = filesize(
-            // $content->file_path . '/' . $content->id);
-            $content->update();
         }
+        // Update file info in presave
+        $content->update();
         return $content;
     }
     

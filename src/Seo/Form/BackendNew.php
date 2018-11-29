@@ -38,13 +38,12 @@ class Seo_Form_BackendNew extends Pluf_Form
     public function initFields($extra = array())
     {
         $this->engine = $extra['engine'];
-
         $params = $this->engine->getParameters();
-        $options = array(
-            // 'required' => $param['required']
-            'required' => false
-        );
-        foreach ($params['children'] as $param) {
+        foreach ($params as $param) {
+            $options = array(
+                // 'required' => $param['required']
+                'required' => in_array('NotNull', $param['validators'])
+            );
             $field = null;
             switch ($param['type']) {
                 case 'Integer':
@@ -82,7 +81,7 @@ class Seo_Form_BackendNew extends Pluf_Form
         $backend->setFromFormData($this->cleaned_data);
         $backend->engine = $this->engine->getType();
         $params = $this->engine->getParameters();
-        foreach ($params['children'] as $param) {
+        foreach ($params as $param) {
             if (array_key_exists($param['name'], $backend->_a['cols']))
                 continue;
             $backend->setMeta($param['name'], $this->cleaned_data[$param['name']]);
