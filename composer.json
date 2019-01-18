@@ -13,13 +13,13 @@
 	],
 	"minimum-stability" : "stable",
 	"require" : {
-		"pluf/core" : "5.0.x",
-		"pluf/user" : "5.0.x",
+		"pluf/core" : "5.1.x",
+		"pluf/user" : "5.1.x",
 		"guzzlehttp/guzzle" : "^6.2",
 		"jaybizzle/crawler-detect" : "1.*"
 	},
 	"require-dev" : {
-		"pluf/test" : "5.0.x"
+		"pluf/test" : "5.1.x"
 	},
 	"include-path" : [
 		"src/"
