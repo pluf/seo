@@ -31,7 +31,7 @@ return array(
      * Engine
      * ********************************************************************
      */
-    array(
+    array( // Read (list)
         'regex' => '#^/engines$#',
         'model' => 'Seo_Views_Engine',
         'method' => 'find',
@@ -39,28 +39,26 @@ return array(
             'GET'
         )
     ),
-    array(
+    array( // Read
         'regex' => '#^/engines/(?P<type>[^/]+)$#',
         'model' => 'Seo_Views_Engine',
         'method' => 'get',
-        'http-method' => array(
-            'GET'
-        )
+        'http-method' => 'GET'
     ),
-    array(
-        'regex' => '#^/engines/(?P<type>[^/]+)/properties$#',
-        'model' => 'Seo_Views_Engine',
-        'method' => 'createParameter',
-        'http-method' => array(
-            'GET'
-        )
-    ),
-
     /**
      * ********************************************************************
      * Backend
      * ********************************************************************
      */
+    array( // Schema
+        'regex' => '#^/backends/schema$#',
+        'model' => 'Pluf_Views',
+        'method' => 'getSchema',
+        'http-method' => 'GET',
+        'params' => array(
+            'model' => 'Seo_Backend'
+        )
+    ),
     array( // List
         'regex' => '#^/backends$#',
         'model' => 'Pluf_Views',
@@ -117,6 +115,15 @@ return array(
      * SitemapLink
      * ********************************************************************
      */
+    array( // Schema
+        'regex' => '#^/links/schema$#',
+        'model' => 'Pluf_Views',
+        'method' => 'getSchema',
+        'http-method' => 'GET',
+        'params' => array(
+            'model' => 'Seo_SitemapLink'
+        )
+    ),
     array( // Find
         'regex' => '#^/links$#',
         'model' => 'Pluf_Views',
@@ -184,6 +191,15 @@ return array(
      * Seo Content
      * ********************************************************************
      */
+    array( // Schema
+        'regex' => '#^/contents/schema$#',
+        'model' => 'Pluf_Views',
+        'method' => 'getSchema',
+        'http-method' => 'GET',
+        'params' => array(
+            'model' => 'Seo_Content'
+        )
+    ),
     array( // Create
         'regex' => '#^/contents$#',
         'model' => 'Seo_Views_Content',
