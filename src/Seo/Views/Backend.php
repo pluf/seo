@@ -45,7 +45,7 @@ class Seo_Views_Backend
         // Save meta
         $form = new Seo_Form_BackendNew($request->REQUEST, $params);
         $backend = $form->save();
-        return new Pluf_HTTP_Response_Json($backend);
+        return $backend;
     }
 
     /**
@@ -56,7 +56,7 @@ class Seo_Views_Backend
     public function get ($request, $match)
     {
         $backend = Seo_Shortcuts_GetBackendOr404($match['id']);
-        return new Pluf_HTTP_Response_Json($backend);
+        return $backend;
     }
 
     /**
@@ -68,7 +68,7 @@ class Seo_Views_Backend
     {
         $backend = Seo_Shortcuts_GetBackendOr404($match['id']);
         $backend->delete();
-        return new Pluf_HTTP_Response_Json($backend);
+        return $backend;
     }
 
     /**
@@ -84,6 +84,6 @@ class Seo_Views_Backend
         );
         $form = new Seo_Form_BackendUpdate($request->REQUEST, $params);
         $backend = $form->update();
-        return new Pluf_HTTP_Response_Json($backend);
+        return $backend;
     }
 }

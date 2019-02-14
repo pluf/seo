@@ -32,7 +32,7 @@ class Seo_Views_Main {
 	 */
 	public function module($request, $match) {
         return array(
-            'version' => '0.0.0'
+            'version' => '5.2.0'
         );
 	}
 }
