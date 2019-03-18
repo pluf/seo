@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit colors="true">
     <testsuites>
-        <testsuite name="Pluf">
-<!--             <directory>./tests/Prerender.io/</directory> -->
-<!--             <directory>./tests/Seo/</directory> -->
-<!--             <directory>./tests/Seo_Content/</directory> -->
+        <testsuite name="SEO">
+            <directory>./tests/Prerender.io/</directory>
+            <directory>./tests/Seo/</directory>
+            <directory>./tests/Seo_Content/</directory>
             <directory>./tests/Seo_Content_REST/</directory>
-<!--             <directory>./tests/Seo_Sitemap/</directory> -->
-<!--             <directory>./tests/Seo_Sitemap_REST/</directory> -->
-<!--             <directory>./tests/Seo_Backend_REST/</directory> -->
+            <directory>./tests/Seo_Sitemap/</directory>
+            <directory>./tests/Seo_Sitemap_REST/</directory>
+            <directory>./tests/Seo_Backend_REST/</directory>
         </testsuite>
     </testsuites>
     

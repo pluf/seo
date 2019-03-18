@@ -21,7 +21,7 @@
 /**
  *
  * @author maso <mostafa.barmshory@dpq.co.ir>
- *        
+ *
  */
 class Seo_Form_BackendNew extends Pluf_Form
 {
@@ -39,10 +39,15 @@ class Seo_Form_BackendNew extends Pluf_Form
     {
         $this->engine = $extra['engine'];
         $params = $this->engine->getParameters();
-        foreach ($params as $param) {
+        $children = $params['children'];
+        foreach ($children as $param) {
+            $validators = [];
+            if(array_key_exists('validators', $param)){
+                $validators = $param['validators'];
+            }
             $options = array(
                 // 'required' => $param['required']
-                'required' => in_array('NotNull', $param['validators'])
+                'required' => in_array('NotNull', $validators)
             );
             $field = null;
             switch ($param['type']) {
@@ -81,7 +86,8 @@ class Seo_Form_BackendNew extends Pluf_Form
         $backend->setFromFormData($this->cleaned_data);
         $backend->engine = $this->engine->getType();
         $params = $this->engine->getParameters();
-        foreach ($params as $param) {
+        $children = $params['children'];
+        foreach ($children as $param) {
             if (array_key_exists($param['name'], $backend->_a['cols']))
                 continue;
             $backend->setMeta($param['name'], $this->cleaned_data[$param['name']]);
