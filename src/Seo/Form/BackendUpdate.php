@@ -46,6 +46,7 @@ class Seo_Form_BackendUpdate extends Pluf_Form
         );
         foreach ($params['children'] as $param) {
             $field = null;
+            // TODO: maso, 2019: add validators
             switch ($param['type']) {
                 case 'Integer':
                     $field = new Pluf_Form_Field_Integer($options);
