@@ -21,7 +21,7 @@
 /**
  *
  * @author maso<mostafa.barmshory@dpq.co.ir>
- *        
+ *
  */
 class Seo_Engine_Prerender extends Seo_Engine
 {
@@ -110,6 +110,11 @@ class Seo_Engine_Prerender extends Seo_Engine
         $client = new \GuzzleHttp\Client(array(
             'base_uri' => $url
         ));
+
+        if (defined('IN_UNIT_TESTS')) {
+            return 'IN_UNIT_TESTS';
+        }
+
         $res = $client->request('GET', '/' . $requestPage, array(
             'stream' => false,
             'debug' => false,

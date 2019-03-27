@@ -21,7 +21,7 @@
 /**
  *
  * @author maso<mostafa.barmshory@dpq.co.ir>
- *        
+ *
  */
 class Seo_Engine_Manual extends Seo_Engine
 {
@@ -90,7 +90,7 @@ class Seo_Engine_Manual extends Seo_Engine
         $response->headers['Content-Disposition'] = sprintf('attachment; filename="%s"', $content->file_name);
         return $response;
     }
-    
+
     /*
      * Check and register the url if required
      */
@@ -99,7 +99,7 @@ class Seo_Engine_Manual extends Seo_Engine
         $content = new Seo_Content();
         $content->url = $request->get_base();
         $content->downloads = 0;
-        $content->expire_dtime = gmdate('Y-m-d H:i:s');
+        $content->expire_dtime = gmdate('Y-m-d H:i:s', strtotime('-1 day'));
         $content->create();
     }
 }
