@@ -236,5 +236,123 @@ class PrerenderGlobalEngineTest extends TestCase
         $this->assertTrue($page !== false);
         $this->assertTrue(Seo_Content::isRegistered($_SERVER['SERVER_PROTOCOL']. '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
     }
+
+
+    /**
+     * @test
+     */
+    public function testRenderPageMatchPatternAndExpired ()
+    {
+        $backend = new Seo_Backend();
+        // fill
+        $backend->title = 'title';
+        $backend->description = 'description';
+        $backend->symbol = 'symbol';
+        $backend->enable = true;
+        $backend->home = 'home';
+        $backend->engine = 'global';
+
+        // Set meta
+        $backend->setMeta('relative', '+2 days');
+        $backend->setMeta('pattern', '.*random_pattern_address.*');
+        $this->assertTrue($backend->create());
+        $this->assertNotNull($backend);
+
+        // http request
+        $query = '/';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/random_pattern_address/toThe/Request/'.rand();
+        $_SERVER['REMOTE_ADDR'] = 'not set';
+        $_SERVER['SERVER_PROTOCOL'] = 'http';
+        $_SERVER['HTTP_HOST'] = 'localhost.com';
+        $GLOBALS['_PX_uniqid'] = 'example';
+
+        $request = new Pluf_HTTP_Request($query);
+        $request->tenant = new Pluf_Tenant();
+        $request->REQUEST['_escaped_fragment_'] = '/submit/2/11';
+
+        // empty view
+        $request->view = array(
+            'ctrl' => array()
+        );
+
+        $seoRequest = new Seo_Request($request);
+        $seoRequest->request = $request;
+        $page = $backend->render($seoRequest);
+        $this->assertNotNull($page);
+        $this->assertTrue($page !== false);
+        $url = $_SERVER['SERVER_PROTOCOL']. '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $this->assertTrue(Seo_Content::isRegistered($url));
+
+        // get content
+        $content = Seo_Content::getContent($url);
+        $this->assertFalse($content->isAnonymous());
+        $this->assertFalse($content->isExpired());
+
+        $content->expire_dtime = gmdate("Y-m-d H:i:s", strtotime('-1 day'));
+        $content->update();
+        $this->assertTrue($content->isExpired());
+
+        $page = $backend->render($seoRequest);
+        $content = Seo_Content::getContent($url);
+        $this->assertFalse($content->isExpired());
+    }
+
+
+    /**
+     * @test
+     */
+    public function testRenderPageMatchPatternAndIsNotExpired ()
+    {
+        $backend = new Seo_Backend();
+        // fill
+        $backend->title = 'title';
+        $backend->description = 'description';
+        $backend->symbol = 'symbol';
+        $backend->enable = true;
+        $backend->home = 'home';
+        $backend->engine = 'global';
+
+        // Set meta
+        $backend->setMeta('relative', '+2 days');
+        $backend->setMeta('pattern', '.*random_pattern_address.*');
+        $this->assertTrue($backend->create());
+        $this->assertNotNull($backend);
+
+        // http request
+        $query = '/';
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/random_pattern_address/toThe/Request/'.rand();
+        $_SERVER['REMOTE_ADDR'] = 'not set';
+        $_SERVER['SERVER_PROTOCOL'] = 'http';
+        $_SERVER['HTTP_HOST'] = 'localhost.com';
+        $GLOBALS['_PX_uniqid'] = 'example';
+
+        $request = new Pluf_HTTP_Request($query);
+        $request->tenant = new Pluf_Tenant();
+        $request->REQUEST['_escaped_fragment_'] = '/submit/2/11';
+
+        // empty view
+        $request->view = array(
+            'ctrl' => array()
+        );
+
+        $seoRequest = new Seo_Request($request);
+        $seoRequest->request = $request;
+        $page = $backend->render($seoRequest);
+        $this->assertNotNull($page);
+        $this->assertTrue($page !== false);
+        $url = $_SERVER['SERVER_PROTOCOL']. '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $this->assertTrue(Seo_Content::isRegistered($url));
+
+        // get content
+        $content1 = Seo_Content::getContent($url);
+        $this->assertFalse($content1->isAnonymous());
+        $this->assertFalse($content1->isExpired());
+
+        $page = $backend->render($seoRequest);
+        $content = Seo_Content::getContent($url);
+        $this->assertEquals($content->expire_dtime, $content1->expire_dtime);
+    }
 }
 
