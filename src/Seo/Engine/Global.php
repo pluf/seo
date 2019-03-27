@@ -102,7 +102,7 @@ class Seo_Engine_Global extends Seo_Engine
         // Check the url exist and match with pattern
         $url = $request->get_base();
         Pluf_Assert::assertNotNull($url, 'URL is not defined');
-        if (! preg_match($request->get_meta('pattern', '.*'), $url)) {
+        if (! preg_match('/'.$request->get_meta('pattern', '.*').'/', $url)) {
             return false;
         }
 
@@ -119,9 +119,9 @@ class Seo_Engine_Global extends Seo_Engine
         if ($content->isExpired()) {
             // maso, 2017: fetch data from server
             $client = new \GuzzleHttp\Client(array(
-                'base_uri' => Pluf::f()
+                'base_uri' => Pluf::f('seo_prerender_global_url', 'localhost')
             ));
-            if (! unittest) {
+            if (! defined('IN_UNIT_TESTS')) {
                 $res = $client->request('GET', '/' . $content->url, array(
                     'stream' => false,
                     'debug' => false,
@@ -133,7 +133,7 @@ class Seo_Engine_Global extends Seo_Engine
                 }
                 $entityBody = $res->getBody();
             } else {
-                $entityBody = 'Test render page';
+                $entityBody = 'IN_UNIT_TESTS';
             }
             $content->write($entityBody);
             $content->expire_dtime = gmdate('Y-m-d H:i:s', strtotime($request->get_meta('relative', '+1 day')));

@@ -15,3 +15,10 @@
 
 
 A module to handel SEO of the site.
+
+
+## Configurations
+
+### seo_prerender_global_url
+
+The global Prerender engine ULR.

@@ -81,30 +81,30 @@ class PrerenderEngineTest extends TestCase
         $backend->enable = true;
         $backend->home = 'home';
         $backend->engine = 'prerender';
-        
+
         // Set meta
         $backend->setMeta('token', 'cf5U32kkvddysVwLjj2a');
         $backend->setMeta('url', 'http://service.prerender.io');
         $this->assertTrue($backend->create());
         $this->assertNotNull($backend);
-        
+
         // http request
         $query = '/';
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = '/';
         $_SERVER['REMOTE_ADDR'] = 'not set';
-        $_SERVER['HTTP_HOST'] = 'digidoki.com';
+        $_SERVER['HTTP_HOST'] = 'localhost.com';
         $GLOBALS['_PX_uniqid'] = 'example';
-        
+
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
         $request->REQUEST['_escaped_fragment_'] = '/submit/2/11';
-        
+
         // empty view
         $request->view = array(
                 'ctrl' => array()
         );
-        
+
         $seoRequest = new Seo_Request($request);
         $seoRequest->request = $request;
         $page = $backend->render($seoRequest);
