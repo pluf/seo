@@ -270,7 +270,12 @@ class Seo_Content extends Pluf_Model
      * Writes content
      * @param String $value
      */
-    public function write($value) {
+    public function writeValue($value) {
+        $directoryName = dirname($this->getAbsloutPath());
+        if(!is_dir($directoryName)){
+            //Directory does not exist, so lets create it.
+            mkdir($directoryName, 0755, true);
+        }
         $myfile = fopen($this->getAbsloutPath(), "w") or die("Unable to open SEO content file!");
         fwrite($myfile, $value);
         fclose($myfile);

@@ -178,7 +178,7 @@ class Seo_Views_Content
             $content->mime_type = $fileInfo[0];
         } else {
             // Do
-            $content->write(file_get_contents('php://input', 'r'));
+            $content->writeValue(file_get_contents('php://input', 'r'));
         }
         // Update file info in presave
         $content->update();

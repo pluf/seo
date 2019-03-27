@@ -107,14 +107,16 @@ class Seo_Engine_Global extends Seo_Engine
         }
 
         // Check content
-        return $this->_fetch_content_binary($request, $this->checkRegister($url));
+        $content = $this->checkRegister($url);
+        return $this->fetchContentBinary($request, $content);
     }
 
     /*
      * Fetch binary model and add the counter
      */
-    private function _fetch_content_binary($request, $content)
+    public function fetchContentBinary($request, $content)
     {
+
         // if content is expired then we render it
         if ($content->isExpired()) {
             // maso, 2017: fetch data from server
@@ -135,7 +137,7 @@ class Seo_Engine_Global extends Seo_Engine
             } else {
                 $entityBody = 'IN_UNIT_TESTS';
             }
-            $content->write($entityBody);
+            $content->writeValue($entityBody);
             $content->expire_dtime = gmdate('Y-m-d H:i:s', strtotime($request->get_meta('relative', '+1 day')));
         }
 

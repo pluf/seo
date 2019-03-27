@@ -127,7 +127,6 @@ class PrerenderGlobalEngineTest extends TestCase
 
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
-        $request->REQUEST['_escaped_fragment_'] = '/submit/2/11';
 
         // empty view
         $request->view = array(
@@ -173,7 +172,6 @@ class PrerenderGlobalEngineTest extends TestCase
 
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
-        $request->REQUEST['_escaped_fragment_'] = '/submit/2/11';
 
         // empty view
         $request->view = array(
@@ -222,7 +220,6 @@ class PrerenderGlobalEngineTest extends TestCase
 
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
-        $request->REQUEST['_escaped_fragment_'] = '/submit/2/11';
 
         // empty view
         $request->view = array(
@@ -269,7 +266,6 @@ class PrerenderGlobalEngineTest extends TestCase
 
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
-        $request->REQUEST['_escaped_fragment_'] = '/submit/2/11';
 
         // empty view
         $request->view = array(
@@ -322,7 +318,7 @@ class PrerenderGlobalEngineTest extends TestCase
         // http request
         $query = '/';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI'] = '/random_pattern_address/toThe/Request/'.rand();
+        $_SERVER['REQUEST_URI'] = '/random_pattern_address/to-the/request/'.rand();
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['SERVER_PROTOCOL'] = 'http';
         $_SERVER['HTTP_HOST'] = 'localhost.com';
@@ -330,7 +326,6 @@ class PrerenderGlobalEngineTest extends TestCase
 
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
-        $request->REQUEST['_escaped_fragment_'] = '/submit/2/11';
 
         // empty view
         $request->view = array(
@@ -352,7 +347,10 @@ class PrerenderGlobalEngineTest extends TestCase
 
         $page = $backend->render($seoRequest);
         $content = Seo_Content::getContent($url);
+        $this->assertEquals($content->id, $content1->id);
         $this->assertEquals($content->expire_dtime, $content1->expire_dtime);
+        $this->assertTrue(is_file($content->getAbsloutPath()));
+        $this->assertTrue(is_readable($content->getAbsloutPath()));
     }
 }
 
