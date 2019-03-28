@@ -23,7 +23,7 @@
  *
  * @author hadi <mohammad.hadi.mansouri@dpq.co.ir>
  * @author maso <mostafa.barmshory@dpq.co.ir>
- *        
+ *
  */
 class Seo_Content extends Pluf_Model
 {
@@ -214,8 +214,9 @@ class Seo_Content extends Pluf_Model
      */
     public static function getContent($url)
     {
-        $q = new Pluf_SQL('url_id=%s', array(
-            sha1($url)
+        $q = new Pluf_SQL('url_id=%s AND url=%s', array(
+            sha1($url),
+            $url
         ));
         $contents = Pluf::factory('Seo_Content')->getList(array(
             'filter' => $q->gen()
@@ -224,16 +225,6 @@ class Seo_Content extends Pluf_Model
             return null;
         }
         return $contents[0];
-    }
-
-    /**
-     * حالت کار ایجاد شده را به روز می‌کند
-     *
-     * @see Pluf_Model::postSave()
-     */
-    function postSave($create = false)
-    {
-        //
     }
 
     /**
@@ -272,6 +263,21 @@ class Seo_Content extends Pluf_Model
     public function isExpired()
     {
         $exp = $this->expire_dtime;
-        return $exp == null || date("Y-m-d H:i:s") > $exp;
+        return !isset($exp) || $exp == null || gmdate("Y-m-d H:i:s") > $exp;
+    }
+
+    /**
+     * Writes content
+     * @param String $value
+     */
+    public function writeValue($value) {
+        $directoryName = dirname($this->getAbsloutPath());
+        if(!is_dir($directoryName)){
+            //Directory does not exist, so lets create it.
+            mkdir($directoryName, 0755, true);
+        }
+        $myfile = fopen($this->getAbsloutPath(), "w") or die("Unable to open SEO content file!");
+        fwrite($myfile, $value);
+        fclose($myfile);
     }
 }

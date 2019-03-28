@@ -22,7 +22,7 @@
  * Global servise of SEO package.
  *
  * @author maso<mostafa.barmshory@dpq.co.ir>
- *        
+ *
  */
 class Seo_Service
 {
@@ -37,7 +37,8 @@ class Seo_Service
         return array(
             new Seo_Engine_Prerender(),
             new Seo_Engine_Fake(),
-            new Seo_Engine_Manual()
+            new Seo_Engine_Manual(),
+            new Seo_Engine_Global(),
         );
     }
 }

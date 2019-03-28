@@ -153,7 +153,7 @@ class Seo_Content_REST_BasicsTest extends TestCase
 
     /**
      * Test if the link is added automatically
-     * 
+     *
      * @test
      */
     public function registerUnknownContent()
@@ -170,7 +170,7 @@ class Seo_Content_REST_BasicsTest extends TestCase
         $backend->create();
 
         // call to get a link with crawler
-        $pageAddress = '/random/page/test' . rand();
+        $pageAddress = '/random/page/test-page-' . rand();
         $client = new Test_Client(array(
             array(
                 'app' => 'Seo',
@@ -188,7 +188,7 @@ class Seo_Content_REST_BasicsTest extends TestCase
             )
         ));
         $client->get($pageAddress);
-        
+
         // Check if link is registered
         $url = "http://localhost" . $pageAddress;
         Test_Assert::assertTrue(Seo_Content::isRegistered($url), 'Page is not registred');
@@ -196,7 +196,7 @@ class Seo_Content_REST_BasicsTest extends TestCase
         $content = Seo_Content::getContent($url);
         Test_Assert::assertNotNull($content, 'Page not found');
         Test_Assert::assertTrue($content->isExpired(), 'Page is not expired');
-        
+
         $backend->delete();
         $content->delete();
     }

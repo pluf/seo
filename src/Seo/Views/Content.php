@@ -28,7 +28,7 @@ class Seo_Views_Content
 
     /**
      * If content with given URL in the request exist before it updates it else creates a new content.
-     * 
+     *
      * @param Pluf_HTTP_Request $request
      * @param array $match
      * @return Pluf_HTTP_Response_Json
@@ -40,7 +40,7 @@ class Seo_Views_Content
         }
         $match['modelId'] = $content->id;
         return $this->update($request, $match);
-        
+
     }
     /**
      * Creates new content
@@ -62,7 +62,7 @@ class Seo_Views_Content
 //         if ($exist) {
 //             throw new Pluf_Exception('URL is registered already.', 400);
 //         }
-        
+
         // Create content and get its ID
         $form = new Seo_Form_ContentCreate($request->REQUEST, $extra);
 
@@ -178,14 +178,11 @@ class Seo_Views_Content
             $content->mime_type = $fileInfo[0];
         } else {
             // Do
-            $myfile = fopen($content->getAbsloutPath(), "w") or die("Unable to open file!");
-            $entityBody = file_get_contents('php://input', 'r');
-            fwrite($myfile, $entityBody);
-            fclose($myfile);
+            $content->writeValue(file_get_contents('php://input', 'r'));
         }
         // Update file info in presave
         $content->update();
         return $content;
     }
-    
+
 }
