@@ -39,22 +39,22 @@ class Seo_Middleware_Render
         if ($request->method !== 'GET') {
             return false;
         }
-        
+
         // Do not render files
         if (preg_match('/^.*\.(.+)$/i', $request->query)) {
             return false;
         }
-        
+
         // Do not render api
         if (preg_match('/^\/api\/.*$/i', $request->query)) {
             return false;
         }
-        
+
         // Do not render for prerender.io
         if (preg_match('/Prerender/', $request->agent)) {
             return false;
         }
-        
+
         $CrawlerDetect = new CrawlerDetect();
         if (array_key_exists('_escaped_fragment_', $request->REQUEST) || $CrawlerDetect->isCrawler($request->agent)) {
             return $this->prerenderResponse($request);
@@ -79,7 +79,7 @@ class Seo_Middleware_Render
             try {
                 $response = $backend->render($renderRequest);
                 if ($response) {
-                    if($response instanceof Pluf_HTTP_Response){
+                    if ($response instanceof Pluf_HTTP_Response) {
                         return $response;
                     }
                     return new Pluf_HTTP_Response($response);
@@ -88,6 +88,17 @@ class Seo_Middleware_Render
                 // TODO: maso, 2014: log the error
             }
         }
+        // No prerender engine is set. So default prerender will be used.
+        if (Pluf::f('seo.prerender.default.enable', false)) {
+            $backend = new Seo_Backend();
+            $backend->title = 'Default global prerenderer';
+            $backend->symbol = 'global';
+            $backend->engine = 'global';
+            $backend->setMeta('period', Pluf::f('.prerender.default.period', '+7 days'));
+            $backend->setMeta('pattern', Pluf::f('seo.prerender.default.pattern', '.*'));
+            return $backend->render($renderRequest);
+        }
+
         return false;
     }
 }

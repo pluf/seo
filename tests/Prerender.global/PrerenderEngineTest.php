@@ -111,7 +111,7 @@ class PrerenderGlobalEngineTest extends TestCase
         $backend->engine = 'global';
 
         // Set meta
-        $backend->setMeta('relative', '+2 days');
+        $backend->setMeta('period', '+2 days');
         $backend->setMeta('pattern', '.*');
         $this->assertTrue($backend->create());
         $this->assertNotNull($backend);
@@ -156,7 +156,7 @@ class PrerenderGlobalEngineTest extends TestCase
         $backend->engine = 'global';
 
         // Set meta
-        $backend->setMeta('relative', '+2 days');
+        $backend->setMeta('period', '+2 days');
         $backend->setMeta('pattern', '.*random_pattern_address.*');
         $this->assertTrue($backend->create());
         $this->assertNotNull($backend);
@@ -204,7 +204,7 @@ class PrerenderGlobalEngineTest extends TestCase
         $backend->engine = 'global';
 
         // Set meta
-        $backend->setMeta('relative', '+2 days');
+        $backend->setMeta('period', '+2 days');
         $backend->setMeta('pattern', '.*random_pattern_address.*');
         $this->assertTrue($backend->create());
         $this->assertNotNull($backend);
@@ -250,7 +250,7 @@ class PrerenderGlobalEngineTest extends TestCase
         $backend->engine = 'global';
 
         // Set meta
-        $backend->setMeta('relative', '+2 days');
+        $backend->setMeta('period', '+2 days');
         $backend->setMeta('pattern', '.*random_pattern_address.*');
         $this->assertTrue($backend->create());
         $this->assertNotNull($backend);
@@ -310,7 +310,7 @@ class PrerenderGlobalEngineTest extends TestCase
         $backend->engine = 'global';
 
         // Set meta
-        $backend->setMeta('relative', '+2 days');
+        $backend->setMeta('period', '+2 days');
         $backend->setMeta('pattern', '.*random_pattern_address.*');
         $this->assertTrue($backend->create());
         $this->assertNotNull($backend);
