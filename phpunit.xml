@@ -3,6 +3,7 @@
     <testsuites>
         <testsuite name="SEO">
             <directory>./tests/Prerender.global/</directory>
+            <directory>./tests/Prerender.default/</directory>
             <directory>./tests/Prerender.io/</directory>
             <directory>./tests/Seo/</directory>
             <directory>./tests/Seo_Content/</directory>
