@@ -263,7 +263,7 @@ class Seo_Content extends Pluf_Model
     public function isExpired()
     {
         $exp = $this->expire_dtime;
-        return !isset($exp) || $exp == null || gmmktime() > strtotime($exp.' UTC');
+        return !isset($exp) || $exp == null || gmdate("Y-m-d H:i:s") > $exp;
     }
 
     /**
