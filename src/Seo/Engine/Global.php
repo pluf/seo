@@ -58,7 +58,7 @@ class Seo_Engine_Global extends Seo_Engine
     {
         return array(
             array(
-                'name' => 'relative',
+                'name' => 'period',
                 'type' => 'String',
                 'unit' => 'none',
                 'title' => 'Relative date',
@@ -138,7 +138,7 @@ class Seo_Engine_Global extends Seo_Engine
                 $entityBody = 'IN_UNIT_TESTS';
             }
             $content->writeValue($entityBody);
-            $content->expire_dtime = gmdate('Y-m-d H:i:s', strtotime($request->get_meta('relative', '+1 day')));
+            $content->expire_dtime = gmdate('Y-m-d H:i:s', strtotime($request->get_meta('period', '+1 day')));
         }
 
         // return the response
