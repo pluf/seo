@@ -19,6 +19,7 @@ A module to handel SEO of the site.
 
 ## Configurations
 
-### seo_prerender_global_url
+### Options
 
-The global Prerender engine ULR.
+- seo.prerender.global.url: The global Prerender engine ULR
+- seo.prerender.global.token: The global prerender engine token
