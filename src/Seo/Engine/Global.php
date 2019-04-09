@@ -159,6 +159,7 @@ class Seo_Engine_Global extends Seo_Engine
             $content->url = $url;
             $content->downloads = 0;
             $content->expire_dtime = gmdate('Y-m-d H:i:s', strtotime('-1 day'));
+            $content->mime_type = 'text/html';
             $content->create();
         }
         return $content;
