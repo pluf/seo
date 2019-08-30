@@ -31,7 +31,7 @@ class Seo_SiteMap_ModelTest extends TestCase
     /**
      * @before
      */
-    public function setUp ()
+    public function setUpTest ()
     {
         Pluf::start(dirname(__FILE__) . '/config.php');
         $m = require dirname(__FILE__) . '/../../src/Seo/relations.php';
@@ -50,7 +50,7 @@ class Seo_SiteMap_ModelTest extends TestCase
      * 
      * @after
      */
-    protected function tearDown ()
+    protected function tearDownTest ()
     {
         $db = Pluf::db();
         $schema = Pluf::factory('Pluf_DB_Schema', $db);

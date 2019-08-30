@@ -1,10 +1,8 @@
-# KDE files
-.directory
-
 # Eclipse
-.project
+#.buildpath
+/.settings/
+.phpunit.result.cache
 .buildpath
-.settings
 
 
 # Examples
@@ -15,5 +13,9 @@
 composer.lock
 composer-setup.php
 composer.phar
+
+clover.xml
 /build/
-src/Seo/Engine/.directory
+
+# netbeans
+/nbproject/private/

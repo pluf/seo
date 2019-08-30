@@ -31,7 +31,7 @@ class EngineTest extends TestCase
     /**
      * @before
      */
-    public function setUp ()
+    public function setUpTest ()
     {
         Pluf::start(dirname(__FILE__) . '/config.php');
     }

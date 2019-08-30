@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\IncompleteTestError;
 
@@ -31,18 +32,17 @@ class ContentTest extends TestCase
     /**
      * @before
      */
-    public function setUp ()
+    public function setUpTest()
     {
-        Pluf::start(__DIR__. '/../conf/config.php');
+        Pluf::start(__DIR__ . '/../conf/config.php');
     }
 
     /**
      * @test
      */
-    public function testClassInstance ()
+    public function testClassInstance()
     {
         $c = new Seo_Content();
         $this->assertTrue(isset($c));
     }
 }
-
