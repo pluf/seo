@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\IncompleteTestError;
 
@@ -31,7 +32,7 @@ class Seo_MiddlewareResourceTest extends TestCase
     /**
      * @before
      */
-    public function setUp()
+    public function setUpTest()
     {
         Pluf::start(dirname(__FILE__) . '/config.php');
         $m = require dirname(__FILE__) . '/../../src/Seo/relations.php';
@@ -50,7 +51,7 @@ class Seo_MiddlewareResourceTest extends TestCase
      *
      * @after
      */
-    protected function tearDown()
+    protected function tearDownTest()
     {
         $db = Pluf::db();
         $schema = Pluf::factory('Pluf_DB_Schema', $db);
@@ -71,7 +72,7 @@ class Seo_MiddlewareResourceTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
-        
+
         $middleware = new Seo_Middleware_Render();
         $queries = [
             '/example/resource.css',
@@ -102,9 +103,9 @@ class Seo_MiddlewareResourceTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
-        
+
         $middleware = new Seo_Middleware_Render();
-        
+
         $queries = [
             '/example/resource.css',
             '/example/resource.png',
@@ -135,9 +136,9 @@ class Seo_MiddlewareResourceTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
-        
+
         $middleware = new Seo_Middleware_Render();
-        
+
         $agents = [
             'Mozilla/5.0 (compatible; Sosospider/2.0; +http://help.soso.com/webspider.htm)', // Sosospider
             'Mozilla/5.0 (seoanalyzer; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' // Bing
@@ -176,9 +177,9 @@ class Seo_MiddlewareResourceTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
-        
+
         $middleware = new Seo_Middleware_Render();
-        
+
         $agents = [
             'Mozilla/5.0 (compatible; Sosospider/2.0; +http://help.soso.com/webspider.htm)', // Sosospider
             'Mozilla/5.0 (seoanalyzer; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' // Bing
@@ -206,4 +207,3 @@ class Seo_MiddlewareResourceTest extends TestCase
         }
     }
 }
-
