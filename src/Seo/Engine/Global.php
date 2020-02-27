@@ -119,28 +119,32 @@ class Seo_Engine_Global extends Seo_Engine
 
         // if content is expired then we render it
         if ($content->isExpired()) {
-            // maso, 2017: fetch data from server
-            $client = new \GuzzleHttp\Client(array(
-                'base_uri' => Pluf::f('seo.prerender.global.url', 'localhost')
-            ));
-            if (! defined('IN_UNIT_TESTS')) {
-                $res = $client->request('GET', '/' . $content->url, array(
-                    'stream' => false,
-                    'debug' => false,
-                    'query' => $request->get_parameters()
+            try{
+                // maso, 2017: fetch data from server
+                $client = new \GuzzleHttp\Client(array(
+                    'base_uri' => Pluf::f('seo.prerender.global.url', 'localhost')
                 ));
-                if ($res->getStatusCode() != 200) {
-                    // TODO: maso, 2019: add a log
-                    return false;
+                if (! defined('IN_UNIT_TESTS')) {
+                    $res = $client->request('GET', '/' . $content->url, array(
+                        'stream' => false,
+                        'debug' => false,
+                        'query' => $request->get_parameters()
+                    ));
+                    if ($res->getStatusCode() != 200) {
+                        // TODO: maso, 2019: add a log
+                        return false;
+                    }
+                    $entityBody = $res->getBody();
+                } else {
+                    $entityBody = 'IN_UNIT_TESTS';
                 }
-                $entityBody = $res->getBody();
-            } else {
-                $entityBody = 'IN_UNIT_TESTS';
+                $content->writeValue($entityBody);
+                $content->expire_dtime = gmdate('Y-m-d H:i:s', strtotime($request->get_meta('period', '+1 day')));
+            }catch (Exception $e){
+                // Use expired content if exception is occured.
+                // TODO: log about error while getting page from the prerender
             }
-            $content->writeValue($entityBody);
-            $content->expire_dtime = gmdate('Y-m-d H:i:s', strtotime($request->get_meta('period', '+1 day')));
         }
-
         // return the response
         $content->downloads += 1;
         $content->update();
