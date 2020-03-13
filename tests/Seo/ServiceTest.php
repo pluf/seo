@@ -17,37 +17,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\IncompleteTestError;
 
 require_once 'Pluf.php';
 
 /**
+ *
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
 class ServiceTest extends TestCase
 {
-    
-    /**
-     * @before
-     */
-    public function setUpTest ()
-    {
-        Pluf::start(dirname(__FILE__) . '/config.php');
-    }
-    
+
     /**
      * Gets list of non-empty engines
      *
      * @test
      */
-    public function testEnginesList ()
+    public function testEnginesList()
     {
         $engines = Seo_Service::engines();
         $this->assertNotNull($engines);
         $this->assertTrue(count($engines) > 0);
     }
-    
 }
 
-?>

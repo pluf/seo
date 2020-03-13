@@ -39,7 +39,7 @@ class Seo_Views_Sitemap
         // Links
         $link = new Seo_SitemapLink();
         $links = $link->getList();
-        
+
         // Add link to SPAs of tenant
         $tmpl = new Pluf_Template('/sitemap.template');
         $context = new Pluf_Template_Context(array(

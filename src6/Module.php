@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of Pluf Framework, a simple PHP Application Framework.
- * Copyright (C) 2010-2020 Phoinex Scholars Co. (http://dpq.co.ir)
+ * Copyright (C) 2010-2020 Phoinex Scholars Co. http://dpq.co.ir
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,18 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-use Pluf\Test\TestCase;
+namespace Pluf\Seo;
 
-class ContentTest extends TestCase
+use Pluf;
+
+class Module extends \Pluf\Module
 {
 
-    /**
-     *
-     * @test
-     */
-    public function testClassInstance()
-    {
-        $c = new Seo_Content();
-        $this->assertTrue(isset($c));
-    }
+    const moduleJsonPath = __DIR__ . '/module.json';
+
+    const relations = array();
+
+    public function init(Pluf $bootstrap): void
+    {}
 }
+

@@ -16,12 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\IncompleteTestError;
+use Pluf\Test\TestCase;
 
-require_once 'Pluf.php';
 
 /**
+ *
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
@@ -29,21 +28,13 @@ class EngineTest extends TestCase
 {
 
     /**
-     * @before
-     */
-    public function setUpTest ()
-    {
-        Pluf::start(dirname(__FILE__) . '/config.php');
-    }
-
-    /**
+     *
      * @test
      */
-    public function testClass ()
+    public function testClass()
     {
         $backend = new Seo_Backend();
         $this->assertNotNull($backend);
     }
-
 }
 

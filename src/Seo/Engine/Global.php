@@ -21,7 +21,7 @@
 /**
  *
  * @author maso<mostafa.barmshory@dpq.co.ir>
- *
+ *        
  */
 class Seo_Engine_Global extends Seo_Engine
 {
@@ -102,7 +102,7 @@ class Seo_Engine_Global extends Seo_Engine
         // Check the url exist and match with pattern
         $url = $request->get_base();
         Pluf_Assert::assertNotNull($url, 'URL is not defined');
-        if (! preg_match('/'.$request->get_meta('pattern', '.*').'/', $url)) {
+        if (! preg_match('/' . $request->get_meta('pattern', '.*') . '/', $url)) {
             return false;
         }
 
@@ -119,7 +119,7 @@ class Seo_Engine_Global extends Seo_Engine
 
         // if content is expired then we render it
         if ($content->isExpired()) {
-            try{
+            try {
                 // maso, 2017: fetch data from server
                 $client = new \GuzzleHttp\Client(array(
                     'base_uri' => Pluf::f('seo.prerender.global.url', 'localhost')
@@ -140,7 +140,7 @@ class Seo_Engine_Global extends Seo_Engine
                 }
                 $content->writeValue($entityBody);
                 $content->expire_dtime = gmdate('Y-m-d H:i:s', strtotime($request->get_meta('period', '+1 day')));
-            }catch (Exception $e){
+            } catch (Exception $e) {
                 // Use expired content if exception is occured.
                 // TODO: log about error while getting page from the prerender
             }

@@ -17,11 +17,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\IncompleteTestError;
 
 require_once 'Pluf.php';
 
 /**
+ *
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
@@ -29,20 +29,14 @@ class PrerenderEngineTest extends TestCase
 {
 
     /**
+     *
      * @before
      */
-    public function setUpTest ()
+    public function setUpTest()
     {
-        Pluf::start(dirname(__FILE__) . '/config.php');
-        $m = require dirname(__FILE__) . '/../../src/Seo/relations.php';
-        $GLOBALS['_PX_models'] = array_merge($m, $GLOBALS['_PX_models']);
-        $GLOBALS['_PX_config']['pluf_use_rowpermission'] = false;
-        $db = Pluf::db();
-        $schema = Pluf::factory('Pluf_DB_Schema', $db);
-        $m1 = new Seo_Backend();
-        $schema->model = $m1;
-        $schema->dropTables();
-        $schema->createTables();
+        Pluf::start(dirname(__FILE__) . '/../conf/config.php');
+        $m = new Pluf_Migration();
+        $m->install();
     }
 
     /**
@@ -50,28 +44,27 @@ class PrerenderEngineTest extends TestCase
      *
      * @after
      */
-    protected function tearDownTest ()
+    protected function tearDownTest()
     {
-        $db = Pluf::db();
-        $schema = Pluf::factory('Pluf_DB_Schema', $db);
-        $m1 = new Seo_Backend();
-        $schema->model = $m1;
-        $schema->dropTables();
+        $m = new Pluf_Migration();
+        $m->uninstall();
     }
 
     /**
+     *
      * @test
      */
-    public function testClass ()
+    public function testClass()
     {
         $engine = new Seo_Engine_Prerender();
         $this->assertNotNull($engine);
     }
 
     /**
+     *
      * @test
      */
-    public function testRenderPage ()
+    public function testRenderPage()
     {
         $backend = new Seo_Backend();
         // fill
@@ -102,7 +95,7 @@ class PrerenderEngineTest extends TestCase
 
         // empty view
         $request->view = array(
-                'ctrl' => array()
+            'ctrl' => array()
         );
 
         $seoRequest = new Seo_Request($request);
@@ -110,6 +103,5 @@ class PrerenderEngineTest extends TestCase
         $page = $backend->render($seoRequest);
         $this->assertNotNull($page);
     }
-
 }
 

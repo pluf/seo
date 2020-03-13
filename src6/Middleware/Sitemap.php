@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Pluf Framework, a simple PHP Application Framework.
  * Copyright (C) 2010-2020 Phoinex Scholars Co. (http://dpq.co.ir)
@@ -16,25 +17,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-$cfg = array();
+namespace Pluf\Seo\Middleware;
 
-// Default database configuration. The database defined here will be
-// directly accessible from Pluf::db() of course it is still possible
-// to open any other number of database connections through Pluf_DB
-$cfg['db_login'] = 'root';
-$cfg['db_password'] = '';
-$cfg['db_server'] = 'localhost';
-$cfg['db_database'] = 'test';
+use Pluf_Middleware;
 
-// Must be shared by all the installed_apps and the core framework.
-// That way you can have several installations of the core framework.
-$cfg['db_table_prefix'] = 'st_unit_tests_';
+class Sitemap implements Pluf_Middleware
+{
 
-// Starting version 4.1 of MySQL the utf-8 support is "correct".
-// The reason of the db_version for MySQL is only for that.
-$cfg['db_version'] = '5.5.33';
-$cfg['db_engine'] = 'MySQL';
+    /**
+     *
+     * {@inheritdoc}
+     * @see Pluf_Middleware::process_request()
+     */
+    public function process_request($request)
+    {}
 
-return $cfg;
-
+    /**
+     *
+     * {@inheritdoc}
+     * @see Pluf_Middleware::process_response()
+     */
+    public function process_response($request, $response)
+    {}
+}
 

@@ -195,20 +195,11 @@ class Seo_Backend extends Pluf_Model
         }
     }
 
-    /**
-     *
-     * @return Seo_Engine
-     */
     public function get_engine()
     {
         return Seo_Shortcuts_GetEngineOr404($this->engine);
     }
 
-    /**
-     *
-     * @param unknown $request
-     * @return unknown
-     */
     public function render($request)
     {
         $engine = $this->get_engine();

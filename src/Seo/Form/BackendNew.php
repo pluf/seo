@@ -21,7 +21,7 @@
 /**
  *
  * @author maso <mostafa.barmshory@dpq.co.ir>
- *
+ *        
  */
 class Seo_Form_BackendNew extends Pluf_Form
 {
@@ -42,7 +42,7 @@ class Seo_Form_BackendNew extends Pluf_Form
         $children = $params['children'];
         foreach ($children as $param) {
             $validators = [];
-            if(array_key_exists('validators', $param)){
+            if (array_key_exists('validators', $param)) {
                 $validators = $param['validators'];
             }
             $options = array(

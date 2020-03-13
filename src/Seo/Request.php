@@ -44,9 +44,9 @@ class Seo_Request
     /**
      * Creates new instance of this class
      *
-     * @param Pluf_HTTP_Request $request            
+     * @param Pluf_HTTP_Request $request
      */
-    function __construct ($request)
+    function __construct($request)
     {
         $this->request = $request;
     }
@@ -60,7 +60,7 @@ class Seo_Request
      *            value of the meta data
      * @return string current value
      */
-    public function get_meta ($key, $default)
+    public function get_meta($key, $default)
     {
         return $this->backend->getMeta($key, $default);
     }
@@ -70,10 +70,9 @@ class Seo_Request
      *
      * @return string
      */
-    public function get_base ()
+    public function get_base()
     {
-        return ($this->request->https ? "https" : "http") . "://" .
-                 $this->request->http_host . $this->request->uri;
+        return ($this->request->https ? "https" : "http") . "://" . $this->request->http_host . $this->request->uri;
     }
 
     /**
@@ -81,7 +80,7 @@ class Seo_Request
      *
      * @return string
      */
-    public function get_fragment ()
+    public function get_fragment()
     {
         return $this->request->REQUEST['_escaped_fragment_'];
     }
@@ -90,17 +89,15 @@ class Seo_Request
      *
      * @return array
      */
-    public function get_headers ()
+    public function get_headers()
     {
         return $this->request->HEADERS;
     }
 
     /**
      * List of request parameters
-     *
-     * @return array|unknown
      */
-    public function get_parameters ()
+    public function get_parameters()
     {
         return $this->request->REQUEST;
     }

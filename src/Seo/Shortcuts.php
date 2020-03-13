@@ -22,8 +22,6 @@
  * Find an engine.
  *
  * @param string $type
- * @throws Bank_Exception_EngineNotFound
- * @return unknown
  */
 function Seo_Shortcuts_GetEngineOr404($type)
 {

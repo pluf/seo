@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-use PHPUnit\Framework\IncompleteTestError;
+use Pluf\Test\Client;
 require_once 'Pluf.php';
 
 set_include_path(get_include_path() . PATH_SEPARATOR . __DIR__ . '/../Base/');
@@ -42,42 +42,16 @@ class Seo_Backend_REST_BackendTest extends AbstractBasicTest
         parent::installApps();
 
         // Anonymouse client
-        self::$client = new Test_Client(array(
-            array(
-                'app' => 'Seo',
-                'regex' => '#^/api/v2/seo#',
-                'base' => '',
-                'sub' => include 'Seo/urls-v2.php'
-            ),
-            array(
-                'app' => 'User',
-                'regex' => '#^/api/v2/user#',
-                'base' => '',
-                'sub' => include 'User/urls-v2.php'
-            )
-        ));
+        self::$client = new Client();
         // Owner client
-        self::$ownerClient = new Test_Client(array(
-            array(
-                'app' => 'Seo',
-                'regex' => '#^/api/v2/seo#',
-                'base' => '',
-                'sub' => include 'Seo/urls-v2.php'
-            ),
-            array(
-                'app' => 'User',
-                'regex' => '#^/api/v2/user#',
-                'base' => '',
-                'sub' => include 'User/urls-v2.php'
-            )
-        ));
+        self::$ownerClient = new Client();
         // Login
-        $response = self::$ownerClient->post('/api/v2/user/login', array(
+        $response = self::$ownerClient->post('/user/login', array(
             'login' => 'test',
             'password' => 'test'
         ));
-        Test_Assert::assertNotNull($response);
-        Test_Assert::assertEquals($response->status_code, 200);
+        self::assertNotNull($response);
+        self::assertEquals($response->status_code, 200);
     }
 
     /**
@@ -97,10 +71,10 @@ class Seo_Backend_REST_BackendTest extends AbstractBasicTest
         $backend->engine = 'weekly';
         $backend->setMeta('test', 'test');
         $backend->create(); // get list (owner access)
-        $response = self::$ownerClient->get('/api/v2/seo/backends');
-        Test_Assert::assertResponseNotNull($response, 'Find result is empty');
-        Test_Assert::assertResponseStatusCode($response, 200, 'Find status code is not 200');
-        Test_Assert::assertResponsePaginateList($response, 'Find result is not JSON paginated list');
+        $response = self::$ownerClient->get('/seo/backends');
+        $this->assertResponseNotNull($response, 'Find result is empty');
+        $this->assertResponseStatusCode($response, 200, 'Find status code is not 200');
+        $this->assertResponsePaginateList($response, 'Find result is not JSON paginated list');
     }
 
     /**
@@ -119,7 +93,7 @@ class Seo_Backend_REST_BackendTest extends AbstractBasicTest
         $backend->engine = 'fake';
         $backend->setMeta('test', 'test');
         $backend->create(); // Create
-        $response = self::$ownerClient->post('/api/v2/seo/backends', array(
+        $response = self::$ownerClient->post('/seo/backends', array(
             'title' => 'title',
             'description' => 'description',
             'symbol' => 'http://www.example.com',
@@ -128,8 +102,8 @@ class Seo_Backend_REST_BackendTest extends AbstractBasicTest
             'type' => 'fake',
             'test' => 'test'
         ));
-        Test_Assert::assertResponseNotNull($response, 'Find result is empty');
-        Test_Assert::assertResponseStatusCode($response, 200, 'Find status code is not 200');
+        $this->assertResponseNotNull($response, 'Find result is empty');
+        $this->assertResponseStatusCode($response, 200, 'Find status code is not 200');
     }
 
     /**
@@ -150,7 +124,7 @@ class Seo_Backend_REST_BackendTest extends AbstractBasicTest
         $backend->create();
 
         // Create Link
-        $response = self::$ownerClient->post('/api/v2/seo/backends', array(
+        $response = self::$ownerClient->post('/seo/backends', array(
             'title' => 'title',
             'description' => 'description',
             'symbol' => 'http://www.example.com',
@@ -159,8 +133,8 @@ class Seo_Backend_REST_BackendTest extends AbstractBasicTest
             'type' => 'fake',
             'test' => 'test'
         ));
-        Test_Assert::assertResponseNotNull($response, 'Find result is empty');
-        Test_Assert::assertResponseStatusCode($response, 200, 'Find status code is not 200');
+        $this->assertResponseNotNull($response, 'Find result is empty');
+        $this->assertResponseStatusCode($response, 200, 'Find status code is not 200');
     }
 }
 

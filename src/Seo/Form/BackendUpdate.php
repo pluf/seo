@@ -66,7 +66,6 @@ class Seo_Form_BackendUpdate extends Pluf_Form
      *
      * @param string $commit
      * @throws Pluf_Exception
-     * @return Bank_Backend
      */
     function update($commit = true)
     {

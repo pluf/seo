@@ -109,7 +109,7 @@ return array(
             'permanently' => true
         )
     ),
-
+    
     /**
      * ********************************************************************
      * SitemapLink
@@ -185,7 +185,7 @@ return array(
             'model' => 'Seo_SitemapLink'
         )
     ),
-
+    
     /**
      * ********************************************************************
      * Seo Content
@@ -269,7 +269,7 @@ return array(
             'User_Precondition::loginRequired'
         )
     ),
-
+    
     // Note: Should be the last url in the contents
     array( // Read (by url)
         'regex' => '#^/contents/(?P<url>.+)$#',

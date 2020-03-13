@@ -29,10 +29,10 @@ class Seo_Views_Backend
     /**
      * یک نمونه جدید از متور پرداخت ایجاد می‌کند.
      *
-     * @param Pluf_HTTP_Request $request            
-     * @param array $match            
+     * @param Pluf_HTTP_Request $request
+     * @param array $match
      */
-    public function create ($request, $match)
+    public function create($request, $match)
     {
         $type = 'not set';
         if (array_key_exists('type', $request->REQUEST)) {
@@ -40,7 +40,7 @@ class Seo_Views_Backend
         }
         $engine = Seo_Shortcuts_GetEngineOr404($type);
         $params = array(
-                'engine' => $engine
+            'engine' => $engine
         );
         // Save meta
         $form = new Seo_Form_BackendNew($request->REQUEST, $params);
@@ -50,10 +50,10 @@ class Seo_Views_Backend
 
     /**
      *
-     * @param Pluf_HTTP_Request $request            
-     * @param array $match            
+     * @param Pluf_HTTP_Request $request
+     * @param array $match
      */
-    public function get ($request, $match)
+    public function get($request, $match)
     {
         $backend = Seo_Shortcuts_GetBackendOr404($match['id']);
         return $backend;
@@ -61,10 +61,10 @@ class Seo_Views_Backend
 
     /**
      *
-     * @param Pluf_HTTP_Request $request            
-     * @param array $match            
+     * @param Pluf_HTTP_Request $request
+     * @param array $match
      */
-    public function delete ($request, $match)
+    public function delete($request, $match)
     {
         $backend = Seo_Shortcuts_GetBackendOr404($match['id']);
         $backend->delete();
@@ -73,14 +73,14 @@ class Seo_Views_Backend
 
     /**
      *
-     * @param Pluf_HTTP_Request $request            
-     * @param array $match            
+     * @param Pluf_HTTP_Request $request
+     * @param array $match
      */
-    public function update ($request, $match)
+    public function update($request, $match)
     {
         $backend = Seo_Shortcuts_GetBackendOr404($match['id']);
         $params = array(
-                'backend' => $backend
+            'backend' => $backend
         );
         $form = new Seo_Form_BackendUpdate($request->REQUEST, $params);
         $backend = $form->update();

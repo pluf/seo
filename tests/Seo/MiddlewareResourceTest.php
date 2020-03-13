@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\IncompleteTestError;
+use Pluf\Seo\Middleware\Render;
 
 require_once 'Pluf.php';
 
 /**
+ *
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
@@ -30,20 +30,15 @@ class Seo_MiddlewareResourceTest extends TestCase
 {
 
     /**
+     *
      * @before
      */
     public function setUpTest()
     {
-        Pluf::start(dirname(__FILE__) . '/config.php');
-        $m = require dirname(__FILE__) . '/../../src/Seo/relations.php';
-        $GLOBALS['_PX_models'] = array_merge($m, $GLOBALS['_PX_models']);
-        $GLOBALS['_PX_config']['pluf_use_rowpermission'] = false;
-        $db = Pluf::db();
-        $schema = Pluf::factory('Pluf_DB_Schema', $db);
-        $m1 = new Seo_Backend();
-        $schema->model = $m1;
-        $schema->dropTables();
-        $schema->createTables();
+        Pluf::start(__DIR__ . '/../conf/config.php');
+        $m = new Pluf_Migration();
+        $m->install();
+        $m->init();
     }
 
     /**
@@ -53,11 +48,8 @@ class Seo_MiddlewareResourceTest extends TestCase
      */
     protected function tearDownTest()
     {
-        $db = Pluf::db();
-        $schema = Pluf::factory('Pluf_DB_Schema', $db);
-        $m1 = new Seo_Backend();
-        $schema->model = $m1;
-        $schema->dropTables();
+        $m = new Pluf_Migration();
+        $m->uninstall();
     }
 
     /**
@@ -73,7 +65,7 @@ class Seo_MiddlewareResourceTest extends TestCase
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
 
-        $middleware = new Seo_Middleware_Render();
+        $middleware = new Render();
         $queries = [
             '/example/resource.css',
             '/example/resource.png',
@@ -87,7 +79,7 @@ class Seo_MiddlewareResourceTest extends TestCase
                 'ctrl' => array()
             );
             $response = $middleware->process_request($request);
-            Test_Assert::assertFalse($response, 'Resource is renderd');
+            $this->assertFalse($response, 'Resource is renderd');
         }
     }
 
@@ -104,7 +96,7 @@ class Seo_MiddlewareResourceTest extends TestCase
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
 
-        $middleware = new Seo_Middleware_Render();
+        $middleware = new Render();
 
         $queries = [
             '/example/resource.css',
@@ -120,7 +112,7 @@ class Seo_MiddlewareResourceTest extends TestCase
             );
             $request->GET['_escaped_fragment_'] = '/home';
             $response = $middleware->process_request($request);
-            Test_Assert::assertFalse($response, 'Resource is renderd');
+            $this->assertFalse($response, 'Resource is renderd');
         }
     }
 
@@ -137,7 +129,7 @@ class Seo_MiddlewareResourceTest extends TestCase
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
 
-        $middleware = new Seo_Middleware_Render();
+        $middleware = new Render();
 
         $agents = [
             'Mozilla/5.0 (compatible; Sosospider/2.0; +http://help.soso.com/webspider.htm)', // Sosospider
@@ -160,7 +152,7 @@ class Seo_MiddlewareResourceTest extends TestCase
                     'ctrl' => array()
                 );
                 $response = $middleware->process_request($request);
-                Test_Assert::assertFalse($response, 'Resource is renderd');
+                $this->assertFalse($response, 'Resource is renderd');
             }
         }
     }
@@ -178,7 +170,7 @@ class Seo_MiddlewareResourceTest extends TestCase
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
 
-        $middleware = new Seo_Middleware_Render();
+        $middleware = new Render();
 
         $agents = [
             'Mozilla/5.0 (compatible; Sosospider/2.0; +http://help.soso.com/webspider.htm)', // Sosospider
@@ -202,7 +194,7 @@ class Seo_MiddlewareResourceTest extends TestCase
                 $request->agent = $agent;
                 $request->method = 'GET';
                 $response = $middleware->process_request($request);
-                Test_Assert::assertFalse($response, 'Resource is renderd');
+                $this->assertFalse($response, 'Resource is renderd');
             }
         }
     }

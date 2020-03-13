@@ -17,7 +17,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\IncompleteTestError;
+use Pluf\Test\Client;
 require_once 'Pluf.php';
 
 /**
@@ -34,7 +34,7 @@ class Seo_Content_REST_BasicsTest extends TestCase
      */
     public static function createDataBase()
     {
-        Pluf::start(__DIR__ . '/../conf/config.php');
+        Pluf::start(__DIR__ . '/../../conf/config.php');
         $m = new Pluf_Migration(Pluf::f('installed_apps'));
         $m->install();
 
@@ -75,15 +75,8 @@ class Seo_Content_REST_BasicsTest extends TestCase
      */
     public function listUsersRestTest()
     {
-        $client = new Test_Client(array(
-            array(
-                'app' => 'Seo',
-                'regex' => '#^/api/v2/seo#',
-                'base' => '',
-                'sub' => include 'Seo/urls-v2.php'
-            )
-        ));
-        $response = $client->get('/api/v2/seo/contents');
+        $client = new Client();
+        $response = $client->get('/seo/contents');
         $this->assertNotNull($response);
         $this->assertEquals($response->status_code, 200);
     }
@@ -94,23 +87,10 @@ class Seo_Content_REST_BasicsTest extends TestCase
      */
     public function loginRestTest()
     {
-        $client = new Test_Client(array(
-            array(
-                'app' => 'Seo',
-                'regex' => '#^/api/v2/seo#',
-                'base' => '',
-                'sub' => include 'Seo/urls-v2.php'
-            ),
-            array(
-                'app' => 'User',
-                'regex' => '#^/api/v2/user#',
-                'base' => '',
-                'sub' => include 'User/urls-v2.php'
-            )
-        ));
+        $client = new Client();
 
         // login
-        $response = $client->post('/api/v2/user/login', array(
+        $response = $client->post('/user/login', array(
             'login' => 'test',
             'password' => 'test'
         ));
@@ -124,7 +104,7 @@ class Seo_Content_REST_BasicsTest extends TestCase
             'description' => 'This is a simple content is used int test process',
             'mime_type' => 'text/html'
         );
-        $response = $client->post('/api/v2/seo/contents', $form);
+        $response = $client->post('/seo/contents', $form);
         $this->assertNotNull($response);
         $this->assertEquals($response->status_code, 200);
 
@@ -134,19 +114,19 @@ class Seo_Content_REST_BasicsTest extends TestCase
         $content->mime_type = 'text/html';
         $content->create();
 
-        $response = $client->get('/api/v2/seo/contents/' . $content->id);
+        $response = $client->get('/seo/contents/' . $content->id);
         $this->assertNotNull($response);
         $this->assertEquals($response->status_code, 200);
 
         // Update by id
-        $response = $client->post('/api/v2/seo/contents/' . $content->id, array(
+        $response = $client->post('/seo/contents/' . $content->id, array(
             'title' => 'new title'
         ));
         $this->assertNotNull($response);
         $this->assertEquals($response->status_code, 200);
 
         // delete by id
-        $response = $client->delete('/api/v2/seo/contents/' . $content->id);
+        $response = $client->delete('/seo/contents/' . $content->id);
         $this->assertNotNull($response);
         $this->assertEquals($response->status_code, 200);
     }
@@ -171,31 +151,16 @@ class Seo_Content_REST_BasicsTest extends TestCase
 
         // call to get a link with crawler
         $pageAddress = '/random/page/test-page-' . rand();
-        $client = new Test_Client(array(
-            array(
-                'app' => 'Seo',
-                'regex' => '#^/api/v2/seo#',
-                'base' => '',
-                'sub' => include 'Seo/urls-v2.php'
-            ),
-            array(
-                'regex' => '#^' . $pageAddress . '$#',
-                'model' => 'Seo_Views_Main',
-                'method' => 'module',
-                'http-method' => array(
-                    'GET'
-                )
-            )
-        ));
+        $client = new Client();
         $client->get($pageAddress);
 
         // Check if link is registered
         $url = "http://localhost" . $pageAddress;
-        Test_Assert::assertTrue(Seo_Content::isRegistered($url), 'Page is not registred');
+        $this->assertTrue(Seo_Content::isRegistered($url), 'Page is not registred');
 
         $content = Seo_Content::getContent($url);
-        Test_Assert::assertNotNull($content, 'Page not found');
-        Test_Assert::assertTrue($content->isExpired(), 'Page is not expired');
+        $this->assertNotNull($content, 'Page not found');
+        $this->assertTrue($content->isExpired(), 'Page is not expired');
 
         $backend->delete();
         $content->delete();

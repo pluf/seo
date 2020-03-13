@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of Pluf Framework, a simple PHP Application Framework.
  * Copyright (C) 2010-2020 Phoinex Scholars Co. (http://dpq.co.ir)
@@ -21,73 +22,72 @@
  * Render engine to render pages
  *
  * @author maso<mostafa.barmshory@dpq.co.ir>
- *
+ *        
  */
 class Seo_Engine implements JsonSerializable
 {
-    
+
     const ENGINE_PREFIX = 'seo_engine_';
-    
+
     /**
      *
      * @return string
      */
-    public function getType ()
+    public function getType()
     {
         $name = strtolower(get_class($this));
         // NOTE: maso, 1395: تمام متورهای پرداخت باید در پوشه تعیین شده قرار
         // بگیرند
         if (strpos($name, self::ENGINE_PREFIX) !== 0) {
-            throw new Seo_Exception_EngineLoad(
-                    'Engine class must be placed in engine package.');
+            throw new Seo_Exception_EngineLoad('Engine class must be placed in engine package.');
         }
         return substr($name, strlen(self::ENGINE_PREFIX));
     }
-    
+
     /**
      *
      * @return string
      */
-    public function getSymbol ()
+    public function getSymbol()
     {
         return $this->getType();
     }
-    
+
     /**
      *
      * @return string
      */
-    public function getTitle ()
+    public function getTitle()
     {
         return '';
     }
-    
+
     /**
      *
      * @return string
      */
-    public function getDescription ()
+    public function getDescription()
     {
         return '';
     }
-        
+
     /**
      * (non-PHPdoc)
      *
      * @see JsonSerializable::jsonSerialize()
      */
-    public function jsonSerialize ()
+    public function jsonSerialize()
     {
         $coded = array(
-                'id' => $this->getType(),
-                'type' => $this->getType(),
-                'title' => $this->getTitle(),
-                'description' => $this->getDescription(),
-                'symbol' => $this->getSymbol()
+            'id' => $this->getType(),
+            'type' => $this->getType(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'symbol' => $this->getSymbol()
         );
         return $coded;
     }
-    
+
     /**
      * فهرستی از پارامترهای موتور seo را تعیین می‌کند
      *
@@ -97,7 +97,7 @@ class Seo_Engine implements JsonSerializable
      *
      * خروجی این فراخوانی یک فهرست از توصیف خصوصیت‌ها است.
      */
-    public function getParameters ()
+    public function getParameters()
     {
         $param = array(
             'id' => $this->getType(),
@@ -115,113 +115,112 @@ class Seo_Engine implements JsonSerializable
         foreach ($general as $gp) {
             $param['children'][] = $gp;
         }
-        
+
         $extra = $this->getExtraParam();
         foreach ($extra as $ep) {
             $param['children'][] = $ep;
         }
         return $param;
     }
-    
+
     /**
      * Get list of general properties.
      *
      * @return array of general properties
      */
-    public function getGeneralParam ()
+    public function getGeneralParam()
     {
         $params = array();
         $params[] = array(
-                'name' => 'title',
-                'type' => 'String',
-                'unit' => 'none',
-                'title' => 'Title',
-                'description' => 'beackend title',
-                'editable' => true,
-                'visible' => true,
-                'priority' => 5,
-                'symbol' => 'title',
-                'defaultValue' => 'no title',
-                'validators' => [
-                        'NotNull',
-                        'NotEmpty'
-                ]
+            'name' => 'title',
+            'type' => 'String',
+            'unit' => 'none',
+            'title' => 'Title',
+            'description' => 'beackend title',
+            'editable' => true,
+            'visible' => true,
+            'priority' => 5,
+            'symbol' => 'title',
+            'defaultValue' => 'no title',
+            'validators' => [
+                'NotNull',
+                'NotEmpty'
+            ]
         );
         $params[] = array(
-                'name' => 'description',
-                'type' => 'String',
-                'unit' => 'none',
-                'title' => 'Description',
-                'description' => 'beackend description',
-                'editable' => true,
-                'visible' => true,
-                'priority' => 5,
-                'symbol' => 'title',
-                'defaultValue' => 'description',
-                'validators' => []
+            'name' => 'description',
+            'type' => 'String',
+            'unit' => 'none',
+            'title' => 'Description',
+            'description' => 'beackend description',
+            'editable' => true,
+            'visible' => true,
+            'priority' => 5,
+            'symbol' => 'title',
+            'defaultValue' => 'description',
+            'validators' => []
         );
         $params[] = array(
-                'name' => 'symbol',
-                'type' => 'String',
-                'unit' => 'none',
-                'title' => 'Symbol',
-                'description' => 'beackend symbol',
-                'editable' => true,
-                'visible' => true,
-                'priority' => 5,
-                'symbol' => 'icon',
-                'defaultValue' => '',
-                'validators' => []
+            'name' => 'symbol',
+            'type' => 'String',
+            'unit' => 'none',
+            'title' => 'Symbol',
+            'description' => 'beackend symbol',
+            'editable' => true,
+            'visible' => true,
+            'priority' => 5,
+            'symbol' => 'icon',
+            'defaultValue' => '',
+            'validators' => []
         );
         $params[] = array(
-                'name' => 'enable',
-                'type' => 'Boolean',
-                'unit' => 'none',
-                'title' => 'Enable',
-                'description' => 'enable beackend',
-                'editable' => true,
-                'visible' => true,
-                'priority' => 5,
-                'symbol' => 'icon',
-                'defaultValue' => true,
-                'validators' => []
+            'name' => 'enable',
+            'type' => 'Boolean',
+            'unit' => 'none',
+            'title' => 'Enable',
+            'description' => 'enable beackend',
+            'editable' => true,
+            'visible' => true,
+            'priority' => 5,
+            'symbol' => 'icon',
+            'defaultValue' => true,
+            'validators' => []
         );
         $params[] = array(
-                'name' => 'priority',
-                'type' => 'Integer',
-                'unit' => 'none',
-                'title' => 'Priority',
-                'description' => 'backend priority',
-                'editable' => true,
-                'visible' => true,
-                'priority' => 5,
-                'symbol' => 'icon',
-                'defaultValue' => 10,
-                'validators' => []
+            'name' => 'priority',
+            'type' => 'Integer',
+            'unit' => 'none',
+            'title' => 'Priority',
+            'description' => 'backend priority',
+            'editable' => true,
+            'visible' => true,
+            'priority' => 5,
+            'symbol' => 'icon',
+            'defaultValue' => 10,
+            'validators' => []
         );
         return $params;
     }
-    
+
     /**
      * Get extra properties of the engine
-     * 
+     *
      * @return array of properties descriptors
      */
-    public function getExtraParam ()
+    public function getExtraParam()
     {
         // TODO: maso, 1395: فرض شده که این فراخوانی توسط پیاده‌سازی‌ها بازنویسی
         // شود
         return array();
     }
-    
+
     /**
      * Renders a request
      *
      * @param Seo_Request $request
      */
-    public function render ($request)
+    public function render($request)
     {
         // XXX: maso, 1395: ایجاد یک پرداخت
     }
-    
 }

@@ -62,21 +62,21 @@ class Seo_Views_Engine
         $engine = Seo_Shortcuts_GetEngineOr404($match['type']);
         return $engine->getParameters();
     }
-    
-//     /**
-//      *
-//      * @param Pluf_HTTP_Request $request
-//      * @param array $match
-//      */
-//     public function createParameter ($request, $match)
-//     {
-//         $type = 'not set';
-//         if (array_key_exists('type', $request->REQUEST)) {
-//             $type = $request->REQUEST['type'];
-//         }else if(array_key_exists('type', $match)){
-//             $type = $match['type'];
-//         }
-//         $engine = Seo_Shortcuts_GetEngineOr404($type);
-//         return $engine->getParameters();
-//     }
+
+    // /**
+    // *
+    // * @param Pluf_HTTP_Request $request
+    // * @param array $match
+    // */
+    // public function createParameter ($request, $match)
+    // {
+    // $type = 'not set';
+    // if (array_key_exists('type', $request->REQUEST)) {
+    // $type = $request->REQUEST['type'];
+    // }else if(array_key_exists('type', $match)){
+    // $type = $match['type'];
+    // }
+    // $engine = Seo_Shortcuts_GetEngineOr404($type);
+    // return $engine->getParameters();
+    // }
 }

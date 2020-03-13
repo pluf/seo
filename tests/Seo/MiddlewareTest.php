@@ -17,41 +17,30 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\IncompleteTestError;
+use Pluf\Seo\Middleware\Render;
 
 require_once 'Pluf.php';
 
 /**
+ *
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
 class MiddlewareTest extends TestCase
 {
-
+    
     /**
+     *
      * @before
      */
     public function setUpTest()
     {
-        Pluf::start(dirname(__FILE__) . '/config.php');
-        $m = require dirname(__FILE__) . '/../../src/Seo/relations.php';
-        $GLOBALS['_PX_models'] = array_merge($m, $GLOBALS['_PX_models']);
-        $GLOBALS['_PX_config']['pluf_use_rowpermission'] = false;
-        $db = Pluf::db();
-        $schema = Pluf::factory('Pluf_DB_Schema', $db);
-        $m1 = new Seo_Backend();
-        $schema->model = $m1;
-        $schema->dropTables();
-        $schema->createTables();
-        
-        $m1->title = 'Title';
-        $m1->description = 'description';
-        $m1->symbol = 'symbol';
-        $m1->enable = 1;
-        $m1->engine = 'fake';
-        $m1->create();
+        Pluf::start(__DIR__ . '/../conf/config.php');
+        $m = new Pluf_Migration();
+        $m->install();
+        $m->init();
     }
-
+    
     /**
      * Delete all tables
      *
@@ -59,12 +48,10 @@ class MiddlewareTest extends TestCase
      */
     protected function tearDownTest()
     {
-        $db = Pluf::db();
-        $schema = Pluf::factory('Pluf_DB_Schema', $db);
-        $m1 = new Seo_Backend();
-        $schema->model = $m1;
-        $schema->dropTables();
+        $m = new Pluf_Migration();
+        $m->uninstall();
     }
+    
 
     /**
      * Test middleware class exist
@@ -73,7 +60,7 @@ class MiddlewareTest extends TestCase
      */
     public function testClass()
     {
-        $middleware = new Seo_Middleware_Render();
+        $middleware = new Render();
         $this->assertNotNull($middleware);
     }
 
@@ -90,19 +77,20 @@ class MiddlewareTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
-        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36';        
-        $middleware = new Seo_Middleware_Render();
+        $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36';
+
+        $middleware = new Render();
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
         $request->REQUEST = array();
-        
+
         // empty view
         $request->view = array(
             'ctrl' => array()
         );
-        
+
         $response = $middleware->process_request($request);
-        Test_Assert::assertFalse($response, 'Test result must be false for non bot');
+        $this->assertFalse($response, 'Test result must be false for non bot');
     }
 
     /**
@@ -121,19 +109,19 @@ class MiddlewareTest extends TestCase
         $GLOBALS['_PX_uniqid'] = 'example';
         $_GET['_escaped_fragment_'] = '/home';
         $_REQUEST['_escaped_fragment_'] = '/home';
-        
-        $middleware = new Seo_Middleware_Render();
+
+        $middleware = new Render();
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
-        
+
         // empty view
         $request->view = array(
             'ctrl' => array()
         );
-        
+
         $response = $middleware->process_request($request);
-        Test_Assert::assertNotNull($response);
-        Test_Assert::assertNotEquals(false, $response, 'Response must not be false for bot');
+        $this->assertNotNull($response);
+        $this->assertNotEquals(false, $response, 'Response must not be false for bot');
     }
 
     /**
@@ -149,16 +137,16 @@ class MiddlewareTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
-        
-        $middleware = new Seo_Middleware_Render();
+
+        $middleware = new Render();
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
-        
+
         // empty view
         $request->view = array(
             'ctrl' => array()
         );
-        
+
         $agents = [
             'Mozilla/5.0 (compatible; Sosospider/2.0; +http://help.soso.com/webspider.htm)', // Sosospider
             'Mozilla/5.0 (seoanalyzer; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' // Bing
@@ -166,12 +154,11 @@ class MiddlewareTest extends TestCase
         foreach ($agents as $agent) {
             $_SERVER['HTTP_USER_AGENT'] = $agent;
             $response = $middleware->process_request($request);
-            Test_Assert::assertNotNull($response, 'Response is null');
-            Test_Assert::assertNotEquals(false, $response, 'Response must not be false for bot');
+            $this->assertNotNull($response, 'Response is null');
+            $this->assertNotEquals(false, $response, 'Response must not be false for bot');
         }
     }
-    
-    
+
     /**
      * Test empty backend
      *
@@ -184,15 +171,19 @@ class MiddlewareTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
-        
-        $middleware = new Seo_Middleware_Render();
-        
+
+        $middleware = new Render();
+
         $agents = [
             'Mozilla/5.0 (compatible; Sosospider/2.0; +http://help.soso.com/webspider.htm)', // Sosospider
             'Mozilla/5.0 (seoanalyzer; compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)' // Bing
         ];
-        $methods = ['POST', 'DELETE', 'HEAD'];
-        foreach ($methods as $method){
+        $methods = [
+            'POST',
+            'DELETE',
+            'HEAD'
+        ];
+        foreach ($methods as $method) {
             foreach ($agents as $agent) {
                 $request = new Pluf_HTTP_Request($query);
                 $request->tenant = new Pluf_Tenant();
@@ -202,7 +193,7 @@ class MiddlewareTest extends TestCase
                     'ctrl' => array()
                 );
                 $response = $middleware->process_request($request);
-                Test_Assert::assertFalse($response, 'Response is not null for methd: '.$method);
+                $this->assertFalse($response, 'Response is not null for methd: ' . $method);
             }
         }
     }
