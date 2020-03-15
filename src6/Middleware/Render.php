@@ -17,7 +17,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+namespace Pluf\Seo\Middleware;
+
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
+use Pluf\Exception;
+use Pluf;
+use Pluf_HTTP_Request;
+use Pluf_HTTP_Response;
+use Pluf_Middleware;
+use Seo_Backend;
+use Seo_Request;
 
 /**
  * SEO middleware
@@ -26,13 +35,13 @@ use Jaybizzle\CrawlerDetect\CrawlerDetect;
  * @author maso <mostafa.barmshory@dpq.co.ir>
  *        
  */
-class Seo_Middleware_Render
+class Render implements Pluf_Middleware
 {
 
     /**
-     * Check request to detect bot
      *
-     * @param Pluf_HTTP_Request $request
+     * {@inheritdoc}
+     * @see Pluf_Middleware::process_request()
      */
     function process_request(&$request)
     {
@@ -67,7 +76,7 @@ class Seo_Middleware_Render
      *
      * @param Pluf_HTTP_Request $request
      */
-    function prerenderResponse($request)
+    function prerenderResponse(Pluf_HTTP_Request $request)
     {
         $backend = new Seo_Backend();
         $backends = $backend->getList(array(
@@ -101,4 +110,12 @@ class Seo_Middleware_Render
 
         return false;
     }
+
+    /**
+     *
+     * {@inheritdoc}
+     * @see Pluf_Middleware::process_response()
+     */
+    public function process_response($request, $response)
+    {}
 }

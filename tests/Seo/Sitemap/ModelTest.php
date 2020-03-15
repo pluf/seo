@@ -17,11 +17,11 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\IncompleteTestError;
 
 require_once 'Pluf.php';
 
 /**
+ *
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
@@ -29,41 +29,34 @@ class Seo_SiteMap_ModelTest extends TestCase
 {
 
     /**
+     *
      * @before
      */
-    public function setUpTest ()
+    public function setUpTest()
     {
-        Pluf::start(dirname(__FILE__) . '/config.php');
-        $m = require dirname(__FILE__) . '/../../src/Seo/relations.php';
-        $GLOBALS['_PX_models'] = array_merge($m, $GLOBALS['_PX_models']);
-        $GLOBALS['_PX_config']['pluf_use_rowpermission'] = false;
-        $db = Pluf::db();
-        $schema = Pluf::factory('Pluf_DB_Schema', $db);
-        $m1 = new Seo_SitemapLink();
-        $schema->model = $m1;
-        $schema->dropTables();
-        $schema->createTables();
+        Pluf::start(__DIR__ . '/../../conf/config.php');
+        $m = new Pluf_Migration();
+        $m->install();
+        $m->init();
     }
-    
+
     /**
      * Delete all tables
-     * 
+     *
      * @after
      */
-    protected function tearDownTest ()
+    protected function tearDownTest()
     {
-        $db = Pluf::db();
-        $schema = Pluf::factory('Pluf_DB_Schema', $db);
-        $m1 = new Seo_SitemapLink();
-        $schema->model = $m1;
-        $schema->dropTables();
+        $m = new Pluf_Migration();
+        $m->uninstall();
     }
 
     /**
      * Creates a class
+     *
      * @test
      */
-    public function testClass ()
+    public function testClass()
     {
         $link = new Seo_SitemapLink();
         $this->assertNotNull($link);
@@ -71,44 +64,43 @@ class Seo_SiteMap_ModelTest extends TestCase
 
     /**
      * Create new and store
-     * 
+     *
      * @test
      */
-    public function createLinkTest ()
+    public function createLinkTest()
     {
         $link = new Seo_SitemapLink();
         // fill
         $link->title = 'title';
         $link->description = 'description';
         $link->loc = 'http://www.example.com';
-        $link->lastmod= gmdate('Y-m-d H:i:s');
+        $link->lastmod = gmdate('Y-m-d H:i:s');
         $link->changefreq = 'weekly';
-        $link->priority= 0.6;
-        
+        $link->priority = 0.6;
+
         $this->assertTrue($link->create());
         $this->assertNotNull($link);
     }
-    
+
     /**
      * Create and delete a link
-     * 
+     *
      * @test
      */
-    public function createDeleteLinkTest ()
+    public function createDeleteLinkTest()
     {
         $link = new Seo_SitemapLink();
         // fill
         $link->title = 'title';
         $link->description = 'description';
         $link->loc = 'http://www.example.com';
-        $link->lastmod= gmdate('Y-m-d H:i:s');
+        $link->lastmod = gmdate('Y-m-d H:i:s');
         $link->changefreq = 'weekly';
-        $link->priority= 0.6;
-        
+        $link->priority = 0.6;
+
         $this->assertTrue($link->create());
-        $this->assertNotNull($link); 
+        $this->assertNotNull($link);
         $this->assertTrue($link->delete());
     }
-
 }
 

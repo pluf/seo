@@ -21,7 +21,7 @@
 /**
  *
  * @author maso<mostafa.barmshory@dpq.co.ir>
- *
+ *        
  */
 class Seo_Engine_Manual extends Seo_Engine
 {
@@ -73,7 +73,7 @@ class Seo_Engine_Manual extends Seo_Engine
         if ($content == null) {
             $this->checkRegister($request);
             return false;
-        }else if($content->isExpired()){
+        } else if ($content->isExpired()) {
             return false;
         }
         return $this->_fetch_content_binary($content);
@@ -94,7 +94,8 @@ class Seo_Engine_Manual extends Seo_Engine
     /*
      * Check and register the url if required
      */
-    private function checkRegister($request) {
+    private function checkRegister($request)
+    {
         // TODO: maso, 2018: add registration as an option
         $content = new Seo_Content();
         $content->url = $request->get_base();

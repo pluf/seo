@@ -17,11 +17,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\IncompleteTestError;
+use Pluf\Test\Client;
 
 require_once 'Pluf.php';
 
 /**
+ *
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
@@ -37,7 +38,7 @@ class PrerenderGlobalEngineTest extends TestCase
     public static function createDataBase()
     {
         Pluf::start(__DIR__ . '/../conf/config.php');
-        $m = new Pluf_Migration(Pluf::f('installed_apps'));
+        $m = new Pluf_Migration();
         $m->install();
 
         // Test user
@@ -61,20 +62,7 @@ class PrerenderGlobalEngineTest extends TestCase
         $user->setAssoc($per);
 
         // Owner client
-        self::$client = new Test_Client(array(
-            array(
-                'app' => 'Seo',
-                'regex' => '#^/api/v2/seo#',
-                'base' => '',
-                'sub' => include 'Seo/urls-v2.php'
-            ),
-            array(
-                'app' => 'User',
-                'regex' => '#^/api/v2/user#',
-                'base' => '',
-                'sub' => include 'User/urls-v2.php'
-            )
-        ));
+        self::$client = new Client();
     }
 
     /**
@@ -83,23 +71,25 @@ class PrerenderGlobalEngineTest extends TestCase
      */
     public static function removeDatabses()
     {
-        $m = new Pluf_Migration(Pluf::f('installed_apps'));
-        $m->unInstall();
+        $m = new Pluf_Migration();
+        $m->uninstall();
     }
 
     /**
+     *
      * @test
      */
-    public function testClass ()
+    public function testClass()
     {
         $engine = new Seo_Engine_Global();
         $this->assertNotNull($engine);
     }
 
     /**
+     *
      * @test
      */
-    public function testRenderPage ()
+    public function testRenderPage()
     {
         $backend = new Seo_Backend();
         // fill
@@ -130,7 +120,7 @@ class PrerenderGlobalEngineTest extends TestCase
 
         // empty view
         $request->view = array(
-                'ctrl' => array()
+            'ctrl' => array()
         );
 
         $seoRequest = new Seo_Request($request);
@@ -139,12 +129,11 @@ class PrerenderGlobalEngineTest extends TestCase
         $this->assertNotNull($page);
     }
 
-
-
     /**
+     *
      * @test
      */
-    public function testRenderPageNotMatchPattern ()
+    public function testRenderPageNotMatchPattern()
     {
         $backend = new Seo_Backend();
         // fill
@@ -164,7 +153,7 @@ class PrerenderGlobalEngineTest extends TestCase
         // http request
         $query = '/';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI'] = '/random_pattern/_address/toThe/Request/'. rand();
+        $_SERVER['REQUEST_URI'] = '/random_pattern/_address/toThe/Request/' . rand();
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['SERVER_PROTOCOL'] = 'http';
         $_SERVER['HTTP_HOST'] = 'localhost.com';
@@ -184,15 +173,14 @@ class PrerenderGlobalEngineTest extends TestCase
         $this->assertNotNull($page);
         $this->assertFalse($page);
 
-        $this->assertFalse(Seo_Content::isRegistered($_SERVER['SERVER_PROTOCOL']. '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
+        $this->assertFalse(Seo_Content::isRegistered($_SERVER['SERVER_PROTOCOL'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
     }
 
-
-
     /**
+     *
      * @test
      */
-    public function testRenderPageMatchPattern ()
+    public function testRenderPageMatchPattern()
     {
         $backend = new Seo_Backend();
         // fill
@@ -212,7 +200,7 @@ class PrerenderGlobalEngineTest extends TestCase
         // http request
         $query = '/';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI'] = '/random_pattern_address/toThe/Request/'.rand();
+        $_SERVER['REQUEST_URI'] = '/random_pattern_address/toThe/Request/' . rand();
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['SERVER_PROTOCOL'] = 'http';
         $_SERVER['HTTP_HOST'] = 'localhost.com';
@@ -231,14 +219,14 @@ class PrerenderGlobalEngineTest extends TestCase
         $page = $backend->render($seoRequest);
         $this->assertNotNull($page);
         $this->assertTrue($page !== false);
-        $this->assertTrue(Seo_Content::isRegistered($_SERVER['SERVER_PROTOCOL']. '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
+        $this->assertTrue(Seo_Content::isRegistered($_SERVER['SERVER_PROTOCOL'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']));
     }
 
-
     /**
+     *
      * @test
      */
-    public function testRenderPageMatchPatternAndExpired ()
+    public function testRenderPageMatchPatternAndExpired()
     {
         $backend = new Seo_Backend();
         // fill
@@ -258,7 +246,7 @@ class PrerenderGlobalEngineTest extends TestCase
         // http request
         $query = '/';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI'] = '/random_pattern_address/toThe/Request/'.rand();
+        $_SERVER['REQUEST_URI'] = '/random_pattern_address/toThe/Request/' . rand();
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['SERVER_PROTOCOL'] = 'http';
         $_SERVER['HTTP_HOST'] = 'localhost.com';
@@ -277,7 +265,7 @@ class PrerenderGlobalEngineTest extends TestCase
         $page = $backend->render($seoRequest);
         $this->assertNotNull($page);
         $this->assertTrue($page !== false);
-        $url = $_SERVER['SERVER_PROTOCOL']. '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $url = $_SERVER['SERVER_PROTOCOL'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $this->assertTrue(Seo_Content::isRegistered($url));
 
         // get content
@@ -294,11 +282,11 @@ class PrerenderGlobalEngineTest extends TestCase
         $this->assertFalse($content->isExpired());
     }
 
-
     /**
+     *
      * @test
      */
-    public function testRenderPageMatchPatternAndIsNotExpired ()
+    public function testRenderPageMatchPatternAndIsNotExpired()
     {
         $backend = new Seo_Backend();
         // fill
@@ -318,7 +306,7 @@ class PrerenderGlobalEngineTest extends TestCase
         // http request
         $query = '/';
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI'] = '/random_pattern_address/to-the/request/'.rand();
+        $_SERVER['REQUEST_URI'] = '/random_pattern_address/to-the/request/' . rand();
         $_SERVER['REMOTE_ADDR'] = 'not set';
         $_SERVER['SERVER_PROTOCOL'] = 'http';
         $_SERVER['HTTP_HOST'] = 'localhost.com';
@@ -337,7 +325,7 @@ class PrerenderGlobalEngineTest extends TestCase
         $page = $backend->render($seoRequest);
         $this->assertNotNull($page);
         $this->assertTrue($page !== false);
-        $url = $_SERVER['SERVER_PROTOCOL']. '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $url = $_SERVER['SERVER_PROTOCOL'] . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
         $this->assertTrue(Seo_Content::isRegistered($url));
 
         // get content

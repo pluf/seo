@@ -33,15 +33,16 @@ class Seo_Views_Content
      * @param array $match
      * @return Pluf_HTTP_Response_Json
      */
-    public function createOrUpdate($request, $match){
+    public function createOrUpdate($request, $match)
+    {
         $content = Seo_Content::getContent($request->REQUEST['url']);
         if ($content === null) {
             return $this->create($request, $match);
         }
         $match['modelId'] = $content->id;
         return $this->update($request, $match);
-
     }
+
     /**
      * Creates new content
      *
@@ -58,10 +59,10 @@ class Seo_Views_Content
             'model' => new Seo_Content()
         );
 
-//         $exist = Seo_Content::isRegistered($request->REQUEST['url']);
-//         if ($exist) {
-//             throw new Pluf_Exception('URL is registered already.', 400);
-//         }
+        // $exist = Seo_Content::isRegistered($request->REQUEST['url']);
+        // if ($exist) {
+        // throw new Pluf_Exception('URL is registered already.', 400);
+        // }
 
         // Create content and get its ID
         $form = new Seo_Form_ContentCreate($request->REQUEST, $extra);
@@ -184,5 +185,4 @@ class Seo_Views_Content
         $content->update();
         return $content;
     }
-
 }

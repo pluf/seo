@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of Pluf Framework, a simple PHP Application Framework.
  * Copyright (C) 2010-2020 Phoinex Scholars Co. (http://dpq.co.ir)
@@ -17,45 +16,64 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+use PHPUnit\Framework\TestCase;
+
+require_once 'Pluf.php';
 
 /**
  *
- * @author maso<mostafa.barmshory@dpq.co.ir>
- *        
+ * @backupGlobals disabled
+ * @backupStaticAttributes disabled
  */
-class Seo_Engine_Fake extends Seo_Engine
+class Seo_Content_CrudTest extends TestCase
 {
 
     /**
      *
-     * {@inheritdoc}
-     *
-     * @see Seo_Engine::getTitle()
+     * @before
      */
-    public function getTitle()
+    public function setUpTest()
     {
-        return 'Fake render';
+        Pluf::start(__DIR__ . '/../../conf/config.php');
     }
 
     /**
      *
-     * {@inheritdoc}
-     *
-     * @see Seo_Engine::getDescription()
+     * @test
      */
-    public function getDescription()
+    public function testFactory()
     {
-        return 'Engine to generate empty page.';
+        $pluf = Pluf::factory('Pluf');
+        $this->assertEquals(get_class($pluf), 'Pluf');
     }
 
     /**
      *
-     * {@inheritdoc}
-     *
-     * @see Seo_Engine::render()
+     * @test
      */
-    public function render($request)
+    public function testFileExists()
     {
-        return "<h1>Bot are not allowd</h1>";
+        $this->assertTrue(Pluf::fileExists('Pluf.php') !== false);
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function testLoadClass()
+    {
+        Pluf::loadClass('Pluf_Model');
+        $this->assertEquals(true, class_exists('Pluf_Model'));
+    }
+
+    /**
+     *
+     * @test
+     */
+    public function testLoadFunction()
+    {
+        Pluf::loadFunction('Pluf_HTTP_handleMagicQuotes');
+        $this->assertEquals(true, function_exists('Pluf_HTTP_handleMagicQuotes'));
     }
 }
+

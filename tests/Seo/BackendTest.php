@@ -16,53 +16,39 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\IncompleteTestError;
+use Pluf\Test\TestCase;
 
-require_once 'Pluf.php';
-
-/**
- * @backupGlobals disabled
- * @backupStaticAttributes disabled
- */
 class BackendTest extends TestCase
 {
-    
+
     /**
+     *
      * @before
      */
-    public function setUpTest ()
+    public function setUpTest()
     {
-        Pluf::start(dirname(__FILE__) . '/config.php');
-        $m = require dirname(__FILE__) . '/../../src/Seo/relations.php';
-        $GLOBALS['_PX_models'] = array_merge($m, $GLOBALS['_PX_models']);
-        $GLOBALS['_PX_config']['pluf_use_rowpermission'] = false;
-        $db = Pluf::db();
-        $schema = Pluf::factory('Pluf_DB_Schema', $db);
-        $m1 = new Seo_Backend();
-        $schema->model = $m1;
-        $schema->dropTables();
-        $schema->createTables();
+        Pluf::start(__DIR__ . '/../conf/config.php');
+        $m = new Pluf_Migration();
+        $m->install();
+        $m->init();
     }
-    
+
     /**
      * Delete all tables
      *
      * @after
      */
-    protected function tearDownTest ()
+    protected function tearDownTest()
     {
-        $db = Pluf::db();
-        $schema = Pluf::factory('Pluf_DB_Schema', $db);
-        $m1 = new Seo_Backend();
-        $schema->model = $m1;
-        $schema->dropTables();
+        $m = new Pluf_Migration();
+        $m->uninstall();
     }
 
     /**
+     *
      * @test
      */
-    public function testClass ()
+    public function testClass()
     {
         $backend = new Seo_Backend();
         $this->assertNotNull($backend);
@@ -73,89 +59,89 @@ class BackendTest extends TestCase
      *
      * @test
      */
-    public function createBackendTest ()
+    public function createBackendTest()
     {
         $backend = new Seo_Backend();
         // fill
         $backend->title = 'title';
         $backend->description = 'description';
-        $backend->symbol= 'symbol';
-        $backend->enable= true;
-        $backend->home= 'home';
-        $backend->engine= 'prerender';
-        
+        $backend->symbol = 'symbol';
+        $backend->enable = true;
+        $backend->home = 'home';
+        $backend->engine = 'prerender';
+
         $this->assertTrue($backend->create());
         $this->assertNotNull($backend);
     }
-    
+
     /**
      * Create new and delete
      *
      * @test
      */
-    public function createDeleteBackendTest ()
+    public function createDeleteBackendTest()
     {
         $backend = new Seo_Backend();
         // fill
         $backend->title = 'title';
         $backend->description = 'description';
-        $backend->symbol= 'symbol';
-        $backend->enable= true;
-        $backend->home= 'home';
-        $backend->engine= 'prerender';
-        
+        $backend->symbol = 'symbol';
+        $backend->enable = true;
+        $backend->home = 'home';
+        $backend->engine = 'prerender';
+
         $this->assertTrue($backend->create());
         $this->assertNotNull($backend);
         $this->assertTrue($backend->delete());
     }
-    
+
     /**
      * Meta data test
      *
      * @test
      */
-    public function metaDataBackendTest ()
+    public function metaDataBackendTest()
     {
         $backend = new Seo_Backend();
         // fill
         $backend->title = 'title';
         $backend->description = 'description';
-        $backend->symbol= 'symbol';
-        $backend->enable= true;
-        $backend->home= 'home';
-        $backend->engine= 'prerender';
-        
+        $backend->symbol = 'symbol';
+        $backend->enable = true;
+        $backend->home = 'home';
+        $backend->engine = 'prerender';
+
         // Set meta
         $backend->setMeta('example', 'example');
         $this->assertTrue($backend->create());
         $this->assertNotNull($backend);
-        
+
         $newBackend = new Seo_Backend($backend->id);
         $this->assertNotNull($newBackend);
         $this->assertEquals($backend->getMeta('example'), $newBackend->getMeta('example'));
     }
-    
+
     /**
      * Get engine test
      *
      * @test
      */
-    public function getEngineTest ()
+    public function getEngineTest()
     {
         $backend = new Seo_Backend();
         // fill
         $backend->title = 'title';
         $backend->description = 'description';
-        $backend->symbol= 'symbol';
-        $backend->enable= true;
-        $backend->home= 'home';
-        $backend->engine= 'prerender';
-        
+        $backend->symbol = 'symbol';
+        $backend->enable = true;
+        $backend->home = 'home';
+        $backend->engine = 'prerender';
+
         // Set meta
         $backend->setMeta('example', 'example');
         $this->assertTrue($backend->create());
         $this->assertNotNull($backend);
-        
+
         $engine = $backend->get_engine();
         $this->assertNotNull($engine);
     }

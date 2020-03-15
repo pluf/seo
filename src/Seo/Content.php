@@ -23,7 +23,7 @@
  *
  * @author hadi <mohammad.hadi.mansouri@dpq.co.ir>
  * @author maso <mostafa.barmshory@dpq.co.ir>
- *
+ *        
  */
 class Seo_Content extends Pluf_Model
 {
@@ -263,17 +263,19 @@ class Seo_Content extends Pluf_Model
     public function isExpired()
     {
         $exp = $this->expire_dtime;
-        return !isset($exp) || $exp == null || gmdate("Y-m-d H:i:s") > $exp;
+        return ! isset($exp) || $exp == null || gmdate("Y-m-d H:i:s") > $exp;
     }
 
     /**
      * Writes content
+     *
      * @param String $value
      */
-    public function writeValue($value) {
+    public function writeValue($value)
+    {
         $directoryName = dirname($this->getAbsloutPath());
-        if(!is_dir($directoryName)){
-            //Directory does not exist, so lets create it.
+        if (! is_dir($directoryName)) {
+            // Directory does not exist, so lets create it.
             mkdir($directoryName, 0755, true);
         }
         $myfile = fopen($this->getAbsloutPath(), "w") or die("Unable to open SEO content file!");

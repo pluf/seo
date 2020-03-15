@@ -17,11 +17,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 use PHPUnit\Framework\TestCase;
-use PHPUnit\Framework\IncompleteTestError;
+use Pluf\Seo\Middleware\Render;
+use Pluf\Test\Client;
 
 require_once 'Pluf.php';
 
 /**
+ *
  * @backupGlobals disabled
  * @backupStaticAttributes disabled
  */
@@ -36,14 +38,14 @@ class DefaultPrerenderGlobalEngineTest extends TestCase
      */
     public static function createDataBase()
     {
-        $cfg = include(__DIR__ . '/../conf/config.php');
+        $cfg = include (__DIR__ . '/../conf/config.php');
         $cfg['seo.prerender.default.engine'] = 'global';
         $cfg['seo.prerender.default.enable'] = true;
         $cfg['seo.prerender.default.period'] = '+7 days';
         $cfg['seo.prerender.default.pattern'] = '.*';
-        
+
         Pluf::start($cfg);
-        $m = new Pluf_Migration(Pluf::f('installed_apps'));
+        $m = new Pluf_Migration();
         $m->install();
 
         // Test user
@@ -67,20 +69,7 @@ class DefaultPrerenderGlobalEngineTest extends TestCase
         $user->setAssoc($per);
 
         // Owner client
-        self::$client = new Test_Client(array(
-            array(
-                'app' => 'Seo',
-                'regex' => '#^/api/v2/seo#',
-                'base' => '',
-                'sub' => include 'Seo/urls-v2.php'
-            ),
-            array(
-                'app' => 'User',
-                'regex' => '#^/api/v2/user#',
-                'base' => '',
-                'sub' => include 'User/urls-v2.php'
-            )
-        ));
+        self::$client = new Client();
     }
 
     /**
@@ -89,7 +78,7 @@ class DefaultPrerenderGlobalEngineTest extends TestCase
      */
     public static function removeDatabses()
     {
-        $m = new Pluf_Migration(Pluf::f('installed_apps'));
+        $m = new Pluf_Migration();
         $m->unInstall();
     }
 
@@ -107,20 +96,20 @@ class DefaultPrerenderGlobalEngineTest extends TestCase
         $_SERVER['HTTP_HOST'] = 'localhost';
         $GLOBALS['_PX_uniqid'] = 'example';
         $_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.89 Safari/537.36';
-        $middleware = new Seo_Middleware_Render();
+        $middleware = new Render();
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
         $request->REQUEST = array();
-        
+
         // empty view
         $request->view = array(
             'ctrl' => array()
         );
-        
+
         $response = $middleware->process_request($request);
-        Test_Assert::assertFalse($response, 'Test result must be false for non bot');
+        $this->assertFalse($response, 'Test result must be false for non bot');
     }
-    
+
     /**
      * Test empty backend
      *
@@ -137,20 +126,19 @@ class DefaultPrerenderGlobalEngineTest extends TestCase
         $GLOBALS['_PX_uniqid'] = 'example';
         $_GET['_escaped_fragment_'] = '/home';
         $_REQUEST['_escaped_fragment_'] = '/home';
-        
-        $middleware = new Seo_Middleware_Render();
+
+        $middleware = new Render();
         $request = new Pluf_HTTP_Request($query);
         $request->tenant = new Pluf_Tenant();
-        
+
         // empty view
         $request->view = array(
             'ctrl' => array()
         );
-        
+
         $response = $middleware->process_request($request);
-        Test_Assert::assertNotNull($response);
-        Test_Assert::assertNotEquals(false, $response, 'Response must not be false for bot');
+        $this->assertNotNull($response);
+        $this->assertNotEquals(false, $response, 'Response must not be false for bot');
     }
-    
 }
 
