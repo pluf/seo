@@ -16,9 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-use PHPUnit\Framework\TestCase;
+namespace Pluf\Test\Seo\Sitemap;
+
 use Pluf\Test\Client;
-require_once 'Pluf.php';
+use Pluf\Test\TestCase;
+use Pluf;
+use Pluf_Migration;
+use Seo_SitemapLink;
 
 /**
  *

@@ -1,5 +1,6 @@
 {
 	"name" : "pluf/seo",
+	"version" : "6.0.6",
 	"description" : "SEO package of pluf",
 	"type" : "library",
 	"license" : "MIT",
@@ -35,6 +36,9 @@
 		"restfull",
 		"pluf-module"
 	],
+	"include-path" : [
+		"src/"
+	],
 	"autoload" : {
 		"psr-0" : {
 			"" : "src"
@@ -43,15 +47,12 @@
 			"Pluf\\Seo\\" : "src6"
 		}
 	},
-	"include-path" : [
-		"src/"
-	],
 	"autoload-dev" : {
 		"psr-4" : {
 			"Pluf\\Test\\" : "tests"
 		}
 	},
-	"repositories" : [{
+	"repositories~" : [{
 			"type" : "path",
 			"url" : "../core",
 			"name" : "pluf/core",
