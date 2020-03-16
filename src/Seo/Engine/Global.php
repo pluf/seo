@@ -122,7 +122,7 @@ class Seo_Engine_Global extends Seo_Engine
             try {
                 // maso, 2017: fetch data from server
                 $client = new \GuzzleHttp\Client(array(
-                    'base_uri' => Pluf::f('seo.prerender.global.url', 'localhost')
+                    'base_uri' => Pluf::f('seo_prerender_global_url', 'localhost')
                 ));
                 if (! defined('IN_UNIT_TESTS')) {
                     $res = $client->request('GET', '/' . $content->url, array(

@@ -35,7 +35,13 @@ class MiddlewareTest extends TestCase
      */
     public function setUpTest()
     {
-        Pluf::start(__DIR__ . '/../conf/config.php');
+        $cfg = include (__DIR__ . '/../conf/config.php');
+        $cfg['seo_prerender_default_engine'] = 'fake';
+        $cfg['seo_prerender_default_enable'] = true;
+        $cfg['seo_prerender_default_period'] = '+7 days';
+        $cfg['seo_prerender_default_pattern'] = '.*';
+        
+        Pluf::start($cfg);
         $m = new Pluf_Migration();
         $m->install();
         $m->init();

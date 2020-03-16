@@ -151,8 +151,10 @@ class Seo_Content_REST_BasicsTest extends TestCase
 
         // call to get a link with crawler
         $pageAddress = '/random/page/test-page-' . rand();
-        $client = new Client();
-        $client->get($pageAddress);
+        try {
+            $client = new Client();
+            $client->get($pageAddress);
+        } catch (\Pluf\Exception $ex) {}
 
         // Check if link is registered
         $url = "http://localhost" . $pageAddress;

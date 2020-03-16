@@ -21,12 +21,13 @@ namespace Pluf\Seo\Middleware;
 
 use Jaybizzle\CrawlerDetect\CrawlerDetect;
 use Pluf\Exception;
+use Pluf\Middleware;
 use Pluf;
 use Pluf_HTTP_Request;
 use Pluf_HTTP_Response;
-use Pluf_Middleware;
 use Seo_Backend;
 use Seo_Request;
+use Pluf\Logger;
 
 /**
  * SEO middleware
@@ -35,15 +36,15 @@ use Seo_Request;
  * @author maso <mostafa.barmshory@dpq.co.ir>
  *        
  */
-class Render implements Pluf_Middleware
+class Render implements Middleware
 {
 
     /**
      *
      * {@inheritdoc}
-     * @see Pluf_Middleware::process_request()
+     * @see Middleware::process_request()
      */
-    function process_request(&$request)
+    function process_request(Pluf_HTTP_Request &$request)
     {
         if ($request->method !== 'GET') {
             return false;
@@ -94,17 +95,17 @@ class Render implements Pluf_Middleware
                     return new Pluf_HTTP_Response($response);
                 }
             } catch (Exception $error) {
-                // TODO: maso, 2014: log the error
+                Logger::warn('A SEO Prerender Backedn fails to process a request', $backend, $error);
             }
         }
         // No prerender engine is set. So default prerender will be used.
-        if (Pluf::f('seo.prerender.default.enable', false)) {
+        if (Pluf::f('seo_prerender_default_enable', false)) {
             $backend = new Seo_Backend();
             $backend->title = 'Default global prerenderer';
             $backend->symbol = 'global';
             $backend->engine = 'global';
-            $backend->setMeta('period', Pluf::f('.prerender.default.period', '+7 days'));
-            $backend->setMeta('pattern', Pluf::f('seo.prerender.default.pattern', '.*'));
+            $backend->setMeta('period', Pluf::f('seo_prerender_default_period', '+7 days'));
+            $backend->setMeta('pattern', Pluf::f('seo_prerender_default_pattern', '.*'));
             return $backend->render($renderRequest);
         }
 
@@ -114,8 +115,10 @@ class Render implements Pluf_Middleware
     /**
      *
      * {@inheritdoc}
-     * @see Pluf_Middleware::process_response()
+     * @see Middleware::process_response()
      */
-    public function process_response($request, $response)
-    {}
+    public function process_response(Pluf_HTTP_Request $request, Pluf_HTTP_Response $response): Pluf_HTTP_Response
+    {
+        return $response;
+    }
 }
