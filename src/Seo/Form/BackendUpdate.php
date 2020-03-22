@@ -65,13 +65,13 @@ class Seo_Form_BackendUpdate extends Pluf_Form
     /**
      *
      * @param string $commit
-     * @throws Pluf_Exception
+     * @throws \Pluf\Exception
      */
     function update($commit = true)
     {
         if (! $this->isValid()) {
             // TODO: maso, 1395: باید از خطای مدل فرم استفاده شود.
-            throw new Pluf_Exception(__('Cannot save the backend from an invalid form.'));
+            throw new \Pluf\Exception(__('Cannot save the backend from an invalid form.'));
         }
         // Set attributes
         $this->backend->setFromFormData($this->cleaned_data);
@@ -86,7 +86,7 @@ class Seo_Form_BackendUpdate extends Pluf_Form
         }
         if ($commit) {
             if (! $this->backend->update()) {
-                throw new Pluf_Exception(__('Fail to create the backend.'));
+                throw new \Pluf\Exception(__('Fail to create the backend.'));
             }
         }
         return $this->backend;

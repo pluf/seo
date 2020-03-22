@@ -56,7 +56,7 @@ function Seo_Shortcuts_GetBackendOr404($id)
  * It is used in the forms.
  *
  * @param string $url
- * @throws Pluf_Exception
+ * @throws \Pluf\Exception
  * @return string
  */
 function Seo_Shortcuts_CleanUrl($url)
@@ -70,7 +70,7 @@ function Seo_Shortcuts_CleanUrl($url)
     if (! isset($items) || $items->count() == 0) {
         return $url;
     }
-    throw new Pluf_Exception(sprintf(__('An seo-content with the same URL exist (URL: %s)'), $url));
+    throw new \Pluf\Exception(sprintf(__('An seo-content with the same URL exist (URL: %s)'), $url));
 }
 
 /**

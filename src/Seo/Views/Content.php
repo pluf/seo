@@ -48,7 +48,7 @@ class Seo_Views_Content
      *
      * @param Pluf_HTTP_Request $request
      * @param array $match
-     * @throws Pluf_Exception
+     * @throws \Pluf\Exception
      * @return Pluf_HTTP_Response_Json
      */
     public function create($request, $match)
@@ -61,7 +61,7 @@ class Seo_Views_Content
 
         // $exist = Seo_Content::isRegistered($request->REQUEST['url']);
         // if ($exist) {
-        // throw new Pluf_Exception('URL is registered already.', 400);
+        // throw new \Pluf\Exception('URL is registered already.', 400);
         // }
 
         // Create content and get its ID
@@ -73,7 +73,7 @@ class Seo_Views_Content
         $form = new Seo_Form_ContentUpdate(array_merge($request->REQUEST, $request->FILES), $extra);
         try {
             $content = $form->save();
-        } catch (Pluf_Exception $e) {
+        } catch (\Pluf\Exception $e) {
             $content = $extra['model'];
             $content->delete();
             throw $e;
