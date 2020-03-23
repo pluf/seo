@@ -23,14 +23,14 @@
  * @author maso <mostafa.barmshory@dpq.co.ir>
  *
  */
-class Seo_Exception_EngineLoad extends Pluf_Exception
+class Seo_Exception_EngineLoad extends \Pluf\Exception
 {
     
     /**
      * Create new instance of this class
      *
      * @param string $message
-     * @param Pluf_Exception $previous
+     * @param \Pluf\Exception $previous
      * @param string $link
      * @param string $developerMessage
      */

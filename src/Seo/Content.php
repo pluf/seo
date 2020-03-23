@@ -218,7 +218,10 @@ class Seo_Content extends Pluf_Model
             sha1($url),
             $url
         ));
-        $contents = Pluf::factory('Seo_Content')->getList(array(
+        // TOOD: maso, 2020: use model repository
+        // Pluf\Model\Repository::getInstance(Seo_Content::class)->getList();
+        // Repository::getInstance(Seo_Content::class);
+        $contents = Pluf::factory(Seo_Content::class)->getList(array(
             'filter' => $q->gen()
         ));
         if ($contents === false or count($contents) === 0) {

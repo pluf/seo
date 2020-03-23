@@ -72,14 +72,14 @@ class Seo_Form_BackendNew extends Pluf_Form
      * می‌کند و آن را به متورهای پرداخت ملک اضافه می‌کند.
      *
      * @param string $commit
-     * @throws Pluf_Exception
+     * @throws \Pluf\Exception
      * @return Seo_Backend
      */
     function save($commit = true)
     {
         if (! $this->isValid()) {
             // TODO: maso, 1395: باید از خطای مدل فرم استفاده شود.
-            throw new Pluf_Exception(__('Cannot save the backend from an invalid form.'));
+            throw new \Pluf\Exception(__('Cannot save the backend from an invalid form.'));
         }
         // Set attributes
         $backend = new Seo_Backend();
@@ -94,7 +94,7 @@ class Seo_Form_BackendNew extends Pluf_Form
         }
         if ($commit) {
             if (! $backend->create()) {
-                throw new Pluf_Exception(__('Fail to create the backend.'));
+                throw new \Pluf\Exception(__('Fail to create the backend.'));
             }
         }
         return $backend;
