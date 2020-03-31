@@ -79,60 +79,60 @@ class Seo_SitemapLink extends Pluf_Model
         $this->_a['table'] = 'seo_sitemap_link';
         $this->_a['cols'] = array(
             'id' => array(
-                'type' => 'Pluf_DB_Field_Sequence',
+                'type' => 'Sequence',
                 'blank' => true,
                 'verbose' => 'unique and no repreducable id fro reception'
             ),
             'title' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => true,
                 'size' => 50,
                 'editable' => true,
                 'readable' => true
             ),
             'description' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => true,
                 'size' => 200,
                 'editable' => true,
                 'readable' => true
             ),
             'loc' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => false,
                 'size' => 2048,
                 'editable' => true,
                 'readable' => true
             ),
             'lastmod' => array(
-                'type' => 'Pluf_DB_Field_Datetime',
+                'type' => 'Datetime',
                 'blank' => true,
                 'verbose' => 'last modification date',
                 'editable' => true,
                 'readable' => true
             ),
             'changefreq' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => true,
                 'size' => 16,
                 'editable' => true,
                 'readable' => true
             ),
             'priority' => array(
-                'type' => 'Pluf_DB_Field_Float',
+                'type' => 'Float',
                 'blank' => true,
                 'editable' => true,
                 'readable' => true
             ),
 //             'creation_dtime' => array(
-//                 'type' => 'Pluf_DB_Field_Datetime',
+//                 'type' => 'Datetime',
 //                 'blank' => true,
 //                 'verbose' => 'creation date',
 //                 'editable' => false,
 //                 'readable' => true
 //             ),
 //             'modif_dtime' => array(
-//                 'type' => 'Pluf_DB_Field_Datetime',
+//                 'type' => 'Datetime',
 //                 'blank' => true,
 //                 'verbose' => 'modification date',
 //                 'editable' => false,
