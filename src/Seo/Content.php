@@ -39,7 +39,7 @@ class Seo_Content extends Pluf_Model
         $this->_a['cols'] = array(
             // ID
             'id' => array(
-                'type' => 'Pluf_DB_Field_Sequence',
+                'type' => 'Sequence',
                 'blank' => false,
                 'verbose' => 'first name',
                 'help_text' => 'id',
@@ -47,7 +47,7 @@ class Seo_Content extends Pluf_Model
             ),
             // Fields
             'url' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => false,
                 'is_null' => false,
                 'size' => 2000,
@@ -57,7 +57,7 @@ class Seo_Content extends Pluf_Model
                 'editable' => true
             ),
             'url_id' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => false,
                 'is_null' => false,
                 'unique' => true,
@@ -67,7 +67,7 @@ class Seo_Content extends Pluf_Model
                 'readable' => false
             ),
             'title' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => true,
                 'size' => 250,
                 'default' => 'no title',
@@ -76,7 +76,7 @@ class Seo_Content extends Pluf_Model
                 'editable' => true
             ),
             'description' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => true,
                 'size' => 2048,
                 'default' => 'auto created content',
@@ -85,7 +85,7 @@ class Seo_Content extends Pluf_Model
                 'editable' => true
             ),
             'mime_type' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => true,
                 'size' => 64,
                 'default' => 'text/html',
@@ -94,7 +94,7 @@ class Seo_Content extends Pluf_Model
                 'editable' => true
             ),
             'media_type' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => true,
                 'size' => 64,
                 'default' => 'application/octet-stream',
@@ -103,7 +103,7 @@ class Seo_Content extends Pluf_Model
                 'editable' => true
             ),
             'file_path' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => false,
                 'size' => 250,
                 'verbose' => 'File path',
@@ -112,7 +112,7 @@ class Seo_Content extends Pluf_Model
                 'readable' => false
             ),
             'file_name' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => false,
                 'size' => 250,
                 'default' => 'unknown',
@@ -121,7 +121,7 @@ class Seo_Content extends Pluf_Model
                 'editable' => false
             ),
             'file_size' => array(
-                'type' => 'Pluf_DB_Field_Integer',
+                'type' => 'Integer',
                 'blank' => false,
                 'default' => 'no title',
                 'verbose' => 'file size',
@@ -129,7 +129,7 @@ class Seo_Content extends Pluf_Model
                 'editable' => false
             ),
             'downloads' => array(
-                'type' => 'Pluf_DB_Field_Integer',
+                'type' => 'Integer',
                 'blank' => false,
                 'default' => 0,
                 'default' => 'no title',
@@ -138,21 +138,21 @@ class Seo_Content extends Pluf_Model
                 'editable' => false
             ),
             'creation_dtime' => array(
-                'type' => 'Pluf_DB_Field_Datetime',
+                'type' => 'Datetime',
                 'blank' => true,
                 'verbose' => 'creation',
                 'help_text' => 'content creation time',
                 'editable' => false
             ),
             'modif_dtime' => array(
-                'type' => 'Pluf_DB_Field_Datetime',
+                'type' => 'Datetime',
                 'blank' => true,
                 'verbose' => 'modification',
                 'help_text' => 'content modification time',
                 'editable' => false
             ),
             'expire_dtime' => array(
-                'type' => 'Pluf_DB_Field_Datetime',
+                'type' => 'Datetime',
                 'default' => null,
                 'blank' => true,
                 'is_null' => true,

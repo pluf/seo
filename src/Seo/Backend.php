@@ -39,47 +39,47 @@ class Seo_Backend extends Pluf_Model
         $this->_a['table'] = 'seo_backend';
         $this->_a['cols'] = array(
             'id' => array(
-                'type' => 'Pluf_DB_Field_Sequence',
+                'type' => 'Sequence',
                 'blank' => true,
                 'verbose' => 'unique and no repreducable id fro reception'
             ),
             'title' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => false,
                 'size' => 50,
                 'editable' => true,
                 'readable' => true
             ),
             'description' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => true,
                 'size' => 200,
                 'editable' => true,
                 'readable' => true
             ),
             'symbol' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => false,
                 'size' => 50,
                 'editable' => true,
                 'readable' => true
             ),
             'enable' => array(
-                'type' => 'Pluf_DB_Field_Boolean',
+                'type' => 'Boolean',
                 'blank' => false,
                 'default' => true,
                 'editable' => true,
                 'readable' => true
             ),
             'home' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => true,
                 'size' => 100,
                 'editable' => true,
                 'readable' => true
             ),
             'meta' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => false,
                 'secure' => true,
                 'size' => 10240,
@@ -87,14 +87,14 @@ class Seo_Backend extends Pluf_Model
                 'readable' => false
             ),
             'engine' => array(
-                'type' => 'Pluf_DB_Field_Varchar',
+                'type' => 'Varchar',
                 'blank' => false,
                 'size' => 50,
                 'editable' => false,
                 'readable' => true
             ),
             'priority' => array(
-                'type' => 'Pluf_DB_Field_Integer',
+                'type' => 'Integer',
                 'blank' => false,
                 'is_null' => false,
                 'default' => 10,
@@ -103,14 +103,14 @@ class Seo_Backend extends Pluf_Model
             ),
 
             'creation_dtime' => array(
-                'type' => 'Pluf_DB_Field_Datetime',
+                'type' => 'Datetime',
                 'blank' => true,
                 'verbose' => 'creation date',
                 'editable' => false,
                 'readable' => true
             ),
             'modif_dtime' => array(
-                'type' => 'Pluf_DB_Field_Datetime',
+                'type' => 'Datetime',
                 'blank' => true,
                 'verbose' => 'modification date',
                 'editable' => false,
