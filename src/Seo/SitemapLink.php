@@ -80,64 +80,48 @@ class Seo_SitemapLink extends Pluf_Model
         $this->_a['cols'] = array(
             'id' => array(
                 'type' => 'Sequence',
-                'blank' => true,
-                'verbose' => 'unique and no repreducable id fro reception'
             ),
             'title' => array(
                 'type' => 'Varchar',
-                'blank' => true,
+                'is_null' => true,
                 'size' => 50,
                 'editable' => true,
                 'readable' => true
             ),
             'description' => array(
                 'type' => 'Varchar',
-                'blank' => true,
+                'is_null' => true,
                 'size' => 200,
                 'editable' => true,
                 'readable' => true
             ),
             'loc' => array(
                 'type' => 'Varchar',
-                'blank' => false,
+                'is_null' => false,
                 'size' => 2048,
                 'editable' => true,
                 'readable' => true
             ),
             'lastmod' => array(
                 'type' => 'Datetime',
-                'blank' => true,
+                'is_null' => true,
                 'verbose' => 'last modification date',
                 'editable' => true,
                 'readable' => true
             ),
             'changefreq' => array(
                 'type' => 'Varchar',
-                'blank' => true,
+                'is_null' => true,
                 'size' => 16,
                 'editable' => true,
                 'readable' => true
             ),
             'priority' => array(
                 'type' => 'Float',
-                'blank' => true,
+                'is_null' => true,
                 'editable' => true,
                 'readable' => true
             ),
-//             'creation_dtime' => array(
-//                 'type' => 'Datetime',
-//                 'blank' => true,
-//                 'verbose' => 'creation date',
-//                 'editable' => false,
-//                 'readable' => true
-//             ),
-//             'modif_dtime' => array(
-//                 'type' => 'Datetime',
-//                 'blank' => true,
-//                 'verbose' => 'modification date',
-//                 'editable' => false,
-//                 'readable' => true
-//             )
         );
     }
 
