@@ -1,5 +1,5 @@
 {assign $tag1='<?xml version="1.0" encoding="UTF-8" ?>'}{$tag1|safe}
-{assign $tag2='<?xml-stylesheet href="/seo/xsl/sitemap.xsl" type="text/xsl" ?>'}{$tag2|safe}
+{assign $tag2='<?xml-stylesheet href="https://cdn.viraweb123.ir/api/v2/cdn/libs/seo@0.1.0/xsl/xml-sitemap.xsl" type="text/xsl" ?>'}{$tag2|safe}
 <urlset 
 	xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -7,7 +7,6 @@
 		http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 	{foreach $links as $link}<url>
 		<loc>{$link->loc}</loc>
-		{if $link->lastmod!=='0000-00-00 00:00:00'}<lastmod>{$link->lastmod}</lastmod>{/if}
 		{if $link->changefreq}<changefreq>{$link->changefreq}</changefreq>{/if}
 		{if $link->priority}<priority>{$link->priority}</priority>{/if}
 	</url>{/foreach}
