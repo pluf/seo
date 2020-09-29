@@ -125,10 +125,13 @@ class Seo_Engine_Global extends Seo_Engine
                     'base_uri' => Pluf::f('seo_prerender_global_url', 'localhost')
                 ));
                 if (! defined('IN_UNIT_TESTS')) {
-                    $res = $client->request('GET', '/' . $content->url, array(
+                    // Note: prerender supports the https only
+                    $myUrl = str_replace('http:', 'https:', $content->url);
+                    $res = $client->request('GET', '/' . $myUrl, array(
                         'stream' => false,
                         'debug' => false,
-                        'query' => $request->get_parameters()
+                        'query' => $request->get_parameters(),
+                        ''
                     ));
                     if ($res->getStatusCode() != 200) {
                         // TODO: maso, 2019: add a log
