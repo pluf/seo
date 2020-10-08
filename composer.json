@@ -1,6 +1,6 @@
 {
 	"name" : "pluf/seo",
-	"version" : "6.0.16",
+	"version" : "6.0.17",
 	"description" : "SEO package of pluf",
 	"type" : "library",
 	"license" : "MIT",
