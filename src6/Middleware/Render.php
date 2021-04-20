@@ -89,7 +89,7 @@ class Render implements Middleware
             try {
                 $response = $backend->render($renderRequest);
                 if ($response) {
-                    if ($response instanceof Pluf_HTTP_Response) {
+                    if ($response instanceof Pluf_HTTP_Response && $response->status_code == 200) {
                         return $response;
                     }
                     return new Pluf_HTTP_Response($response);
