@@ -9,5 +9,6 @@
 		<loc>{$link->loc}</loc>
 		{if $link->changefreq}<changefreq>{$link->changefreq}</changefreq>{/if}
 		{if $link->priority}<priority>{$link->priority}</priority>{/if}
+		{if $link->lastmod}<lastmod>{$link->lastmod}</lastmod>{/if}
 	</url>{/foreach}
 </urlset>

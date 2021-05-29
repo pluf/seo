@@ -39,7 +39,16 @@ class Seo_Views_Sitemap
         // Links
         $link = new Seo_SitemapLink();
         $links = $link->getList();
+        
+        $list = array();
+        foreach ($links as $lnk){
+            if($lnk->lastmod){
+                $dt = new DateTime($lnk->lastmod, new DateTimeZone('UTC'));
+                $lnk->lastmod = $dt->format(DateTime::ATOM); // Updated ISO8601
+            }
+        }
 
+        
         // Add link to SPAs of tenant
         $tmpl = new Pluf_Template('/sitemap.template');
         $context = new Pluf_Template_Context(array(

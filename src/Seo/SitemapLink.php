@@ -135,5 +135,27 @@ class Seo_SitemapLink extends Pluf_Model
 //         }
 //         $this->modif_dtime = gmdate('Y-m-d H:i:s');
 //     }
+
+    /**
+     * Extract information of sitemap link based on a given loc
+     *
+     * @param string $loc
+     * @return Seo_SitemapLink
+     */
+    public static function getLinkByLoc($loc)
+    {
+        $model = new Seo_SitemapLink();
+        $where = new Pluf_SQL('`loc`=%s', array(
+            $model->_toDb($loc, 'loc')
+        ));
+        $link = $model->getList(array(
+            'filter' => $where->gen()
+        ));
+        if ($link === false or count($link) !== 1) {
+            return false;
+        }
+        return $link[0];
+    }
+    
 }
 
